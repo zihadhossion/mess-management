@@ -12,16 +12,16 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const port = process.env.PORT ?? 3000;
-  const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:5173';
-  const adminFrontendUrl =
-    process.env.ADMIN_FRONTEND_URL ?? 'http://localhost:5177';
+  const allowOrigins = (
+    process.env.ALLOW_ORIGINS ?? 'http://localhost:5174'
+  ).split(',');
 
   app.setGlobalPrefix('api');
 
   app.use(cookieParser());
 
   app.enableCors({
-    origin: [frontendUrl, adminFrontendUrl],
+    origin: allowOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

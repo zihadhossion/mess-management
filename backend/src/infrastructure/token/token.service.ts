@@ -24,7 +24,7 @@ export class TokenService {
     }
     return this.jwtService.sign(payload as unknown as Record<string, unknown>, {
       secret,
-      expiresIn: (this.configService.get<string>('JWT_EXPIRY') ||
+      expiresIn: (this.configService.get<string>('JWT_EXPIRES_IN') ||
         '15m') as `${number}${'s' | 'm' | 'h' | 'd'}`,
     });
   }
@@ -36,7 +36,7 @@ export class TokenService {
     }
     return this.jwtService.sign(payload as unknown as Record<string, unknown>, {
       secret,
-      expiresIn: (this.configService.get<string>('JWT_REFRESH_EXPIRY') ||
+      expiresIn: (this.configService.get<string>('JWT_REFRESH_EXPIRES_IN') ||
         '7d') as `${number}${'s' | 'm' | 'h' | 'd'}`,
     });
   }

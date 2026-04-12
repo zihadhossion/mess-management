@@ -3,15 +3,16 @@ import {
   Post,
   Get,
   Body,
-  Res,
   Req,
   HttpCode,
   HttpStatus,
   UseGuards,
+  UseInterceptors,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import type { Response, Request } from 'express';
+import type { Request } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
 import { LoginDto } from './dtos/login.dto';
@@ -24,21 +25,16 @@ import {
 import { Public } from '../../core/decorators/public.decorator';
 import { JwtAuthGuard } from '../../core/guards/jwt-auth.guard';
 import { CurrentUser } from '../../core/decorators/current-user.decorator';
-
-const COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: process.env['NODE_ENV'] === 'production',
-  sameSite: 'strict' as const,
-  path: '/',
-};
-
-const ACCESS_TOKEN_TTL_MS = 15 * 60 * 1000; // 15 minutes
-const REFRESH_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+import { SetTokenInterceptor } from '../../core/interceptors/set-token.interceptor';
+import { RemoveTokenInterceptor } from '../../core/interceptors/remove-token.interceptor';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Post('register')
   @Public()
@@ -93,39 +89,29 @@ export class AuthController {
   @Post('login')
   @Public()
   @HttpCode(HttpStatus.OK)
+  @UseInterceptors(SetTokenInterceptor)
   @ApiOperation({ summary: 'Authenticate user and set auth cookies' })
   @ApiResponse({ status: 200, description: 'Login successful.' })
   @ApiResponse({ status: 401, description: 'Invalid credentials.' })
-  async login(
-    @Body() dto: LoginDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const { user, accessToken, refreshToken } =
-      await this.authService.login(dto);
-
-    res.cookie('access_token', accessToken, {
-      ...COOKIE_OPTIONS,
-      maxAge: ACCESS_TOKEN_TTL_MS,
-    });
-    res.cookie('refresh_token', refreshToken, {
-      ...COOKIE_OPTIONS,
-      maxAge: REFRESH_TOKEN_TTL_MS,
-    });
-
+  async login(@Body() dto: LoginDto) {
+    const { user, accessToken, refreshToken } = await this.authService.login(dto);
     return {
       success: true,
       statusCode: 200,
       message: 'Login successful.',
       data: user,
+      accessToken,
+      refreshToken,
     };
   }
 
   @Post('logout')
   @Public()
   @HttpCode(HttpStatus.OK)
+  @UseInterceptors(RemoveTokenInterceptor)
   @ApiOperation({ summary: 'Logout user and clear auth cookies' })
   @ApiResponse({ status: 200, description: 'Logged out successfully.' })
-  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async logout(@Req() req: Request) {
     // Try to clear DB refresh token if user is identifiable; ignore errors
     try {
       const user = req['user'] as { id: string } | undefined;
@@ -135,9 +121,6 @@ export class AuthController {
     } catch {
       // logout must work even with expired tokens
     }
-
-    res.clearCookie('access_token', { path: '/' });
-    res.clearCookie('refresh_token', { path: '/' });
 
     return {
       success: true,
@@ -150,36 +133,28 @@ export class AuthController {
   @Post('refresh')
   @Public()
   @HttpCode(HttpStatus.OK)
+  @UseInterceptors(SetTokenInterceptor)
   @ApiOperation({ summary: 'Refresh access token using refresh token cookie' })
   @ApiResponse({ status: 200, description: 'Token refreshed successfully.' })
   @ApiResponse({
     status: 401,
     description: 'Invalid or expired refresh token.',
   })
-  async refresh(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const token: string | undefined = req.cookies?.['refresh_token'];
+  async refresh(@Req() req: Request) {
+    const refreshCookieName =
+      this.configService.get<string>('REFRESH_TOKEN_COOKIE_NAME') ?? 'refresh_token';
+    const token: string | undefined = req.cookies?.[refreshCookieName];
     if (!token) {
       throw new UnauthorizedException('No refresh token provided!');
     }
     const { accessToken, refreshToken } = await this.authService.refresh(token);
-
-    res.cookie('access_token', accessToken, {
-      ...COOKIE_OPTIONS,
-      maxAge: ACCESS_TOKEN_TTL_MS,
-    });
-    res.cookie('refresh_token', refreshToken, {
-      ...COOKIE_OPTIONS,
-      maxAge: REFRESH_TOKEN_TTL_MS,
-    });
-
     return {
       success: true,
       statusCode: 200,
       message: 'Token refreshed successfully.',
       data: null,
+      accessToken,
+      refreshToken,
     };
   }
 

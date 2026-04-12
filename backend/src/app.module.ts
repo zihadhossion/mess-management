@@ -32,13 +32,17 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url: configService.get<string>('DATABASE_URL'),
+        host: configService.get<string>('DB_HOST') ?? 'localhost',
+        port: parseInt(configService.get<string>('DB_PORT') ?? '5432', 10),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
-        synchronize: configService.get<string>('NODE_ENV') !== 'production',
-        logging: configService.get<string>('NODE_ENV') === 'development',
+        synchronize: configService.get<string>('MODE') !== 'PROD',
+        logging: configService.get<string>('MODE') === 'DEV',
         ssl:
-          configService.get<string>('NODE_ENV') === 'production'
+          configService.get<string>('MODE') === 'PROD'
             ? { rejectUnauthorized: false }
             : false,
       }),
