@@ -20,6 +20,7 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
 import { JoinRequestsModule } from './modules/join-requests/join-requests.module';
 import { MessDeletionRequestsModule } from './modules/mess-deletion-requests/mess-deletion-requests.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     JoinRequestsModule,
     MessDeletionRequestsModule,
     NotificationsModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [

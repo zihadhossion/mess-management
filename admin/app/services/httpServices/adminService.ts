@@ -42,7 +42,7 @@ export const rejectMessRequest = (id: string, reviewNote: string) =>
 
 // Deletion requests
 export const getDeletionRequests = () =>
-  get<{ data: MessDeletionRequest[] }>("/admin/deletion-requests");
+  get<{ data: { data: MessDeletionRequest[]; total: number } }>("/admin/deletion-requests");
 export const approveDeletionRequest = (id: string) =>
   post<void>(`/admin/deletion-requests/${id}/approve`);
 export const rejectDeletionRequest = (id: string) =>

@@ -19,7 +19,15 @@ export default function AdminDeletionRequestsPage() {
     setIsLoading(true);
     setLoadError(null);
     getDeletionRequests()
-      .then((res) => setRequests(res.data))
+      .then((res) =>
+        setRequests(
+          res.data.data.map((req) => ({
+            ...req,
+            messName: (req as any).mess?.name ?? req.messName,
+            managerName: (req as any).manager?.name ?? req.managerName,
+          })),
+        ),
+      )
       .catch((err) => setLoadError(getErrorMessage(err)))
       .finally(() => setIsLoading(false));
   }
