@@ -80,7 +80,7 @@ cd frontend
 npm install
 cp .env.example .env   # set VITE_API_URL
 
-npm run dev            # http://localhost:5173
+npm run dev            # http://localhost:5174
 ```
 
 ### 3. Admin Dashboard
@@ -99,15 +99,21 @@ npm run dev            # http://localhost:5177
 
 | Variable | Description |
 |---|---|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `NODE_ENV` | `development` or `production` |
+| `PORT` | Server port (default `3000`) |
+| `MODE` | Runtime mode — `DEV` or `PROD` |
+| `DB_HOST` | PostgreSQL host (e.g. `localhost`) |
+| `DB_PORT` | PostgreSQL port (e.g. `5432`) |
+| `DB_USERNAME` | PostgreSQL username |
+| `DB_PASSWORD` | PostgreSQL password |
+| `DB_NAME` | PostgreSQL database name |
 | `JWT_SECRET` | Access token signing key (min 32 chars) |
 | `JWT_REFRESH_SECRET` | Refresh token signing key (min 32 chars) |
-| `JWT_EXPIRY` | Access token lifetime (e.g. `15m`) |
-| `JWT_REFRESH_EXPIRY` | Refresh token lifetime (e.g. `7d`) |
-| `PORT` | Server port (default `3000`) |
-| `FRONTEND_URL` | User app origin for CORS (e.g. `http://localhost:5173`) |
-| `ADMIN_FRONTEND_URL` | Admin app origin for CORS (e.g. `http://localhost:5177`) |
+| `JWT_EXPIRES_IN` | Access token lifetime (e.g. `15m`) |
+| `JWT_REFRESH_EXPIRES_IN` | Refresh token lifetime (e.g. `7d`) |
+| `AUTH_TOKEN_COOKIE_NAME` | Cookie name for the access token |
+| `REFRESH_TOKEN_COOKIE_NAME` | Cookie name for the refresh token |
+| `ALLOW_ORIGINS` | Comma-separated list of allowed CORS origins (e.g. `http://localhost:5174,http://localhost:5177`) |
+| `FRONTEND_URL` | User app base URL — used for email links (e.g. `http://localhost:5174`) |
 | `GMAIL_USER` | Gmail address for SMTP |
 | `GMAIL_PASSWORD` | Gmail app-specific password |
 
