@@ -5,6 +5,7 @@ import {
   BadRequestException,
   ForbiddenException,
 } from '@nestjs/common';
+import { Not } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { BaseService } from '../../core/base/base.service';
 import { User } from './user.entity';
@@ -145,9 +146,11 @@ export class UserService extends BaseService<User> {
     page = 1,
     limit = 20,
     role?: UserRole,
+    isActive?: boolean,
   ): Promise<{ data: User[]; total: number }> {
-    const where: Record<string, unknown> = {};
+    const where: Record<string, unknown> = { role: Not(UserRole.ADMIN) };
     if (role) where.role = role;
+    if (isActive !== undefined) where.isActive = isActive;
     const [data, total] = await Promise.all([
       this.repository.findAll({
         where,

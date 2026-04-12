@@ -26,7 +26,9 @@ export interface AdminMess {
 
 export interface AdminState {
   users: AdminUser[];
+  totalUsers: number;
   messes: AdminMess[];
+  totalMesses: number;
   pendingRequests: number;
   isLoading: boolean;
   error: string | null;

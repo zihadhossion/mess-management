@@ -35,14 +35,23 @@ function mapAdminUser(raw: RawAdminUser): AdminUser {
   };
 }
 
-export const fetchAdminUsers = createAsyncThunk<AdminUser[]>(
+export const fetchAdminUsers = createAsyncThunk<
+  { users: AdminUser[]; total: number },
+  { page: number; limit: number; role?: string; isActive?: string }
+>(
   "admin/fetchUsers",
-  async (_, { rejectWithValue }) => {
+  async ({ page, limit, role, isActive }, { rejectWithValue }) => {
     try {
-      const res = await get<{ data: { data: RawAdminUser[] } }>(
-        "/users?limit=200",
+      const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+      if (role) params.append("role", role.toUpperCase());
+      if (isActive !== undefined) params.append("isActive", isActive);
+      const res = await get<{ data: { data: RawAdminUser[]; total: number } }>(
+        `/users?${params.toString()}`,
       );
-      return res.data.data.map(mapAdminUser);
+      return {
+        users: res.data.data.map(mapAdminUser),
+        total: res.data.total,
+      };
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };
       return rejectWithValue(
@@ -52,12 +61,22 @@ export const fetchAdminUsers = createAsyncThunk<AdminUser[]>(
   },
 );
 
-export const fetchAdminMesses = createAsyncThunk<AdminMess[]>(
+export const fetchAdminMesses = createAsyncThunk<
+  { messes: AdminMess[]; total: number },
+  { page: number; limit: number; status?: string }
+>(
   "admin/fetchMesses",
-  async (_, { rejectWithValue }) => {
+  async ({ page, limit, status }, { rejectWithValue }) => {
     try {
-      const res = await get<{ data: AdminMess[] }>("/messes");
-      return res.data;
+      const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+      if (status) params.append("status", status);
+      const res = await get<{ data: { data: AdminMess[]; total: number } }>(
+        `/messes?${params.toString()}`,
+      );
+      return {
+        messes: res.data.data,
+        total: res.data.total,
+      };
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };
       return rejectWithValue(
@@ -107,7 +126,9 @@ const adminSlice = createSlice({
   name: "admin",
   initialState: {
     users: [],
+    totalUsers: 0,
     messes: [],
+    totalMesses: 0,
     stats: null,
     pendingRequests: 0,
     pendingMessRequests: [],
@@ -123,7 +144,8 @@ const adminSlice = createSlice({
       })
       .addCase(fetchAdminUsers.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.users = action.payload;
+        state.users = action.payload.users;
+        state.totalUsers = action.payload.total;
       })
       .addCase(fetchAdminUsers.rejected, (state, action) => {
         state.isLoading = false;
@@ -135,7 +157,8 @@ const adminSlice = createSlice({
       })
       .addCase(fetchAdminMesses.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.messes = action.payload;
+        state.messes = action.payload.messes;
+        state.totalMesses = action.payload.total;
       })
       .addCase(fetchAdminMesses.rejected, (state, action) => {
         state.isLoading = false;

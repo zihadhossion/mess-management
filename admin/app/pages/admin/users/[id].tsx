@@ -10,6 +10,7 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { SelectDropdown } from "~/components/ui/SelectDropdown";
 import {
   getUserById,
   activateUser,
@@ -316,14 +317,14 @@ export default function AdminUserDetailPage() {
               <div className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.07em] mb-[6px]">
                 Change Role
               </div>
-              <select
+              <SelectDropdown
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
-                className="w-full bg-[#fff9ee] border border-[#D9CEB4] rounded-[8px] px-3 py-[9px] text-[13px] text-[#2C2F1E] outline-none cursor-pointer"
+                className="w-full bg-[#fff9ee] rounded-[8px] py-[9px] text-[13px]"
               >
                 <option value="member">Member</option>
                 <option value="manager">Manager</option>
-              </select>
+              </SelectDropdown>
               <button
                 onClick={handleRoleChange}
                 disabled={!!actionLoading || selectedRole === user.role}

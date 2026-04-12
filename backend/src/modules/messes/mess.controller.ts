@@ -27,6 +27,7 @@ import {
   RejectMessDto,
 } from './dtos/update-mess.dto';
 import { UserRole } from '../../common/enums/user-role.enum';
+import { MessStatus } from '../../common/enums/mess-status.enum';
 
 @ApiTags('Messes')
 @Controller('messes')
@@ -63,12 +64,14 @@ export class MessController extends BaseController<
   @ApiOperation({ summary: '[Admin] List all messes' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'status', required: false, enum: MessStatus })
   @ApiResponse({ status: 200, description: 'List of messes.' })
-  async listMesses(@Query('page') page = 1, @Query('limit') limit = 20) {
-    return this.messService.findAll({
-      skip: (+page - 1) * +limit,
-      take: +limit,
-    });
+  async listMesses(
+    @Query('page') page = 1,
+    @Query('limit') limit = 20,
+    @Query('status') status?: MessStatus,
+  ) {
+    return this.messService.getAllMesses(+page, +limit, status);
   }
 
   @Get('my')

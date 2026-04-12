@@ -82,13 +82,16 @@ export class UserController extends BaseController<
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'role', required: false, enum: UserRole })
+  @ApiQuery({ name: 'isActive', required: false, type: Boolean })
   @ApiResponse({ status: 200, description: 'List of users.' })
   async listUsers(
     @Query('page') page = 1,
     @Query('limit') limit = 20,
     @Query('role') role?: UserRole,
+    @Query('isActive') isActive?: string,
   ) {
-    return this.userService.getAllUsers(+page, +limit, role);
+    const isActiveBool = isActive !== undefined ? isActive === 'true' : undefined;
+    return this.userService.getAllUsers(+page, +limit, role, isActiveBool);
   }
 
   @Get(':id')

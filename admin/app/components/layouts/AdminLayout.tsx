@@ -74,7 +74,7 @@ export default function AdminLayout() {
           </Link>
         </div>
 
-        <nav className="flex-1 p-3 overflow-y-auto">
+        <nav className="flex-1 p-3 overflow-y-auto no-scrollbar">
           {navGroups.map((group) => (
             <div key={group.label}>
               <div className="text-[10px] font-semibold text-[rgba(245,236,213,0.45)] uppercase tracking-[0.1em] px-2 mt-[14px] mb-[6px]">

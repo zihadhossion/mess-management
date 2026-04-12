@@ -137,4 +137,23 @@ export class MessService extends BaseService<Mess> {
     ]);
     return { data, total };
   }
+
+  async getAllMesses(
+    page = 1,
+    limit = 20,
+    status?: MessStatus,
+  ): Promise<{ data: Mess[]; total: number }> {
+    const where: Record<string, unknown> = {};
+    if (status) where.status = status;
+    const [data, total] = await Promise.all([
+      this.repository.findAll({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        order: { createdAt: 'DESC' },
+      }),
+      this.repository.count({ where }),
+    ]);
+    return { data, total };
+  }
 }
