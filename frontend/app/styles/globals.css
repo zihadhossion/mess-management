@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #626f47;
+  --color-primary-dark: #515c3a;
+  --color-secondary: #a4b465;
+  --color-accent: #f0bb78;
+  --color-accent-dark: #d4934a;
+  --color-bg: #f5ecd5;
+  --color-surface: #fbf5e8;
+  --color-surface-alt: #ffffff;
+  --color-hero-bg: #626f47;
+  --color-text-primary: #2c2f1e;
+  --color-text-secondary: #6b7550;
+  --color-text-on-hero: #f5ecd5;
+  --color-border: #d9ceb4;
+  --color-divider: #eae0cc;
+  --color-amber-band: #f0bb78;
+
+  --font-family-heading: "Outfit", sans-serif;
+  --font-family-body: "Nunito Sans", "Noto Sans Bengali", sans-serif;
+
+  --shadow-card:
+    0 1px 4px rgba(74, 60, 30, 0.06), 0 4px 16px rgba(74, 60, 30, 0.08);
+  --shadow-modal:
+    0 4px 12px rgba(74, 60, 30, 0.08), 0 16px 48px rgba(74, 60, 30, 0.14);
+  --shadow-button:
+    0 2px 4px rgba(74, 60, 30, 0.15), 0 4px 12px rgba(74, 60, 30, 0.1);
+  --shadow-hero: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --shadow-bottom-nav:
+    0 -2px 8px rgba(74, 60, 30, 0.1), 0 -6px 20px rgba(74, 60, 30, 0.06);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Nunito Sans", "Noto Sans Bengali", sans-serif;
+  background: #f5ecd5;
+  color: #2c2f1e;
+  min-height: 100vh;
+}
+
+@keyframes load {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.progress-animate {
+  animation: load 2s ease-in-out infinite;
+}

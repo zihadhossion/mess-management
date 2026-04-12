@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    "Nunito Sans", "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary: #626f47;
+  --color-primary-light: #a4b465;
+  --color-accent: #f0bb78;
+  --color-bg: #f5ecd5;
+  --color-surface: #fbf5e8;
+  --color-border: #d9ceb4;
+  --color-text: #2c2f1e;
+  --color-muted: #6b7550;
+}
+
+html,
+body {
+  background: #f5ecd5;
+  color: #2c2f1e;
+  font-family: "Nunito Sans", "Noto Sans Bengali", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Progress bar animation */
+@keyframes progress-load {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+.animate-progress {
+  animation: progress-load 2s ease-in-out infinite;
+}
+
+/* Slide up animation */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
