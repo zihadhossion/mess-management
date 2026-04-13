@@ -6,14 +6,14 @@ export interface MealSlot {
   id: string;
   date: string;
   mealType: MealType;
-  items: string;
-  timeRange: string;
+  menuDescription: string | null;
+  timeWindowStart: string;
+  timeWindowEnd: string;
   isPublished: boolean;
   messId: string;
   bookingCount: number;
   myBookingId: string | null;
   myBookingStatus: BookingStatus | null;
-  cancelDeadline: string | null;
 }
 
 export interface Booking {
@@ -32,8 +32,8 @@ export interface MenuState {
 
 export interface CreateMealSlotDto {
   date: string;
-  mealType: MealType;
-  items: string;
-  timeRange: string;
-  cancelDeadline?: string;
+  type: MealType;
+  menuDescription?: string;
+  timeWindowStart: string;
+  timeWindowEnd: string;
 }

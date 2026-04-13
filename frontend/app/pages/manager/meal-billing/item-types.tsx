@@ -14,7 +14,7 @@ export default function ItemTypesPage() {
   const { itemTypes, isLoading } = useAppSelector((s) => s.billing);
   const messId = useAppSelector((s) => s.mess.mess?.id);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ name: "", unit: "" });
+  const [form, setForm] = useState({ name: "", unit: "", defaultDailyQuantity: "", costPerUnit: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -27,9 +27,14 @@ export default function ItemTypesPage() {
     setActionError(null);
     setIsSubmitting(true);
     try {
-      await post(`/messes/${messId}/item-types`, form);
+      await post(`/messes/${messId}/item-types`, {
+        name: form.name,
+        unit: form.unit,
+        defaultDailyQuantity: parseFloat(form.defaultDailyQuantity),
+        costPerUnit: parseFloat(form.costPerUnit),
+      });
       setShowForm(false);
-      setForm({ name: "", unit: "" });
+      setForm({ name: "", unit: "", defaultDailyQuantity: "", costPerUnit: "" });
       dispatch(fetchItemTypes());
     } catch (err) {
       setActionError(getErrorMessage(err));
@@ -88,20 +93,34 @@ export default function ItemTypesPage() {
               {
                 label: t("manager.mealBilling.itemName"),
                 key: "name" as const,
+                type: "text",
                 placeholder: t("manager.mealBilling.itemNamePlaceholder"),
               },
               {
                 label: t("manager.mealBilling.unit"),
                 key: "unit" as const,
+                type: "text",
                 placeholder: t("manager.mealBilling.unitPlaceholder"),
               },
-            ].map(({ label, key, placeholder }) => (
+              {
+                label: t("manager.mealBilling.defaultDailyQuantity"),
+                key: "defaultDailyQuantity" as const,
+                type: "number",
+                placeholder: "0",
+              },
+              {
+                label: t("manager.mealBilling.costPerUnit"),
+                key: "costPerUnit" as const,
+                type: "number",
+                placeholder: "0.00",
+              },
+            ].map(({ label, key, type, placeholder }) => (
               <div key={key} className="mb-3">
                 <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                   {label}
                 </label>
                 <input
-                  type="text"
+                  type={type}
                   value={form[key]}
                   placeholder={placeholder}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
@@ -111,7 +130,7 @@ export default function ItemTypesPage() {
             ))}
             <button
               onClick={handleAdd}
-              disabled={isSubmitting || !form.name || !form.unit}
+              disabled={isSubmitting || !form.name || !form.unit || !form.defaultDailyQuantity || !form.costPerUnit}
               className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[11px] rounded-[10px] disabled:opacity-60"
             >
               {isSubmitting ? t("manager.mealBilling.adding") : t("manager.mealBilling.addItemType")}

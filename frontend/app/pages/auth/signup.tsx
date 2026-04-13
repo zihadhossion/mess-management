@@ -16,7 +16,7 @@ import {
 import { signupUser } from "~/services/httpServices/authService";
 import { getErrorMessage } from "~/utils/errorHandler";
 
-type FormData = { name: string; email: string; password: string };
+type FormData = { fullName: string; email: string; password: string };
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function SignupPage() {
   const [serverError, setServerError] = useState<string | null>(null);
 
   const schema = z.object({
-    name: z.string().min(2, t("validation.nameMin2")),
+    fullName: z.string().min(2, t("validation.nameMin2")),
     email: z.string().email(t("validation.invalidEmail")),
     password: z.string().min(8, t("validation.passwordMin8")),
   });
@@ -83,14 +83,14 @@ export default function SignupPage() {
                 <User size={12} /> {t("auth.signup.nameLabel")}
               </label>
               <input
-                {...register("name")}
+                {...register("fullName")}
                 type="text"
                 placeholder={t("auth.signup.namePlaceholder")}
                 className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
               />
-              {errors.name && (
+              {errors.fullName && (
                 <p className="mt-1 text-[12px] text-red-600">
-                  {errors.name.message}
+                  {errors.fullName.message}
                 </p>
               )}
             </div>

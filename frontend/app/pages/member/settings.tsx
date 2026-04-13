@@ -11,7 +11,7 @@ import { getErrorMessage } from "~/utils/errorHandler";
 import { Link } from "react-router";
 import { LanguageSwitcher } from "~/components/atoms/LanguageSwitcher";
 
-type ProfileData = { name: string };
+type ProfileData = { fullName: string };
 
 export default function MemberSettingsPage() {
   const { user, signOut } = useAuth();
@@ -20,7 +20,7 @@ export default function MemberSettingsPage() {
   const [saved, setSaved] = useState(false);
 
   const profileSchema = z.object({
-    name: z.string().min(2, t("validation.nameMin2")),
+    fullName: z.string().min(2, t("validation.nameMin2")),
   });
 
   const {
@@ -29,13 +29,13 @@ export default function MemberSettingsPage() {
     formState: { errors, isSubmitting },
   } = useForm<ProfileData>({
     resolver: zodResolver(profileSchema),
-    defaultValues: { name: user?.name ?? "" },
+    defaultValues: { fullName: user?.name ?? "" },
   });
 
   async function onSubmit(data: ProfileData) {
     setServerError(null);
     try {
-      await patch(`/users/${user?.id}`, data);
+      await patch(`/users/me`, data);
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (err) {
@@ -104,13 +104,13 @@ export default function MemberSettingsPage() {
                 <User size={12} /> {t("member.settings.displayName")}
               </label>
               <input
-                {...register("name")}
+                {...register("fullName")}
                 type="text"
                 className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
               />
-              {errors.name && (
+              {errors.fullName && (
                 <p className="mt-1 text-[12px] text-red-600">
-                  {errors.name.message}
+                  {errors.fullName.message}
                 </p>
               )}
             </div>

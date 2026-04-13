@@ -56,7 +56,7 @@ export async function loginUser(dto: LoginDto): Promise<AuthUser> {
 }
 
 export async function signupUser(dto: SignupDto): Promise<void> {
-  await httpPost("/auth/signup", dto);
+  await httpPost("/auth/register", dto);
 }
 
 export async function logoutUser(): Promise<void> {

@@ -36,10 +36,11 @@ export interface SharedBillInvoice {
 
 export interface CreateSharedBillEntryDto {
   categoryId: string;
-  amount: number;
-  month: string;
+  totalAmount: number;
+  month: number;
   year: number;
-  note?: string;
+  referenceNote?: string;
+  entryDate: string;
 }
 
 export interface CreateSharedBillCategoryDto {

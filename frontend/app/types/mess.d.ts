@@ -37,7 +37,7 @@ export interface MessState {
 }
 
 export interface CreateMessDto {
-  messName: string;
+  name: string;
   description?: string;
   address?: string;
   currency: string;

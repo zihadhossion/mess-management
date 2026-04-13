@@ -14,7 +14,8 @@ export default function FinalizeBillingPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const currentMonth = format(new Date(), "MMMM yyyy");
-  const monthParam = format(new Date(), "yyyy-MM");
+  const monthInt = new Date().getMonth() + 1;
+  const yearInt = new Date().getFullYear();
 
   async function handleFinalize() {
     if (!messId) return;
@@ -22,7 +23,7 @@ export default function FinalizeBillingPage() {
     setError(null);
     setIsSubmitting(true);
     try {
-      await post(`/messes/${messId}/billing/finalize`, { month: monthParam });
+      await post(`/messes/${messId}/billing/finalize`, { month: monthInt, year: yearInt });
       setSuccess(true);
     } catch (err) {
       setError(getErrorMessage(err));

@@ -18,7 +18,7 @@ export default function DailyCostsPage() {
   const [form, setForm] = useState({
     date: format(new Date(), "yyyy-MM-dd"),
     amount: "",
-    note: "",
+    description: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -38,7 +38,7 @@ export default function DailyCostsPage() {
         amount: parseFloat(form.amount),
       });
       setShowForm(false);
-      setForm({ date: format(new Date(), "yyyy-MM-dd"), amount: "", note: "" });
+      setForm({ date: format(new Date(), "yyyy-MM-dd"), amount: "", description: "" });
       dispatch(fetchDailyCosts(month));
     } catch (err) {
       setActionError(getErrorMessage(err));
@@ -105,7 +105,7 @@ export default function DailyCostsPage() {
             {[
               { label: t("manager.mealBilling.date"), type: "date", key: "date" as const },
               { label: t("manager.mealBilling.amount"), type: "number", key: "amount" as const },
-              { label: t("manager.mealBilling.note"), type: "text", key: "note" as const },
+              { label: t("manager.mealBilling.description"), type: "text", key: "description" as const },
             ].map(({ label, type, key }) => (
               <div key={key} className="mb-3">
                 <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
@@ -152,7 +152,7 @@ export default function DailyCostsPage() {
                 </div>
                 <div className="text-[12px] text-[#6B7550]">
                   {cost.date}
-                  {cost.note ? ` · ${cost.note}` : ""}
+                  {cost.description ? ` · ${cost.description}` : ""}
                 </div>
               </div>
               <button

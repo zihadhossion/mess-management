@@ -18,9 +18,10 @@ export default function ManagerMenuPage() {
   const [actionError, setActionError] = useState<string | null>(null);
   const [form, setForm] = useState({
     date: format(new Date(), "yyyy-MM-dd"),
-    mealType: "lunch",
-    items: "",
-    timeRange: "",
+    type: "lunch",
+    menuDescription: "",
+    timeWindowStart: "",
+    timeWindowEnd: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -35,7 +36,7 @@ export default function ManagerMenuPage() {
     try {
       await post(`/messes/${messId}/meal-slots`, form);
       setShowForm(false);
-      setForm({ date: format(new Date(), "yyyy-MM-dd"), mealType: "lunch", items: "", timeRange: "" });
+      setForm({ date: format(new Date(), "yyyy-MM-dd"), type: "lunch", menuDescription: "", timeWindowStart: "", timeWindowEnd: "" });
       dispatch(fetchMenuSlots({ startDate: format(new Date(), "yyyy-MM-dd") }));
     } catch (err) {
       setActionError(getErrorMessage(err));
@@ -112,8 +113,7 @@ export default function ManagerMenuPage() {
             </h3>
             {[
               { label: t("manager.menu.date"), type: "date", key: "date" as const },
-              { label: t("manager.menu.items"), type: "text", key: "items" as const },
-              { label: t("manager.menu.timeRange"), type: "text", key: "timeRange" as const },
+              { label: t("manager.menu.items"), type: "text", key: "menuDescription" as const },
             ].map(({ label, type, key }) => (
               <div key={key} className="mb-3">
                 <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
@@ -127,13 +127,28 @@ export default function ManagerMenuPage() {
                 />
               </div>
             ))}
+            <div className="flex gap-3 mb-3">
+              {(["timeWindowStart", "timeWindowEnd"] as const).map((key) => (
+                <div key={key} className="flex-1">
+                  <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+                    {key === "timeWindowStart" ? t("manager.menu.timeStart") : t("manager.menu.timeEnd")}
+                  </label>
+                  <input
+                    type="time"
+                    value={form[key]}
+                    onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+                    className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
+                  />
+                </div>
+              ))}
+            </div>
             <div className="mb-4">
               <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                 {t("manager.menu.mealType")}
               </label>
               <select
-                value={form.mealType}
-                onChange={(e) => setForm({ ...form, mealType: e.target.value })}
+                value={form.type}
+                onChange={(e) => setForm({ ...form, type: e.target.value })}
                 className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
               >
                 <option value="breakfast">{t("manager.menu.breakfast")}</option>
@@ -178,8 +193,8 @@ export default function ManagerMenuPage() {
                   <div className="font-display font-bold text-[14px] text-[#2C2F1E] capitalize">
                     {slot.mealType} · {slot.date}
                   </div>
-                  {slot.items && (
-                    <div className="text-[12px] text-[#6B7550]">{slot.items}</div>
+                  {slot.menuDescription && (
+                    <div className="text-[12px] text-[#6B7550]">{slot.menuDescription}</div>
                   )}
                   <div className="text-[11px] text-[#A09070]">
                     {t("manager.menu.bookings", { count: slot.bookingCount })}

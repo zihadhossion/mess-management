@@ -16,17 +16,17 @@ export default function ManagerSharedBillsPage() {
   const [categories, setCategories] = useState<SharedBillCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ categoryId: "", amount: "", note: "" });
+  const [form, setForm] = useState({ categoryId: "", totalAmount: "", referenceNote: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
-  const month = format(new Date(), "MMMM");
+  const monthInt = new Date().getMonth() + 1;
   const year = new Date().getFullYear();
 
   function load() {
     if (!messId) return;
     setIsLoading(true);
     Promise.all([
-      get<{ data: SharedBillEntry[] }>(`/messes/${messId}/shared-bills/entries?month=${month}&year=${year}`),
+      get<{ data: SharedBillEntry[] }>(`/messes/${messId}/shared-bills/entries?month=${monthInt}&year=${year}`),
       get<{ data: SharedBillCategory[] }>(`/messes/${messId}/shared-bills/categories`),
     ])
       .then(([entriesRes, catsRes]) => {
@@ -48,13 +48,14 @@ export default function ManagerSharedBillsPage() {
     try {
       await post(`/messes/${messId}/shared-bills/entries`, {
         categoryId: form.categoryId,
-        amount: parseFloat(form.amount),
-        month,
+        totalAmount: parseFloat(form.totalAmount),
+        month: monthInt,
         year,
-        note: form.note || undefined,
+        referenceNote: form.referenceNote || undefined,
+        entryDate: format(new Date(), "yyyy-MM-dd"),
       });
       setShowForm(false);
-      setForm({ categoryId: "", amount: "", note: "" });
+      setForm({ categoryId: "", totalAmount: "", referenceNote: "" });
       load();
     } catch (err) {
       setActionError(getErrorMessage(err));
@@ -75,7 +76,7 @@ export default function ManagerSharedBillsPage() {
               {t("manager.sharedBills.title")}
             </h1>
             <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
-              {month} {year}
+              {format(new Date(), "MMMM")} {year}
             </p>
           </div>
           <div className="flex gap-2">
@@ -130,8 +131,8 @@ export default function ManagerSharedBillsPage() {
               </select>
             </div>
             {[
-              { label: t("manager.sharedBills.amount"), key: "amount" as const, type: "number" },
-              { label: t("manager.sharedBills.note"), key: "note" as const, type: "text" },
+              { label: t("manager.sharedBills.amount"), key: "totalAmount" as const, type: "number" },
+              { label: t("manager.sharedBills.note"), key: "referenceNote" as const, type: "text" },
             ].map(({ label, key, type }) => (
               <div key={key} className="mb-3">
                 <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
@@ -147,7 +148,7 @@ export default function ManagerSharedBillsPage() {
             ))}
             <button
               onClick={handleAdd}
-              disabled={isSubmitting || !form.categoryId || !form.amount}
+              disabled={isSubmitting || !form.categoryId || !form.totalAmount}
               className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[11px] rounded-[10px] disabled:opacity-60"
             >
               {isSubmitting ? t("manager.sharedBills.adding") : t("manager.sharedBills.add")}

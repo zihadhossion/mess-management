@@ -4,12 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { MessageSquare, Plus, X } from "lucide-react";
+import { format } from "date-fns";
 import { useAppDispatch, useAppSelector } from "~/redux/store/hooks";
 import { fetchFeedback } from "~/redux/features/memberSlice";
 import { post } from "~/services/httpMethods/post";
 import { getErrorMessage } from "~/utils/errorHandler";
 
-type FormData = { subject: string; message: string };
+type FormData = { complaint: string };
 
 export default function FeedbackPage() {
   const dispatch = useAppDispatch();
@@ -20,8 +21,7 @@ export default function FeedbackPage() {
   const [serverError, setServerError] = useState<string | null>(null);
 
   const schema = z.object({
-    subject: z.string().min(3, t("validation.subjectRequired")),
-    message: z.string().min(10, t("validation.messageMin10")),
+    complaint: z.string().min(10, t("validation.messageMin10")),
   });
 
   const {
@@ -41,7 +41,10 @@ export default function FeedbackPage() {
     if (!messId) return;
     setServerError(null);
     try {
-      await post(`/messes/${messId}/feedback`, data);
+      await post(`/messes/${messId}/feedback`, {
+        complaint: data.complaint,
+        date: format(new Date(), "yyyy-MM-dd"),
+      });
       reset();
       setShowForm(false);
       dispatch(fetchFeedback());
@@ -82,43 +85,23 @@ export default function FeedbackPage() {
               </div>
             )}
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-              <div className="mb-3">
-                <label
-                  htmlFor="feedback-subject"
-                  className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block"
-                >
-                  {t("member.feedback.subject")}
-                </label>
-                <input
-                  {...register("subject")}
-                  id="feedback-subject"
-                  type="text"
-                  placeholder={t("member.feedback.subjectPlaceholder")}
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] placeholder:text-[#C0B090]"
-                />
-                {errors.subject && (
-                  <p className="mt-1 text-[12px] text-red-600">
-                    {errors.subject.message}
-                  </p>
-                )}
-              </div>
               <div className="mb-4">
                 <label
-                  htmlFor="feedback-message"
+                  htmlFor="feedback-complaint"
                   className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block"
                 >
                   {t("member.feedback.message")}
                 </label>
                 <textarea
-                  {...register("message")}
-                  id="feedback-message"
+                  {...register("complaint")}
+                  id="feedback-complaint"
                   rows={4}
                   placeholder={t("member.feedback.messagePlaceholder")}
                   className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] placeholder:text-[#C0B090] resize-none"
                 />
-                {errors.message && (
+                {errors.complaint && (
                   <p className="mt-1 text-[12px] text-red-600">
-                    {errors.message.message}
+                    {errors.complaint.message}
                   </p>
                 )}
               </div>
@@ -157,7 +140,7 @@ export default function FeedbackPage() {
             >
               <div className="flex items-start justify-between mb-2">
                 <div className="font-semibold text-[14px] text-[#2C2F1E]">
-                  {fb.subject}
+                  {fb.date}
                 </div>
                 <span
                   className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${fb.status === "resolved" ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]" : "bg-[rgba(240,187,120,0.18)] text-amber-700"}`}
@@ -165,7 +148,7 @@ export default function FeedbackPage() {
                   {fb.status}
                 </span>
               </div>
-              <p className="text-[13px] text-[#6B7550]">{fb.message}</p>
+              <p className="text-[13px] text-[#6B7550]">{fb.complaint}</p>
             </div>
           ))
         )}

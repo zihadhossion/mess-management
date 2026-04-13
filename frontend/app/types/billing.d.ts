@@ -27,7 +27,7 @@ export interface DailyCost {
   id: string;
   date: string;
   amount: number;
-  note: string | null;
+  description: string | null;
   messId: string;
   createdAt: string;
 }
@@ -61,7 +61,7 @@ export interface BillingState {
 export interface CreateDailyCostDto {
   date: string;
   amount: number;
-  note?: string;
+  description: string;
 }
 
 export interface CreateFixedChargeDto {
@@ -72,4 +72,6 @@ export interface CreateFixedChargeDto {
 export interface CreateItemTypeDto {
   name: string;
   unit: string;
+  defaultDailyQuantity: number;
+  costPerUnit: number;
 }

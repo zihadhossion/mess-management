@@ -9,7 +9,7 @@ import { post } from "~/services/httpMethods/post";
 import { getErrorMessage } from "~/utils/errorHandler";
 
 type FormData = {
-  messName: string;
+  name: string;
   description?: string;
   address: string;
   currency: string;
@@ -21,7 +21,7 @@ export default function MessCreationPage() {
   const [serverError, setServerError] = useState<string | null>(null);
 
   const schema = z.object({
-    messName: z.string().min(3, t("validation.nameMin3")),
+    name: z.string().min(3, t("validation.nameMin3")),
     description: z.string().optional(),
     address: z.string().min(5, t("validation.addressMin5")),
     currency: z.string().min(1, t("validation.required")),
@@ -39,7 +39,7 @@ export default function MessCreationPage() {
   async function onSubmit(data: FormData) {
     setServerError(null);
     try {
-      await post("/messes/creation-request", data);
+      await post("/messes", data);
       navigate("/mess-creation/pending");
     } catch (err) {
       setServerError(getErrorMessage(err));
@@ -78,7 +78,7 @@ export default function MessCreationPage() {
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
             {[
               {
-                name: "messName" as const,
+                name: "name" as const,
                 label: t("messCreation.nameLabel"),
                 placeholder: t("messCreation.namePlaceholder"),
                 type: "text",
