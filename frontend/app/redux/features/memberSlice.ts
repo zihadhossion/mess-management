@@ -30,7 +30,9 @@ export const fetchNotifications = createAsyncThunk<Notification[]>(
   "member/fetchNotifications",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await get<{ data: Notification[] }>("/notifications");
+      const res = await get<{ data: Notification[]; total: number }>(
+        "/notifications",
+      );
       return res.data;
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };

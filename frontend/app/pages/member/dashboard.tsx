@@ -94,7 +94,7 @@ export default function MemberDashboard() {
       </div>
 
       {/* Amber band */}
-      <div className="bg-[#F0BB78] px-5 py-2 flex items-center justify-between">
+      <div className="bg-[#F0BB78] px-5 pt-2.5 pb-7 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <UtensilsCrossed size={14} className="text-[#2C2F1E]" />
           <span className="text-[12px] font-semibold text-[#2C2F1E]">
@@ -107,7 +107,7 @@ export default function MemberDashboard() {
       </div>
 
       {/* Overview card */}
-      <div className="mx-4 -mt-3.5 relative z-10 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] p-4 shadow-[0_4px_16px_rgba(74,60,30,0.1)]">
+      <div className="mx-4 -mt-5 relative z-10 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] p-4 shadow-[0_4px_16px_rgba(74,60,30,0.1)]">
         <div className="flex items-center justify-between mb-3">
           <span className="font-display font-bold text-[14px] text-[#2C2F1E]">
             {t("member.dashboard.thisMonth")}
@@ -181,7 +181,7 @@ export default function MemberDashboard() {
                     {slot.mealType}
                   </div>
                   <div className="text-[11px] text-[#6B7550] truncate">
-                    {slot.items || t("member.dashboard.menuNotSpecified")}
+                    {slot?.items || t("member.dashboard.menuNotSpecified")}
                   </div>
                 </div>
                 <span

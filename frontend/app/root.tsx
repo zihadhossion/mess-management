@@ -8,6 +8,7 @@ import {
 } from "react-router";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
+import { Toaster } from "react-hot-toast";
 import { store } from "~/redux/store";
 import { AuthProvider } from "~/contexts/AuthContext";
 import type { Route } from "./+types/root";
@@ -41,6 +42,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Provider store={store}>
           <AuthProvider>{children}</AuthProvider>
         </Provider>
+        <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
         <ScrollRestoration />
         <Scripts />
       </body>

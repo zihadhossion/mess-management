@@ -19,6 +19,12 @@ export default function NotificationsPage() {
   const { t } = useTranslation();
   const { notifications, isLoading } = useAppSelector((s) => s.member);
 
+  const safeNotifications = Array.isArray(notifications)
+    ? notifications
+    : Array.isArray((notifications as any)?.data)
+      ? (notifications as any).data
+      : [];
+
   useEffect(() => {
     dispatch(fetchNotifications());
   }, [dispatch]);
@@ -42,7 +48,7 @@ export default function NotificationsPage() {
           <div className="flex justify-center py-10">
             <div className="w-8 h-8 border-2 border-[#626F47] border-t-transparent rounded-full animate-spin" />
           </div>
-        ) : notifications.length === 0 ? (
+        ) : safeNotifications.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-14 h-14 bg-[rgba(98,111,71,0.1)] rounded-full flex items-center justify-center mx-auto mb-3">
               <Bell size={28} className="text-[#A09070]" />
@@ -52,7 +58,7 @@ export default function NotificationsPage() {
             </p>
           </div>
         ) : (
-          notifications.map((notif) => (
+          safeNotifications.map((notif: any) => (
             <div
               key={notif.id}
               className={`flex items-start gap-3 bg-[#FBF5E8] border rounded-[14px] p-4 mb-3 ${notif.isRead ? "border-[#D9CEB4]" : "border-[#626F47]"}`}

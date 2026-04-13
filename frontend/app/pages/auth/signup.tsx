@@ -12,11 +12,13 @@ import {
   Eye,
   EyeOff,
   UserPlus,
+  Shield,
 } from "lucide-react";
+import toast from "react-hot-toast";
 import { signupUser } from "~/services/httpServices/authService";
 import { getErrorMessage } from "~/utils/errorHandler";
 
-type FormData = { fullName: string; email: string; password: string };
+type FormData = { fullName: string; email: string; password: string; role: "MEMBER" | "MANAGER" };
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -28,20 +30,27 @@ export default function SignupPage() {
     fullName: z.string().min(2, t("validation.nameMin2")),
     email: z.string().email(t("validation.invalidEmail")),
     password: z.string().min(8, t("validation.passwordMin8")),
+    role: z.enum(["MEMBER", "MANAGER"]),
   });
 
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: { role: "MEMBER" },
   });
+
+  const selectedRole = watch("role");
 
   async function onSubmit(data: FormData) {
     setServerError(null);
     try {
       await signupUser(data);
+      toast.success(t("auth.signup.successMessage"));
       navigate("/login");
     } catch (err) {
       setServerError(getErrorMessage(err));
@@ -70,7 +79,7 @@ export default function SignupPage() {
         </div>
       </div>
 
-      <div className="px-4 pt-5 max-w-[520px] mx-auto">
+      <div className="px-4 py-4 sm:py-5 max-w-[520px] mx-auto">
         <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5 shadow-[0_4px_16px_rgba(74,60,30,0.1)]">
           {serverError && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
@@ -136,6 +145,46 @@ export default function SignupPage() {
                   {errors.password.message}
                 </p>
               )}
+            </div>
+
+            <div className="mb-5">
+              <label className="flex items-center gap-1.5 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2">
+                <User size={12} /> {t("auth.signup.roleLabel")}
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setValue("role", "MEMBER")}
+                  className={`flex flex-col items-center gap-1.5 p-3 rounded-[10px] border-2 transition-colors text-left ${selectedRole === "MEMBER"
+                    ? "border-[#626F47] bg-[rgba(98,111,71,0.08)]"
+                    : "border-[#D9CEB4] bg-[#FDFAF3]"
+                    }`}
+                >
+                  <User size={20} className={selectedRole === "MEMBER" ? "text-[#626F47]" : "text-[#A09070]"} />
+                  <span className={`text-[13px] font-semibold ${selectedRole === "MEMBER" ? "text-[#626F47]" : "text-[#2C2F1E]"}`}>
+                    {t("auth.signup.roleMember")}
+                  </span>
+                  <span className="text-[11px] text-[#A09070] text-center leading-tight">
+                    {t("auth.signup.roleMemberDesc")}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setValue("role", "MANAGER")}
+                  className={`flex flex-col items-center gap-1.5 p-3 rounded-[10px] border-2 transition-colors text-left ${selectedRole === "MANAGER"
+                    ? "border-[#626F47] bg-[rgba(98,111,71,0.08)]"
+                    : "border-[#D9CEB4] bg-[#FDFAF3]"
+                    }`}
+                >
+                  <Shield size={20} className={selectedRole === "MANAGER" ? "text-[#626F47]" : "text-[#A09070]"} />
+                  <span className={`text-[13px] font-semibold ${selectedRole === "MANAGER" ? "text-[#626F47]" : "text-[#2C2F1E]"}`}>
+                    {t("auth.signup.roleManager")}
+                  </span>
+                  <span className="text-[11px] text-[#A09070] text-center leading-tight">
+                    {t("auth.signup.roleManagerDesc")}
+                  </span>
+                </button>
+              </div>
             </div>
 
             <button
