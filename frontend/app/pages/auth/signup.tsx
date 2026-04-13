@@ -17,6 +17,7 @@ import {
 import toast from "react-hot-toast";
 import { signupUser } from "~/services/httpServices/authService";
 import { getErrorMessage } from "~/utils/errorHandler";
+import { LanguageSwitcher } from "~/components/atoms/LanguageSwitcher";
 
 type FormData = { fullName: string; email: string; password: string; role: "MEMBER" | "MANAGER" };
 
@@ -62,13 +63,16 @@ export default function SignupPage() {
       <div className="bg-[#626F47] px-5 pt-6 pb-7 relative overflow-hidden">
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-[#F0BB78] rounded-[12px] flex items-center justify-center">
-              <UtensilsCrossed size={20} className="text-[#2C2F1E]" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#F0BB78] rounded-[12px] flex items-center justify-center">
+                <UtensilsCrossed size={20} className="text-[#2C2F1E]" />
+              </div>
+              <div className="font-display font-bold text-[18px] text-[#F5ECD5]">
+                {t("common.appName")}
+              </div>
             </div>
-            <div className="font-display font-bold text-[18px] text-[#F5ECD5]">
-              {t("common.appName")}
-            </div>
+            <LanguageSwitcher variant="light" />
           </div>
           <h2 className="font-display font-bold text-[20px] text-[#F5ECD5] mb-1">
             {t("auth.signup.title")}

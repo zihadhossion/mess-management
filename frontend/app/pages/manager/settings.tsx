@@ -1,12 +1,39 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle, Copy, ChevronRight } from "lucide-react";
+import { AlertTriangle, Copy, ChevronRight, UtensilsCrossed } from "lucide-react";
 import { useAuth } from "~/hooks/useAuth";
 import { LanguageSwitcher } from "~/components/atoms/LanguageSwitcher";
+import { useAppDispatch, useAppSelector } from "~/redux/store/hooks";
+import { fetchMembers, toggleMealParticipation } from "~/redux/features/memberSlice";
 
 export default function ManagerSettingsPage() {
   const { user } = useAuth();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const members = useAppSelector((s) => s.member.members);
+  const [isToggling, setIsToggling] = useState(false);
+
+  useEffect(() => {
+    if (members.length === 0) {
+      dispatch(fetchMembers());
+    }
+  }, [dispatch, members.length]);
+
+  const myMember = members.find((m) => m.userId === user?.id);
+  const participates = myMember?.participatesInMeals ?? true;
+
+  async function handleToggle() {
+    if (!myMember || isToggling) return;
+    setIsToggling(true);
+    await dispatch(
+      toggleMealParticipation({
+        memberId: myMember.id,
+        participatesInMeals: !participates,
+      }),
+    );
+    setIsToggling(false);
+  }
 
   function copyCode() {
     if (user?.messCode) {
@@ -62,6 +89,52 @@ export default function ManagerSettingsPage() {
             </div>
           </div>
         </div>
+
+        {/* Meal participation toggle */}
+        {myMember && (
+          <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5 mb-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-[10px] bg-[rgba(98,111,71,0.12)] flex items-center justify-center shrink-0">
+                  <UtensilsCrossed size={18} className="text-[#626F47]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                    {t("manager.settings.mealParticipation")}
+                  </div>
+                  <div className="text-[12px] text-[#6B7550]">
+                    {t("manager.settings.mealParticipationDesc")}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={handleToggle}
+                disabled={isToggling}
+                aria-pressed={participates}
+                className={[
+                  "relative shrink-0 w-[48px] h-[27px] rounded-full transition-colors duration-200",
+                  participates ? "bg-[#626F47]" : "bg-[#C5BFAF]",
+                  isToggling ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
+                ].join(" ")}
+              >
+                <span
+                  className={[
+                    "absolute top-[3px] left-[3px] w-[21px] h-[21px] bg-white rounded-full shadow-sm transition-transform duration-200",
+                    participates ? "translate-x-[21px]" : "translate-x-0",
+                  ].join(" ")}
+                />
+              </button>
+            </div>
+            <p className={[
+              "mt-3 text-[12px] font-medium text-center",
+              participates ? "text-[#626F47]" : "text-[#A09070]",
+            ].join(" ")}>
+              {participates
+                ? t("manager.settings.mealParticipationOn")
+                : t("manager.settings.mealParticipationOff")}
+            </p>
+          </div>
+        )}
 
         {/* Settings links */}
         <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] overflow-hidden mb-4">

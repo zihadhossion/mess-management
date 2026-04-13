@@ -19,6 +19,7 @@ import { loginSuccess } from "~/redux/features/authSlice";
 import { loginUser } from "~/services/httpServices/authService";
 import { getErrorMessage } from "~/utils/errorHandler";
 import { Role } from "~/enums/role.enum";
+import { LanguageSwitcher } from "~/components/atoms/LanguageSwitcher";
 
 type FormData = { email: string; password: string };
 
@@ -47,9 +48,17 @@ export default function LoginPage() {
     try {
       const user = await loginUser(data);
       dispatch(loginSuccess(user));
-      if (user.role === Role.ADMIN) navigate("/admin/dashboard");
-      else if (user.role === Role.MANAGER) navigate("/manager/dashboard");
-      else navigate("/member/dashboard");
+      if (!user.isEmailVerified) {
+        navigate("/resend-verification");
+      } else if (user.role === Role.MANAGER && !user.messId) {
+        navigate("/role-selection");
+      } else if (user.role === Role.ADMIN) {
+        navigate("/admin/dashboard");
+      } else if (user.role === Role.MANAGER) {
+        navigate("/manager/dashboard");
+      } else {
+        navigate("/member/dashboard");
+      }
     } catch (err) {
       setServerError(getErrorMessage(err));
     }
@@ -62,18 +71,21 @@ export default function LoginPage() {
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="absolute -bottom-10 -left-5 w-[100px] h-[100px] bg-[rgba(164,180,101,0.12)] rounded-full" />
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-[#F0BB78] rounded-[12px] flex items-center justify-center">
-              <UtensilsCrossed size={20} className="text-[#2C2F1E]" />
-            </div>
-            <div>
-              <div className="font-display font-bold text-[18px] text-[#F5ECD5]">
-                {t("common.appName")}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#F0BB78] rounded-[12px] flex items-center justify-center">
+                <UtensilsCrossed size={20} className="text-[#2C2F1E]" />
               </div>
-              <div className="text-[11px] text-[rgba(245,236,213,0.7)]">
-                {t("auth.login.subtitle")}
+              <div>
+                <div className="font-display font-bold text-[18px] text-[#F5ECD5]">
+                  {t("common.appName")}
+                </div>
+                <div className="text-[11px] text-[rgba(245,236,213,0.7)]">
+                  {t("auth.login.subtitle")}
+                </div>
               </div>
             </div>
+            <LanguageSwitcher variant="light" />
           </div>
           <h2 className="font-display font-bold text-[20px] text-[#F5ECD5] mb-1">
             {t("auth.login.title")}

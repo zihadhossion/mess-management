@@ -14,9 +14,17 @@ export default function SplashPage() {
     if (isLoading) return;
     const timer = setTimeout(() => {
       if (isAuthenticated && user) {
-        if (user.role === Role.ADMIN) navigate("/admin/dashboard");
-        else if (user.role === Role.MANAGER) navigate("/manager/dashboard");
-        else navigate("/member/dashboard");
+        if (!user.isEmailVerified) {
+          navigate("/resend-verification");
+        } else if (user.role === Role.MANAGER && !user.messId) {
+          navigate("/role-selection");
+        } else if (user.role === Role.ADMIN) {
+          navigate("/admin/dashboard");
+        } else if (user.role === Role.MANAGER) {
+          navigate("/manager/dashboard");
+        } else {
+          navigate("/member/dashboard");
+        }
       } else {
         navigate("/login");
       }

@@ -31,6 +31,8 @@ export default function ManagerLayout() {
     return <Navigate to="/member/dashboard" replace />;
   if (user?.role === Role.ADMIN)
     return <Navigate to="/admin/dashboard" replace />;
+  if (!user?.isEmailVerified) return <Navigate to="/resend-verification" replace />;
+  if (!user?.messId) return <Navigate to="/role-selection" replace />;
 
   return (
     <div className="min-h-screen bg-[#F5ECD5] relative pb-[66px]">

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { get } from "~/services/httpMethods/get";
+import { patch } from "~/services/httpMethods/patch";
 import type {
   MemberState,
   Member,
@@ -38,6 +39,30 @@ export const fetchNotifications = createAsyncThunk<Notification[]>(
       const e = err as { response?: { data?: { message?: string } } };
       return rejectWithValue(
         e.response?.data?.message ?? "Failed to fetch notifications",
+      );
+    }
+  },
+);
+
+export const toggleMealParticipation = createAsyncThunk<
+  Member,
+  { memberId: string; participatesInMeals: boolean }
+>(
+  "member/toggleMealParticipation",
+  async ({ memberId, participatesInMeals }, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState;
+      const messId = state.mess.mess?.id;
+      if (!messId) return rejectWithValue("No mess found");
+      const res = await patch<{ data: Member }>(
+        `/messes/${messId}/members/${memberId}`,
+        { participatesInMeals },
+      );
+      return res.data;
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } };
+      return rejectWithValue(
+        e.response?.data?.message ?? "Failed to update meal participation",
       );
     }
   },
@@ -101,6 +126,11 @@ const memberSlice = createSlice({
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
+      })
+      .addCase(toggleMealParticipation.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const idx = state.members.findIndex((m) => m.id === updated.id);
+        if (idx !== -1) state.members[idx] = updated;
       })
       .addCase(fetchFeedback.pending, (state) => {
         state.isLoading = true;

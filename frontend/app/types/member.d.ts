@@ -9,6 +9,7 @@ export interface Member {
   messId: string;
   joinedAt: string;
   isActive: boolean;
+  participatesInMeals?: boolean;
 }
 
 export interface MemberState {
