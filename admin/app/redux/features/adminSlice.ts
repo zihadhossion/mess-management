@@ -90,8 +90,16 @@ export const fetchPlatformStats = createAsyncThunk<PlatformStats>(
   "admin/fetchStats",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await get<{ data: PlatformStats }>("/admin/stats");
-      return res.data;
+      const res = await get<{ data: any }>("/admin/stats");
+      const d = res.data;
+      return {
+        totalUsers: d.users?.total ?? 0,
+        totalMesses: d.messes?.total ?? 0,
+        activeMembers: d.members?.total ?? 0,
+        pendingRequests: d.pendingJoinRequests ?? 0,
+        totalInvoicesThisMonth: 0,
+        revenueThisMonth: 0,
+      };
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };
       return rejectWithValue(

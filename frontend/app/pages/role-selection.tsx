@@ -77,12 +77,14 @@ export default function RoleSelectionPage() {
               {t("roleSelection.notPartOf")}
             </p>
             <div className="flex gap-3">
-              <Link
-                to="/join-mess"
-                className="flex-1 text-center py-3 border border-[#626F47] text-[#626F47] font-semibold text-[13px] rounded-[10px] hover:bg-[rgba(98,111,71,0.06)]"
-              >
-                {t("roleSelection.joinMess")}
-              </Link>
+              {user?.role !== Role.MANAGER && (
+                <Link
+                  to="/join-mess"
+                  className="flex-1 text-center py-3 border border-[#626F47] text-[#626F47] font-semibold text-[13px] rounded-[10px] hover:bg-[rgba(98,111,71,0.06)]"
+                >
+                  {t("roleSelection.joinMess")}
+                </Link>
+              )}
               <Link
                 to="/mess-creation"
                 className="flex-1 text-center py-3 bg-[#626F47] text-[#F5ECD5] font-semibold text-[13px] rounded-[10px]"
