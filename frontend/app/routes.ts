@@ -4,10 +4,10 @@ import {
   route,
   layout,
 } from "@react-router/dev/routes";
-import memberRoutes from "~/routes/member.route";
-import managerRoutes from "~/routes/manager.route";
-import authRoutes from "~/routes/auth.route";
-import onboardingRoutes from "~/routes/onboarding.route";
+import memberRoutes from "./routes/member.route";
+import managerRoutes from "./routes/manager.route";
+import authRoutes from "./routes/auth.route";
+import onboardingRoutes from "./routes/onboarding.route";
 
 export default [
   index("pages/splash.tsx"),
