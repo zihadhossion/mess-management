@@ -1,6 +1,7 @@
 import { route } from "@react-router/dev/routes";
 
 const onboardingRoutes = [
+  route("role-selection", "pages/onboarding/role-selection.tsx"),
   route("join-mess", "pages/onboarding/join-mess.tsx"),
   route("mess-creation", "pages/onboarding/mess-creation.tsx"),
   route("mess-creation-pending", "pages/onboarding/mess-creation-pending.tsx"),
