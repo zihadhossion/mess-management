@@ -13,6 +13,7 @@ const managerRoutes = prefix("manager", [
   route("meal-billing/history", "pages/manager/meal-billing/history.tsx"),
   route("shared-bills", "pages/manager/shared-bills/index.tsx"),
   route("shared-bills/history", "pages/manager/shared-bills/history.tsx"),
+  route("notifications", "pages/manager/notifications.tsx"),
   route("settings", "pages/manager/settings.tsx"),
   route("settings/lifecycle", "pages/manager/settings/lifecycle.tsx"),
 ]);
