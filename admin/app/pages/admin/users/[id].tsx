@@ -89,12 +89,12 @@ export default function AdminUserDetailPage() {
     return (
       <div className="p-6 text-center py-24">
         <Users size={32} className="text-[#A09070] mx-auto mb-3" />
-        <p className="text-[15px] text-[#6B7550] font-semibold">
+        <p className="text-[17px] text-[#6B7550] font-semibold">
           {error ?? "User not found"}
         </p>
         <Link
           to="/users"
-          className="mt-4 inline-block text-[#626F47] font-semibold text-[13px] underline"
+          className="mt-4 inline-block text-[#626F47] font-semibold text-[15px] underline"
         >
           Back to Users
         </Link>
@@ -113,7 +113,7 @@ export default function AdminUserDetailPage() {
   return (
     <div className="p-6">
       {/* Topbar breadcrumb */}
-      <div className="flex items-center gap-2 text-[13px] text-[#6B7550] mb-5">
+      <div className="flex items-center gap-2 text-[15px] text-[#6B7550] mb-5">
         <Link
           to="/users"
           className="flex items-center gap-1 hover:text-[#626F47]"
@@ -126,12 +126,12 @@ export default function AdminUserDetailPage() {
       </div>
 
       {actionError && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[12px] text-[13px] text-red-700">
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[12px] text-[15px] text-red-700">
           {actionError}
         </div>
       )}
       {actionSuccess && (
-        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-[12px] text-[13px] text-green-700">
+        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-[12px] text-[15px] text-green-700">
           {actionSuccess}
         </div>
       )}
@@ -142,22 +142,22 @@ export default function AdminUserDetailPage() {
           {/* User header card */}
           <div className="bg-white border border-[#D9CEB4] rounded-[12px] p-[22px] shadow-[0_1px_4px_rgba(74,60,30,0.06)] mb-[18px]">
             <div className="flex items-center gap-[18px] mb-[18px] pb-[18px] border-b border-[#EAE0CC]">
-              <div className="w-16 h-16 rounded-full bg-[#626F47] flex items-center justify-center font-display font-bold text-[22px] text-[#F5ECD5] shrink-0">
+              <div className="w-16 h-16 rounded-full bg-[#626F47] flex items-center justify-center font-display font-bold text-2xl text-[#F5ECD5] shrink-0">
                 {user.name[0]?.toUpperCase()}
               </div>
               <div>
-                <div className="font-display font-bold text-[20px] text-[#2C2F1E]">
+                <div className="font-display font-bold text-[22px] text-[#2C2F1E]">
                   {user.name}
                 </div>
-                <div className="text-[13px] text-[#6B7550] mt-1">
+                <div className="text-[15px] text-[#6B7550] mt-1">
                   {user.email}
                 </div>
                 <div className="flex gap-2 mt-2 flex-wrap">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[11px] font-semibold bg-[rgba(98,111,71,0.15)] text-[#3d5016] capitalize">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[13px] font-semibold bg-[rgba(98,111,71,0.15)] text-[#3d5016] capitalize">
                     {user.role}
                   </span>
                   <span
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[11px] font-semibold ${
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[13px] font-semibold ${
                       user.isActive
                         ? "bg-[rgba(164,180,101,0.2)] text-[#3d5016]"
                         : "bg-red-50 text-red-600"
@@ -166,7 +166,7 @@ export default function AdminUserDetailPage() {
                     {user.isActive ? "Active" : "Inactive"}
                   </span>
                   {user.isEmailVerified && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[11px] font-semibold bg-blue-50 text-blue-700">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[13px] font-semibold bg-blue-50 text-blue-700">
                       Verified
                     </span>
                   )}
@@ -174,7 +174,7 @@ export default function AdminUserDetailPage() {
               </div>
             </div>
 
-            <div className="text-[14px] font-display font-bold text-[#2C2F1E] mb-[14px]">
+            <div className="text-base font-display font-bold text-[#2C2F1E] mb-[14px]">
               Account Information
             </div>
             <div className="grid grid-cols-2 gap-[14px]">
@@ -191,11 +191,11 @@ export default function AdminUserDetailPage() {
                 },
               ].map(({ label, value, mono }) => (
                 <div key={label}>
-                  <div className="text-[10px] font-semibold text-[#6B7550] uppercase tracking-[0.07em] mb-[3px]">
+                  <div className="text-xs font-semibold text-[#6B7550] uppercase tracking-[0.07em] mb-[3px]">
                     {label}
                   </div>
                   <div
-                    className={`text-[13px] text-[#2C2F1E] ${mono ? "font-display text-[12px]" : ""}`}
+                    className={`text-[15px] text-[#2C2F1E] ${mono ? "font-display text-sm" : ""}`}
                   >
                     {value}
                   </div>
@@ -207,7 +207,7 @@ export default function AdminUserDetailPage() {
           {/* Mess info card */}
           {user.messId && (
             <div className="bg-white border border-[#D9CEB4] rounded-[12px] p-[22px] shadow-[0_1px_4px_rgba(74,60,30,0.06)] mb-[18px]">
-              <div className="text-[14px] font-display font-bold text-[#2C2F1E] mb-[14px]">
+              <div className="text-base font-display font-bold text-[#2C2F1E] mb-[14px]">
                 Mess Information
               </div>
               <div className="grid grid-cols-2 gap-[14px]">
@@ -217,11 +217,11 @@ export default function AdminUserDetailPage() {
                   { label: "Role in Mess", value: user.role },
                 ].map(({ label, value, mono }) => (
                   <div key={label}>
-                    <div className="text-[10px] font-semibold text-[#6B7550] uppercase tracking-[0.07em] mb-[3px]">
+                    <div className="text-xs font-semibold text-[#6B7550] uppercase tracking-[0.07em] mb-[3px]">
                       {label}
                     </div>
                     <div
-                      className={`text-[13px] text-[#2C2F1E] capitalize ${mono ? "font-display text-[12px]" : ""}`}
+                      className={`text-[15px] text-[#2C2F1E] capitalize ${mono ? "font-display text-sm" : ""}`}
                     >
                       {value}
                     </div>
@@ -233,20 +233,20 @@ export default function AdminUserDetailPage() {
 
           {/* Payment history placeholder */}
           <div className="bg-white border border-[#D9CEB4] rounded-[12px] p-[22px] shadow-[0_1px_4px_rgba(74,60,30,0.06)] mb-[18px]">
-            <div className="text-[14px] font-display font-bold text-[#2C2F1E] mb-[14px]">
+            <div className="text-base font-display font-bold text-[#2C2F1E] mb-[14px]">
               Payment History
             </div>
-            <div className="text-center py-8 text-[13px] text-[#A09070]">
+            <div className="text-center py-8 text-[15px] text-[#A09070]">
               No payment records available
             </div>
           </div>
 
           {/* Activity log placeholder */}
           <div className="bg-white border border-[#D9CEB4] rounded-[12px] p-[22px] shadow-[0_1px_4px_rgba(74,60,30,0.06)]">
-            <div className="text-[14px] font-display font-bold text-[#2C2F1E] mb-[14px]">
+            <div className="text-base font-display font-bold text-[#2C2F1E] mb-[14px]">
               Recent Activity
             </div>
-            <div className="text-center py-8 text-[13px] text-[#A09070]">
+            <div className="text-center py-8 text-[15px] text-[#A09070]">
               No recent activity
             </div>
           </div>
@@ -256,7 +256,7 @@ export default function AdminUserDetailPage() {
         <div>
           {/* Account Actions */}
           <div className="bg-white border border-[#D9CEB4] rounded-[12px] p-[20px] shadow-[0_1px_4px_rgba(74,60,30,0.06)] mb-4">
-            <div className="text-[14px] font-display font-bold text-[#2C2F1E] mb-[14px]">
+            <div className="text-base font-display font-bold text-[#2C2F1E] mb-[14px]">
               Account Actions
             </div>
             <div className="flex flex-col gap-2">
@@ -265,7 +265,7 @@ export default function AdminUserDetailPage() {
                   handleAction("activate", () => activateUser(user.id))
                 }
                 disabled={!!actionLoading}
-                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[13px] font-semibold border border-[#626F47] text-[#626F47] hover:bg-[rgba(98,111,71,0.1)] transition-colors disabled:opacity-50 w-full"
+                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[15px] font-semibold border border-[#626F47] text-[#626F47] hover:bg-[rgba(98,111,71,0.1)] transition-colors disabled:opacity-50 w-full"
               >
                 <UserCheck size={15} className="shrink-0" />
                 {actionLoading === "activate"
@@ -277,7 +277,7 @@ export default function AdminUserDetailPage() {
                   handleAction("suspend", () => suspendUser(user.id))
                 }
                 disabled={!!actionLoading}
-                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[13px] font-semibold border border-[#c68a30] text-[#7a4e0e] hover:bg-[rgba(240,187,120,0.15)] transition-colors disabled:opacity-50 w-full"
+                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[15px] font-semibold border border-[#c68a30] text-[#7a4e0e] hover:bg-[rgba(240,187,120,0.15)] transition-colors disabled:opacity-50 w-full"
               >
                 <PauseCircle size={15} className="shrink-0" />
                 {actionLoading === "suspend"
@@ -287,7 +287,7 @@ export default function AdminUserDetailPage() {
               <button
                 onClick={() => handleAction("ban", () => banUser(user.id))}
                 disabled={!!actionLoading}
-                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[13px] font-semibold border border-[#c0392b] text-[#c0392b] hover:bg-[rgba(192,57,43,0.08)] transition-colors disabled:opacity-50 w-full"
+                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[15px] font-semibold border border-[#c0392b] text-[#c0392b] hover:bg-[rgba(192,57,43,0.08)] transition-colors disabled:opacity-50 w-full"
               >
                 <Ban size={15} className="shrink-0" />
                 {actionLoading === "ban" ? "Processing..." : "Ban Account"}
@@ -297,7 +297,7 @@ export default function AdminUserDetailPage() {
                   handleAction("reset", () => resetUserPassword(user.id))
                 }
                 disabled={!!actionLoading}
-                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[13px] font-semibold border border-[#626F47] text-[#626F47] hover:bg-[rgba(98,111,71,0.1)] transition-colors disabled:opacity-50 w-full"
+                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[15px] font-semibold border border-[#626F47] text-[#626F47] hover:bg-[rgba(98,111,71,0.1)] transition-colors disabled:opacity-50 w-full"
               >
                 <Key size={15} className="shrink-0" />
                 {actionLoading === "reset" ? "Processing..." : "Reset Password"}
@@ -305,7 +305,7 @@ export default function AdminUserDetailPage() {
               <button
                 onClick={() => setShowDeleteConfirm(true)}
                 disabled={!!actionLoading}
-                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[13px] font-semibold border border-[#c0392b] text-[#c0392b] hover:bg-[rgba(192,57,43,0.08)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full"
+                className="flex items-center gap-[9px] px-[14px] py-[10px] rounded-[9px] text-[15px] font-semibold border border-[#c0392b] text-[#c0392b] hover:bg-[rgba(192,57,43,0.08)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full"
               >
                 <Trash2 size={15} className="shrink-0" />
                 {actionLoading === "delete" ? "Deleting..." : "Delete Account"}
@@ -314,13 +314,13 @@ export default function AdminUserDetailPage() {
 
             {/* Change Role */}
             <div className="mt-[14px]">
-              <div className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.07em] mb-[6px]">
+              <div className="text-[13px] font-semibold text-[#6B7550] uppercase tracking-[0.07em] mb-[6px]">
                 Change Role
               </div>
               <SelectDropdown
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
-                className="w-full bg-[#fff9ee] rounded-[8px] py-[9px] text-[13px]"
+                className="w-full bg-[#fff9ee] rounded-[8px] py-[9px] text-[15px]"
               >
                 <option value="member">Member</option>
                 <option value="manager">Manager</option>
@@ -328,7 +328,7 @@ export default function AdminUserDetailPage() {
               <button
                 onClick={handleRoleChange}
                 disabled={!!actionLoading || selectedRole === user.role}
-                className="mt-2 w-full bg-[#626F47] text-[#F5ECD5] font-semibold text-[13px] py-2 rounded-[8px] disabled:opacity-50 transition-colors hover:bg-[#4d5638]"
+                className="mt-2 w-full bg-[#626F47] text-[#F5ECD5] font-semibold text-[15px] py-2 rounded-[8px] disabled:opacity-50 transition-colors hover:bg-[#4d5638]"
               >
                 {actionLoading === "role" ? "Updating..." : "Apply Role Change"}
               </button>
@@ -349,7 +349,7 @@ export default function AdminUserDetailPage() {
             <div className="flex items-center justify-between mb-4">
               <h2
                 id="delete-dialog-title"
-                className="font-display font-bold text-[18px] text-[#2C2F1E]"
+                className="font-display font-bold text-xl text-[#2C2F1E]"
               >
                 Delete Account
               </h2>
@@ -361,14 +361,14 @@ export default function AdminUserDetailPage() {
                 <X size={20} />
               </button>
             </div>
-            <p className="text-[14px] text-[#6B7550] mb-6">
+            <p className="text-base text-[#6B7550] mb-6">
               Delete account for <strong>{user?.name}</strong>? This action
               cannot be undone and will permanently remove all associated data.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-2.5 rounded-[10px] border border-[#D9CEB4] text-[#6B7550] font-semibold text-[13px]"
+                className="flex-1 py-2.5 rounded-[10px] border border-[#D9CEB4] text-[#6B7550] font-semibold text-[15px]"
               >
                 Cancel
               </button>
@@ -377,7 +377,7 @@ export default function AdminUserDetailPage() {
                   setShowDeleteConfirm(false);
                   if (user) handleAction("delete", () => deleteUser(user.id));
                 }}
-                className="flex-1 py-2.5 rounded-[10px] bg-red-600 text-white font-semibold text-[13px]"
+                className="flex-1 py-2.5 rounded-[10px] bg-red-600 text-white font-semibold text-[15px]"
               >
                 Delete Account
               </button>

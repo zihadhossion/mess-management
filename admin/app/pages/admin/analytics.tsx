@@ -61,10 +61,10 @@ export default function AdminAnalyticsPage() {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h1 className="font-display font-bold text-[24px] text-[#2C2F1E]">
+        <h1 className="font-display font-bold text-[26px] text-[#2C2F1E]">
           Analytics
         </h1>
-        <p className="text-[14px] text-[#6B7550]">
+        <p className="text-base text-[#6B7550]">
           Platform performance overview
         </p>
       </div>
@@ -85,10 +85,10 @@ export default function AdminAnalyticsPage() {
               >
                 <Icon size={20} />
               </div>
-              <div className="font-display font-bold text-[26px] text-[#2C2F1E]">
+              <div className="font-display font-bold text-[28px] text-[#2C2F1E]">
                 {value ?? "—"}
               </div>
-              <div className="text-[12px] text-[#6B7550] mt-0.5">{label}</div>
+              <div className="text-sm text-[#6B7550] mt-0.5">{label}</div>
             </div>
           ))}
         </div>

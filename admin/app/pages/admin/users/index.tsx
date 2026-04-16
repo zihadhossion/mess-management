@@ -70,10 +70,10 @@ export default function AdminUsersPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-display font-bold text-[24px] text-[#2C2F1E]">
+          <h1 className="font-display font-bold text-[26px] text-[#2C2F1E]">
             Users
           </h1>
-          <p className="text-[14px] text-[#6B7550]">
+          <p className="text-base text-[#6B7550]">
             {totalUsers} total registered users
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function AdminUsersPage() {
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Search by name or email..."
-            className="w-full bg-white border border-[#D9CEB4] rounded-[12px] pl-10 pr-4 py-2.5 text-[14px] text-[#2C2F1E] outline-none focus:border-[#626F47] placeholder:text-[#C0B090]"
+            className="w-full bg-white border border-[#D9CEB4] rounded-[12px] pl-10 pr-4 py-2.5 text-base text-[#2C2F1E] outline-none focus:border-[#626F47] placeholder:text-[#C0B090]"
           />
         </div>
         <SelectDropdown
@@ -119,7 +119,7 @@ export default function AdminUsersPage() {
       ) : filtered.length === 0 ? (
         <div className="text-center py-16">
           <Users size={32} className="text-[#A09070] mx-auto mb-3" />
-          <p className="text-[15px] text-[#6B7550] font-semibold">
+          <p className="text-[17px] text-[#6B7550] font-semibold">
             No users found
           </p>
         </div>
@@ -132,7 +132,7 @@ export default function AdminUsersPage() {
                   {["Name", "Email", "Role", "Status", "Mess"].map((h) => (
                     <th
                       key={h}
-                      className="text-left px-4 py-3 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em]"
+                      className="text-left px-4 py-3 text-[13px] font-semibold text-[#6B7550] uppercase tracking-[0.06em]"
                     >
                       {h}
                     </th>
@@ -150,30 +150,30 @@ export default function AdminUsersPage() {
                         to={`/users/${user.id}`}
                         className="flex items-center gap-2.5 hover:underline"
                       >
-                        <div className="w-8 h-8 rounded-full bg-[#F0BB78] flex items-center justify-center font-bold text-[13px] text-[#2C2F1E] shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-[#F0BB78] flex items-center justify-center font-bold text-[15px] text-[#2C2F1E] shrink-0">
                           {user.name[0]?.toUpperCase()}
                         </div>
-                        <span className="font-semibold text-[14px] text-[#2C2F1E]">
+                        <span className="font-semibold text-base text-[#2C2F1E]">
                           {user.name}
                         </span>
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-[13px] text-[#6B7550]">
+                    <td className="px-4 py-3 text-[15px] text-[#6B7550]">
                       {user.email}
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[rgba(98,111,71,0.1)] text-[#626F47] capitalize">
+                      <span className="text-[13px] font-semibold px-2 py-0.5 rounded-full bg-[rgba(98,111,71,0.1)] text-[#626F47] capitalize">
                         {user.role}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${user.isActive ? "bg-green-50 text-green-700" : "bg-red-50 text-red-600"}`}
+                        className={`text-[13px] font-semibold px-2 py-0.5 rounded-full ${user.isActive ? "bg-green-50 text-green-700" : "bg-red-50 text-red-600"}`}
                       >
                         {user.isActive ? "Active" : "Inactive"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-[13px] text-[#6B7550]">
+                    <td className="px-4 py-3 text-[15px] text-[#6B7550]">
                       {user.messName ?? "—"}
                     </td>
                   </tr>
@@ -185,7 +185,7 @@ export default function AdminUsersPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-4">
-              <p className="text-[13px] text-[#6B7550]">
+              <p className="text-[15px] text-[#6B7550]">
                 Showing {startItem}–{endItem} of {totalUsers} users
               </p>
               <div className="flex items-center gap-1">
@@ -201,7 +201,7 @@ export default function AdminUsersPage() {
                   p === "..." ? (
                     <span
                       key={`ellipsis-${i}`}
-                      className="w-8 h-8 flex items-center justify-center text-[13px] text-[#A09070]"
+                      className="w-8 h-8 flex items-center justify-center text-[15px] text-[#A09070]"
                     >
                       …
                     </span>
@@ -209,7 +209,7 @@ export default function AdminUsersPage() {
                     <button
                       key={p}
                       onClick={() => setPage(p)}
-                      className={`w-8 h-8 flex items-center justify-center rounded-[8px] text-[13px] font-medium border transition-colors ${
+                      className={`w-8 h-8 flex items-center justify-center rounded-[8px] text-[15px] font-medium border transition-colors ${
                         p === page
                           ? "bg-[#626F47] text-white border-[#626F47]"
                           : "border-[#D9CEB4] text-[#6B7550] hover:bg-[#FAF7F0]"

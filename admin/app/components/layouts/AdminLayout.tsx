@@ -64,10 +64,10 @@ export default function AdminLayout() {
               <UtensilsCrossed size={18} className="text-[#2C2F1E]" />
             </div>
             <div>
-              <div className="font-display font-bold text-base text-[#F5ECD5] leading-tight">
+              <div className="font-display font-bold text-lg text-[#F5ECD5] leading-tight">
                 MessHub
               </div>
-              <div className="text-[11px] text-[rgba(245,236,213,0.6)]">
+              <div className="text-[13px] text-[rgba(245,236,213,0.6)]">
                 Admin Panel
               </div>
             </div>
@@ -77,7 +77,7 @@ export default function AdminLayout() {
         <nav className="flex-1 p-3 overflow-y-auto no-scrollbar">
           {navGroups.map((group) => (
             <div key={group.label}>
-              <div className="text-[10px] font-semibold text-[rgba(245,236,213,0.45)] uppercase tracking-[0.1em] px-2 mt-[14px] mb-[6px]">
+              <div className="text-xs font-semibold text-[rgba(245,236,213,0.45)] uppercase tracking-[0.1em] px-2 mt-[14px] mb-[6px]">
                 {group.label}
               </div>
               {group.items.map(({ to, icon: Icon, label }) => (
@@ -86,7 +86,7 @@ export default function AdminLayout() {
                   to={to}
                   className={({ isActive }) =>
                     cn(
-                      "flex items-center gap-[10px] px-[10px] py-[9px] rounded-[9px] text-[13px] font-semibold mb-0.5 transition-colors",
+                      "flex items-center gap-[10px] px-[10px] py-[9px] rounded-[9px] text-[15px] font-semibold mb-0.5 transition-colors",
                       isActive
                         ? "bg-[rgba(245,236,213,0.15)] text-[#F5ECD5]"
                         : "text-[rgba(245,236,213,0.75)] hover:bg-[rgba(245,236,213,0.08)]",
@@ -104,7 +104,7 @@ export default function AdminLayout() {
         <div className="p-3 border-t border-[rgba(245,236,213,0.3)]">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-[10px] px-[10px] py-[9px] rounded-[9px] w-full text-[13px] font-semibold text-[rgba(245,236,213,0.75)] hover:bg-[rgba(245,236,213,0.08)] transition-colors"
+            className="flex items-center gap-[10px] px-[10px] py-[9px] rounded-[9px] w-full text-[15px] font-semibold text-[rgba(245,236,213,0.75)] hover:bg-[rgba(245,236,213,0.08)] transition-colors"
           >
             <LogOut size={17} />
             Logout

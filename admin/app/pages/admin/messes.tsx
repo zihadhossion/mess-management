@@ -57,10 +57,10 @@ export default function AdminMessesPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-display font-bold text-[24px] text-[#2C2F1E]">
+          <h1 className="font-display font-bold text-[26px] text-[#2C2F1E]">
             Messes
           </h1>
-          <p className="text-[14px] text-[#6B7550]">
+          <p className="text-base text-[#6B7550]">
             {totalMesses} total registered messes
           </p>
         </div>
@@ -78,7 +78,7 @@ export default function AdminMessesPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search messes..."
-            className="w-full bg-white border border-[#D9CEB4] rounded-[12px] pl-10 pr-4 py-2.5 text-[14px] text-[#2C2F1E] outline-none focus:border-[#626F47] placeholder:text-[#C0B090]"
+            className="w-full bg-white border border-[#D9CEB4] rounded-[12px] pl-10 pr-4 py-2.5 text-base text-[#2C2F1E] outline-none focus:border-[#626F47] placeholder:text-[#C0B090]"
           />
         </div>
         <SelectDropdown
@@ -100,7 +100,7 @@ export default function AdminMessesPage() {
       ) : filtered.length === 0 ? (
         <div className="text-center py-16">
           <Building2 size={32} className="text-[#A09070] mx-auto mb-3" />
-          <p className="text-[15px] text-[#6B7550] font-semibold">
+          <p className="text-[17px] text-[#6B7550] font-semibold">
             No messes found
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function AdminMessesPage() {
                   {["Name", "Code", "Manager", "Members", "Status"].map((h) => (
                     <th
                       key={h}
-                      className="text-left px-4 py-3 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em]"
+                      className="text-left px-4 py-3 text-[13px] font-semibold text-[#6B7550] uppercase tracking-[0.06em]"
                     >
                       {h}
                     </th>
@@ -126,21 +126,21 @@ export default function AdminMessesPage() {
                     key={mess.id}
                     className="border-b border-[#F0EBE0] last:border-b-0 hover:bg-[#FAF7F0]"
                   >
-                    <td className="px-4 py-3 font-semibold text-[14px] text-[#2C2F1E]">
+                    <td className="px-4 py-3 font-semibold text-base text-[#2C2F1E]">
                       {mess.name}
                     </td>
-                    <td className="px-4 py-3 font-display font-bold text-[13px] text-[#626F47] tracking-wider">
+                    <td className="px-4 py-3 font-display font-bold text-[15px] text-[#626F47] tracking-wider">
                       {mess.code}
                     </td>
-                    <td className="px-4 py-3 text-[13px] text-[#6B7550]">
+                    <td className="px-4 py-3 text-[15px] text-[#6B7550]">
                       {mess.managerName}
                     </td>
-                    <td className="px-4 py-3 text-[13px] text-[#2C2F1E]">
+                    <td className="px-4 py-3 text-[15px] text-[#2C2F1E]">
                       {mess.memberCount}
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`text-[11px] font-semibold px-2 py-0.5 rounded-full capitalize ${
+                        className={`text-[13px] font-semibold px-2 py-0.5 rounded-full capitalize ${
                           mess.status === "active"
                             ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
                             : mess.status === "pending"
@@ -160,7 +160,7 @@ export default function AdminMessesPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-4">
-              <p className="text-[13px] text-[#6B7550]">
+              <p className="text-[15px] text-[#6B7550]">
                 Showing {startItem}–{endItem} of {totalMesses} messes
               </p>
               <div className="flex items-center gap-1">
@@ -176,7 +176,7 @@ export default function AdminMessesPage() {
                   p === "..." ? (
                     <span
                       key={`ellipsis-${i}`}
-                      className="w-8 h-8 flex items-center justify-center text-[13px] text-[#A09070]"
+                      className="w-8 h-8 flex items-center justify-center text-[15px] text-[#A09070]"
                     >
                       …
                     </span>
@@ -184,7 +184,7 @@ export default function AdminMessesPage() {
                     <button
                       key={p}
                       onClick={() => setPage(p)}
-                      className={`w-8 h-8 flex items-center justify-center rounded-[8px] text-[13px] font-medium border transition-colors ${
+                      className={`w-8 h-8 flex items-center justify-center rounded-[8px] text-[15px] font-medium border transition-colors ${
                         p === page
                           ? "bg-[#626F47] text-white border-[#626F47]"
                           : "border-[#D9CEB4] text-[#6B7550] hover:bg-[#FAF7F0]"

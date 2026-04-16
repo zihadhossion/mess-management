@@ -23,8 +23,8 @@ function BreakdownRow({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-[13px] text-[#6B7550]">{label}</span>
-      <span className={`font-semibold text-[13px] ${color}`}>
+      <span className="text-[15px] text-[#6B7550]">{label}</span>
+      <span className={`font-semibold text-[15px] ${color}`}>
         {value ?? "—"}
       </span>
     </div>
@@ -74,10 +74,10 @@ export default function AdminDashboard() {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h1 className="font-display font-bold text-[24px] text-[#2C2F1E]">
+        <h1 className="font-display font-bold text-[26px] text-[#2C2F1E]">
           Dashboard
         </h1>
-        <p className="text-[14px] text-[#6B7550]">Platform overview</p>
+        <p className="text-base text-[#6B7550]">Platform overview</p>
       </div>
 
       {/* Stats */}
@@ -92,10 +92,10 @@ export default function AdminDashboard() {
             >
               <Icon size={20} />
             </div>
-            <div className="font-display font-bold text-[26px] text-[#2C2F1E]">
+            <div className="font-display font-bold text-[28px] text-[#2C2F1E]">
               {isLoading ? "—" : value}
             </div>
-            <div className="text-[12px] text-[#6B7550] mt-0.5">{label}</div>
+            <div className="text-sm text-[#6B7550] mt-0.5">{label}</div>
           </div>
         ))}
       </div>
@@ -106,18 +106,18 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-3">
             <AlertCircle size={20} className="text-amber-600 shrink-0" />
             <div>
-              <div className="font-semibold text-[14px] text-amber-800">
+              <div className="font-semibold text-base text-amber-800">
                 {pendingMessRequests.length} pending mess request
                 {pendingMessRequests.length !== 1 ? "s" : ""}
               </div>
-              <div className="text-[12px] text-amber-700">
+              <div className="text-sm text-amber-700">
                 Review and approve or reject
               </div>
             </div>
           </div>
           <Link
             to="/mess-requests"
-            className="bg-amber-600 text-white font-semibold text-[13px] px-4 py-2 rounded-[10px]"
+            className="bg-amber-600 text-white font-semibold text-[15px] px-4 py-2 rounded-[10px]"
           >
             Review
           </Link>
@@ -127,7 +127,7 @@ export default function AdminDashboard() {
       {/* Platform Breakdown */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white border border-[#E8E0D0] rounded-[16px] p-5 shadow-[0_2px_8px_rgba(74,60,30,0.06)]">
-          <div className="font-semibold text-[14px] text-[#2C2F1E] mb-3">
+          <div className="font-semibold text-base text-[#2C2F1E] mb-3">
             Users Breakdown
           </div>
           <div className="space-y-2">
@@ -150,7 +150,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white border border-[#E8E0D0] rounded-[16px] p-5 shadow-[0_2px_8px_rgba(74,60,30,0.06)]">
-          <div className="font-semibold text-[14px] text-[#2C2F1E] mb-3">
+          <div className="font-semibold text-base text-[#2C2F1E] mb-3">
             Messes Breakdown
           </div>
           <div className="space-y-2">

@@ -10,7 +10,7 @@ export function SelectDropdown({ className, children, ...props }: SelectDropdown
     <div className="relative">
       <select
         className={cn(
-          "appearance-none bg-white border border-[#D9CEB4] rounded-[12px] pl-3 pr-8 py-2.5 text-[14px] text-[#2C2F1E] outline-none focus:border-[#626F47] cursor-pointer",
+          "appearance-none bg-white border border-[#D9CEB4] rounded-[12px] pl-3 pr-8 py-2.5 text-base text-[#2C2F1E] outline-none focus:border-[#626F47] cursor-pointer",
           className
         )}
         {...props}

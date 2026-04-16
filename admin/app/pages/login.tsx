@@ -58,10 +58,10 @@ export default function AdminLoginPage() {
           <div className="w-14 h-14 bg-[#F0BB78] rounded-[16px] flex items-center justify-center mx-auto mb-4">
             <UtensilsCrossed size={28} className="text-[#2C2F1E]" />
           </div>
-          <h1 className="font-display font-bold text-[24px] text-[#2C2F1E]">
+          <h1 className="font-display font-bold text-[26px] text-[#2C2F1E]">
             MessHub Admin
           </h1>
-          <p className="text-[13px] text-[#6B7550] mt-1">
+          <p className="text-[15px] text-[#6B7550] mt-1">
             Sign in to manage the platform
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function AdminLoginPage() {
           {serverError && (
             <div
               role="alert"
-              className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700"
+              className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[15px] text-red-700"
             >
               {serverError}
             </div>
@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
             <div className="mb-4">
               <label
                 htmlFor="admin-email"
-                className="flex items-center gap-1.5 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
+                className="flex items-center gap-1.5 text-[13px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
               >
                 <Mail size={12} /> Email
               </label>
@@ -89,10 +89,10 @@ export default function AdminLoginPage() {
                 type="email"
                 autoComplete="email"
                 placeholder="admin@messhub.app"
-                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[14px] text-[#2C2F1E] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
+                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-base text-[#2C2F1E] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
               />
               {errors.email && (
-                <p className="mt-1 text-[12px] text-red-600">
+                <p className="mt-1 text-sm text-red-600">
                   {errors.email.message}
                 </p>
               )}
@@ -100,7 +100,7 @@ export default function AdminLoginPage() {
             <div className="mb-6">
               <label
                 htmlFor="admin-password"
-                className="flex items-center gap-1.5 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
+                className="flex items-center gap-1.5 text-[13px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
               >
                 <Lock size={12} /> Password
               </label>
@@ -111,7 +111,7 @@ export default function AdminLoginPage() {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   placeholder="Enter password"
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] pr-11 text-[14px] text-[#2C2F1E] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] pr-11 text-base text-[#2C2F1E] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
                 />
                 <button
                   type="button"
@@ -123,7 +123,7 @@ export default function AdminLoginPage() {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-[12px] text-red-600">
+                <p className="mt-1 text-sm text-red-600">
                   {errors.password.message}
                 </p>
               )}
@@ -131,7 +131,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] hover:bg-[#4d5638] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[17px] py-[13px] rounded-[12px] hover:bg-[#4d5638] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <LogIn size={18} />
               {isSubmitting ? "Signing in..." : "Sign In"}
