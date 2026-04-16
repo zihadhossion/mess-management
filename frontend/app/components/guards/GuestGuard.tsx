@@ -1,11 +1,6 @@
 import { Navigate, Outlet } from "react-router";
 import { useAuth } from "~/hooks/useAuth";
-import { Role } from "~/enums/role.enum";
-
-function getHomeForRole(role: Role): string {
-  if (role === Role.MANAGER) return "/manager/dashboard";
-  return "/member/dashboard";
-}
+import { getHomeForRole } from "~/utils/getHomeForRole";
 
 export default function GuestGuard() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -19,7 +14,9 @@ export default function GuestGuard() {
   }
 
   if (isAuthenticated && user) {
-    return <Navigate to={getHomeForRole(user.role)} replace />;
+    if (!user.isEmailVerified) return <Navigate to="/resend-verification" replace />;
+    if (user.messId) return <Navigate to={getHomeForRole(user.role)} replace />;
+    return <Navigate to="/onboarding/role-selection" replace />;
   }
 
   return <Outlet />;

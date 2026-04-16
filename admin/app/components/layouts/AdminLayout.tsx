@@ -101,7 +101,7 @@ export default function AdminLayout() {
           ))}
         </nav>
 
-        <div className="p-3 border-t border-[rgba(245,236,213,0.15)]">
+        <div className="p-3 border-t border-[rgba(245,236,213,0.3)]">
           <button
             onClick={handleLogout}
             className="flex items-center gap-[10px] px-[10px] py-[9px] rounded-[9px] w-full text-[13px] font-semibold text-[rgba(245,236,213,0.75)] hover:bg-[rgba(245,236,213,0.08)] transition-colors"

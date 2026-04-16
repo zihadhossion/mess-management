@@ -9,10 +9,15 @@ import * as bcrypt from 'bcrypt';
 import { UserService } from '../users/user.service';
 import { TokenService } from '../../infrastructure/token/token.service';
 import { MailService } from '../../infrastructure/mail/mail.service';
+import { MessRepository } from '../messes/mess.repository';
+import { MessMemberRepository } from '../mess-members/mess-member.repository';
+import { JoinRequestService } from '../join-requests/join-request.service';
 import { RegisterDto } from './dtos/register.dto';
 import { LoginDto } from './dtos/login.dto';
 import { User } from '../users/user.entity';
 import { UserRole } from '../../common/enums/user-role.enum';
+import { MessStatus } from '../../common/enums/mess-status.enum';
+import { JoinRequestStatus } from '../../common/enums/join-request-status.enum';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +25,9 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly tokenService: TokenService,
     private readonly mailService: MailService,
+    private readonly messRepository: MessRepository,
+    private readonly messMemberRepository: MessMemberRepository,
+    private readonly joinRequestService: JoinRequestService,
   ) {}
 
   async register(
@@ -203,7 +211,7 @@ export class AuthService {
     await this.userService.resetPassword(user.id, newPassword);
   }
 
-  async getMe(userId: string): Promise<Partial<User>> {
+  async getMe(userId: string): Promise<object> {
     const user = await this.userService.findByIdOrFail(userId);
     const {
       passwordHash,
@@ -213,6 +221,64 @@ export class AuthService {
       passwordResetExpiresAt,
       ...safeUser
     } = user;
-    return safeUser;
+
+    let messId: string | null = null;
+    let messName: string | null = null;
+    let messCode: string | null = null;
+    let onboardingStatus: 'pending' | 'rejected' | null = null;
+
+    if (user.role === UserRole.MANAGER) {
+      const messes = await this.messRepository.findByManagerId(userId);
+      const activeMess = messes.find((m) => m.status === MessStatus.ACTIVE);
+      if (activeMess) {
+        messId = activeMess.id;
+        messName = activeMess.name;
+        messCode = activeMess.messId;
+      } else {
+        const pending = messes.find(
+          (m) => m.status === MessStatus.PENDING_APPROVAL,
+        );
+        if (pending) {
+          onboardingStatus = 'pending';
+        } else {
+          const rejected = messes
+            .filter((m) => m.status === MessStatus.REJECTED)
+            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0];
+          if (rejected) onboardingStatus = 'rejected';
+        }
+      }
+    } else if (user.role === UserRole.MEMBER) {
+      const membership =
+        await this.messMemberRepository.findActiveByUserId(userId);
+      if (membership && membership.mess?.status === MessStatus.ACTIVE) {
+        messId = membership.mess.id;
+        messName = membership.mess.name;
+        messCode = membership.mess.messId;
+      } else {
+        const requests = await this.joinRequestService.listForUser(userId);
+        const sorted = [...requests].sort(
+          (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+        );
+        const latestPending = sorted.find(
+          (r) => r.status === JoinRequestStatus.PENDING,
+        );
+        if (latestPending) {
+          onboardingStatus = 'pending';
+        } else {
+          const latestRejected = sorted.find(
+            (r) => r.status === JoinRequestStatus.REJECTED,
+          );
+          if (latestRejected) onboardingStatus = 'rejected';
+        }
+      }
+    }
+
+    return {
+      ...safeUser,
+      messId,
+      messName,
+      messCode,
+      onboardingStatus,
+    };
   }
 }

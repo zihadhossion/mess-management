@@ -1,12 +1,9 @@
-import { Link, Navigate, Outlet, useLocation } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import { Home, Calendar, Receipt, Split, Settings } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "~/lib/utils";
-import { useAuth } from "~/hooks/useAuth";
-import { Role } from "~/enums/role.enum";
 
 export default function MemberLayout() {
-  const { isAuthenticated, isLoading, user } = useAuth();
   const { pathname } = useLocation();
   const { t } = useTranslation();
 
@@ -17,20 +14,6 @@ export default function MemberLayout() {
     { to: "/member/shared-bills", icon: Split, label: t("member.nav.shared") },
     { to: "/member/settings", icon: Settings, label: t("member.nav.more") },
   ];
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5ECD5]">
-        <div className="w-8 h-8 border-4 border-[#626F47] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (user?.role === Role.MANAGER)
-    return <Navigate to="/manager/dashboard" replace />;
-  if (user?.role === Role.ADMIN)
-    return <Navigate to="/admin/dashboard" replace />;
 
   return (
     <div className="min-h-screen bg-[#F5ECD5] relative pb-[66px]">

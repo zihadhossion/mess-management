@@ -47,4 +47,11 @@ export class MessMemberRepository extends BaseRepository<MessMember> {
   async countActiveMembers(messId: string): Promise<number> {
     return this.count({ where: { messId, isActive: true } });
   }
+
+  async findActiveByUserId(userId: string): Promise<MessMember | null> {
+    return this.findOne({
+      where: { userId, isActive: true },
+      relations: ['mess'],
+    });
+  }
 }

@@ -99,6 +99,12 @@ export const fetchPlatformStats = createAsyncThunk<PlatformStats>(
         pendingRequests: d.pendingJoinRequests ?? 0,
         totalInvoicesThisMonth: 0,
         revenueThisMonth: 0,
+        activeUsers: d.users?.active ?? 0,
+        suspendedUsers: d.users?.suspended ?? 0,
+        bannedUsers: d.users?.banned ?? 0,
+        activeMesses: d.messes?.active ?? 0,
+        pendingMesses: d.messes?.pending ?? 0,
+        pendingDeletionRequests: d.pendingDeletionRequests ?? 0,
       };
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };

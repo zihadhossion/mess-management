@@ -20,6 +20,7 @@ interface RawUser {
   messId?: string | null;
   messName?: string | null;
   messCode?: string | null;
+  onboardingStatus?: 'pending' | 'rejected' | null;
 }
 
 function mapRawUser(raw: RawUser): AuthUser {
@@ -32,6 +33,7 @@ function mapRawUser(raw: RawUser): AuthUser {
     messId: raw.messId ?? null,
     messName: raw.messName ?? null,
     messCode: raw.messCode ?? null,
+    onboardingStatus: raw.onboardingStatus ?? null,
   };
 }
 

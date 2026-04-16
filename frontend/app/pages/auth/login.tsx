@@ -52,8 +52,6 @@ export default function LoginPage() {
         navigate("/resend-verification");
       } else if (user.role === Role.MANAGER && !user.messId) {
         navigate("/role-selection");
-      } else if (user.role === Role.ADMIN) {
-        navigate("/admin/dashboard");
       } else if (user.role === Role.MANAGER) {
         navigate("/manager/dashboard");
       } else {

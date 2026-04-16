@@ -9,6 +9,7 @@ export interface AuthUser {
   messId: string | null;
   messName: string | null;
   messCode: string | null;
+  onboardingStatus: 'pending' | 'rejected' | null;
 }
 
 export interface AuthState {

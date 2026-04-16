@@ -1,17 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 import { useAuth } from "~/hooks/useAuth";
-import { Role } from "~/enums/role.enum";
 
-interface AuthGuardProps {
-  requiredRole?: Role;
-}
-
-function getHomeForRole(role: Role): string {
-  if (role === Role.MANAGER) return "/manager/dashboard";
-  return "/member/dashboard";
-}
-
-export default function AuthGuard({ requiredRole }: AuthGuardProps) {
+export default function AuthGuard() {
   const { isAuthenticated, isLoading, user } = useAuth();
 
   if (isLoading) {
@@ -22,13 +12,10 @@ export default function AuthGuard({ requiredRole }: AuthGuardProps) {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
-  if (requiredRole && user?.role !== requiredRole) {
-    return <Navigate to={getHomeForRole(user!.role)} replace />;
-  }
+  if (!user?.isEmailVerified)
+    return <Navigate to="/resend-verification" replace />;
 
   return <Outlet />;
 }

@@ -3,8 +3,6 @@ import { Link } from "react-router";
 import {
   Users,
   Building2,
-  FileText,
-  BarChart3,
   TrendingUp,
   AlertCircle,
 } from "lucide-react";
@@ -13,6 +11,25 @@ import {
   fetchPlatformStats,
   fetchPendingMessRequests,
 } from "~/redux/features/adminSlice";
+
+function BreakdownRow({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value?: number;
+  color: string;
+}) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-[13px] text-[#6B7550]">{label}</span>
+      <span className={`font-semibold text-[13px] ${color}`}>
+        {value ?? "—"}
+      </span>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const dispatch = useAppDispatch();
@@ -24,6 +41,8 @@ export default function AdminDashboard() {
     dispatch(fetchPlatformStats());
     dispatch(fetchPendingMessRequests());
   }, [dispatch]);
+
+  const hasPendingRequests = (stats?.pendingRequests ?? 0) > 0;
 
   const statCards = [
     {
@@ -48,7 +67,7 @@ export default function AdminDashboard() {
       label: "Pending Requests",
       value: stats?.pendingRequests ?? "—",
       icon: AlertCircle,
-      color: "text-red-500 bg-red-50",
+      color: hasPendingRequests ? "text-red-500 bg-red-50" : "text-gray-400 bg-gray-100",
     },
   ];
 
@@ -105,50 +124,53 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* Quick links */}
+      {/* Platform Breakdown */}
       <div className="grid grid-cols-2 gap-4">
-        {[
-          {
-            to: "/users",
-            icon: Users,
-            label: "Manage Users",
-            sub: "View and manage all users",
-          },
-          {
-            to: "/messes",
-            icon: Building2,
-            label: "Manage Messes",
-            sub: "View all registered messes",
-          },
-          {
-            to: "/mess-requests",
-            icon: FileText,
-            label: "Mess Requests",
-            sub: "Approve/reject creation requests",
-          },
-          {
-            to: "/analytics",
-            icon: BarChart3,
-            label: "Analytics",
-            sub: "Platform-wide stats",
-          },
-        ].map(({ to, icon: Icon, label, sub }) => (
-          <Link
-            key={to}
-            to={to}
-            className="bg-white border border-[#E8E0D0] rounded-[16px] p-5 flex items-start gap-3 shadow-[0_2px_8px_rgba(74,60,30,0.06)] hover:border-[#626F47] transition-colors"
-          >
-            <div className="w-10 h-10 bg-[rgba(98,111,71,0.1)] rounded-[10px] flex items-center justify-center shrink-0">
-              <Icon size={20} className="text-[#626F47]" />
-            </div>
-            <div>
-              <div className="font-semibold text-[14px] text-[#2C2F1E]">
-                {label}
-              </div>
-              <div className="text-[12px] text-[#6B7550] mt-0.5">{sub}</div>
-            </div>
-          </Link>
-        ))}
+        <div className="bg-white border border-[#E8E0D0] rounded-[16px] p-5 shadow-[0_2px_8px_rgba(74,60,30,0.06)]">
+          <div className="font-semibold text-[14px] text-[#2C2F1E] mb-3">
+            Users Breakdown
+          </div>
+          <div className="space-y-2">
+            <BreakdownRow
+              label="Active"
+              value={stats?.activeUsers}
+              color="text-green-600"
+            />
+            <BreakdownRow
+              label="Suspended"
+              value={stats?.suspendedUsers}
+              color="text-amber-600"
+            />
+            <BreakdownRow
+              label="Banned"
+              value={stats?.bannedUsers}
+              color="text-red-500"
+            />
+          </div>
+        </div>
+
+        <div className="bg-white border border-[#E8E0D0] rounded-[16px] p-5 shadow-[0_2px_8px_rgba(74,60,30,0.06)]">
+          <div className="font-semibold text-[14px] text-[#2C2F1E] mb-3">
+            Messes Breakdown
+          </div>
+          <div className="space-y-2">
+            <BreakdownRow
+              label="Active"
+              value={stats?.activeMesses}
+              color="text-green-600"
+            />
+            <BreakdownRow
+              label="Pending Approval"
+              value={stats?.pendingMesses}
+              color="text-amber-600"
+            />
+            <BreakdownRow
+              label="Deletion Requests"
+              value={stats?.pendingDeletionRequests}
+              color="text-red-500"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

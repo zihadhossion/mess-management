@@ -41,6 +41,12 @@ export interface PlatformStats {
   pendingRequests: number;
   totalInvoicesThisMonth: number;
   revenueThisMonth: number;
+  activeUsers: number;
+  suspendedUsers: number;
+  bannedUsers: number;
+  activeMesses: number;
+  pendingMesses: number;
+  pendingDeletionRequests: number;
 }
 
 export interface MessCreationRequestAdmin {
