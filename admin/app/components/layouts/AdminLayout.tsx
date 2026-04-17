@@ -9,6 +9,9 @@ import {
   UtensilsCrossed,
   FileText,
   Trash2,
+  UserCheck,
+  ShoppingCart,
+  FileBarChart,
 } from "lucide-react";
 import { useAuth } from "~/hooks/useAuth";
 import { logoutUser } from "~/services/httpServices/authService";
@@ -25,16 +28,17 @@ const navGroups = [
       { to: "/users", icon: Users, label: "Users" },
       { to: "/messes", icon: Building2, label: "Messes" },
       { to: "/mess-requests", icon: FileText, label: "Mess Requests" },
-      {
-        to: "/deletion-requests",
-        icon: Trash2,
-        label: "Deletion Requests",
-      },
+      { to: "/deletion-requests", icon: Trash2, label: "Deletion Requests" },
+      { to: "/join-requests", icon: UserCheck, label: "Join Requests" },
+      { to: "/procurement-requests", icon: ShoppingCart, label: "Procurement" },
     ],
   },
   {
     label: "Reports",
-    items: [{ to: "/analytics", icon: BarChart3, label: "Analytics" }],
+    items: [
+      { to: "/analytics", icon: BarChart3, label: "Analytics" },
+      { to: "/reports", icon: FileBarChart, label: "Custom Reports" },
+    ],
   },
   {
     label: "System",
