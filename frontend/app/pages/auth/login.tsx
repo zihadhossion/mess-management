@@ -50,8 +50,12 @@ export default function LoginPage() {
       dispatch(loginSuccess(user));
       if (!user.isEmailVerified) {
         navigate("/resend-verification");
-      } else if (user.role === Role.MANAGER && !user.messId) {
-        navigate("/role-selection");
+      } else if (user.onboardingStatus === "pending") {
+        navigate("/onboarding/mess-creation-pending");
+      } else if (user.onboardingStatus === "rejected") {
+        navigate("/onboarding/mess-creation-rejected");
+      } else if (!user.messId) {
+        navigate("/onboarding/role-selection");
       } else if (user.role === Role.MANAGER) {
         navigate("/manager/dashboard");
       } else {

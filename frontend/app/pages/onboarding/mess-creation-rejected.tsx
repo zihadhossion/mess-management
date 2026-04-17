@@ -30,7 +30,7 @@ export default function MessCreationRejectedPage() {
         )}
 
         <Link
-          to="/mess-creation"
+          to="/onboarding/mess-creation"
           className="flex items-center justify-center gap-2 w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px]"
         >
           <RefreshCcw size={18} /> Resubmit Request

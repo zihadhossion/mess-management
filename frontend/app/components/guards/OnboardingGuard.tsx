@@ -12,16 +12,16 @@ export default function OnboardingGuard() {
 
   if (
     user.onboardingStatus === "pending" &&
-    location.pathname !== "/onboarding/pending"
+    location.pathname !== "/onboarding/mess-creation-pending"
   ) {
-    return <Navigate to="/onboarding/pending" replace />;
+    return <Navigate to="/onboarding/mess-creation-pending" replace />;
   }
 
   if (
     user.onboardingStatus === "rejected" &&
-    location.pathname !== "/onboarding/rejected"
+    location.pathname !== "/onboarding/mess-creation-rejected"
   ) {
-    return <Navigate to="/onboarding/rejected" replace />;
+    return <Navigate to="/onboarding/mess-creation-rejected" replace />;
   }
 
   return <Outlet />;

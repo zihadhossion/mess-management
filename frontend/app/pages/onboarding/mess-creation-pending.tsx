@@ -29,7 +29,7 @@ export default function MessCreationPendingPage() {
         </div>
 
         <Link
-          to="/role-selection"
+          to="/onboarding/role-selection"
           className="flex items-center justify-center gap-2 w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px]"
         >
           <RefreshCw size={18} /> Check Status Later

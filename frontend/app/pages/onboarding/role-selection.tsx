@@ -33,7 +33,7 @@ export default function RoleSelectionPage() {
       <div className="px-4 pt-6 space-y-3">
         {(user?.role === Role.MEMBER || !user?.role) && (
           <Link
-            to="/member/dashboard"
+            to="/onboarding/join-mess"
             className="flex items-center gap-4 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5 shadow-[0_2px_8px_rgba(74,60,30,0.08)] hover:border-[#626F47] transition-colors"
           >
             <div className="w-12 h-12 bg-[rgba(98,111,71,0.12)] rounded-[12px] flex items-center justify-center">
@@ -53,7 +53,7 @@ export default function RoleSelectionPage() {
 
         {(user?.role === Role.MANAGER || !user?.role) && (
           <Link
-            to="/manager/dashboard"
+            to="/onboarding/mess-creation"
             className="flex items-center gap-4 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5 shadow-[0_2px_8px_rgba(74,60,30,0.08)] hover:border-[#626F47] transition-colors"
           >
             <div className="w-12 h-12 bg-[rgba(240,187,120,0.2)] rounded-[12px] flex items-center justify-center">
@@ -69,30 +69,6 @@ export default function RoleSelectionPage() {
             </div>
             <ChevronRight size={20} className="text-[#A09070]" />
           </Link>
-        )}
-
-        {!user?.messId && (
-          <div className="mt-6 pt-6 border-t border-[#D9CEB4]">
-            <p className="text-[12px] text-[#6B7550] mb-3">
-              {t("roleSelection.notPartOf")}
-            </p>
-            <div className="flex gap-3">
-              {user?.role !== Role.MANAGER && (
-                <Link
-                  to="/join-mess"
-                  className="flex-1 text-center py-3 border border-[#626F47] text-[#626F47] font-semibold text-[13px] rounded-[10px] hover:bg-[rgba(98,111,71,0.06)]"
-                >
-                  {t("roleSelection.joinMess")}
-                </Link>
-              )}
-              <Link
-                to="/mess-creation"
-                className="flex-1 text-center py-3 bg-[#626F47] text-[#F5ECD5] font-semibold text-[13px] rounded-[10px]"
-              >
-                {t("roleSelection.createMess")}
-              </Link>
-            </div>
-          </div>
         )}
       </div>
     </div>

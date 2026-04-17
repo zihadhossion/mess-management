@@ -1,20 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
-import { Search, Hash, ArrowLeft, CheckCircle } from "lucide-react";
+import { Search, Hash, ArrowLeft, CheckCircle, Building2 } from "lucide-react";
+import { useNavigate } from "react-router";
+import { get } from "~/services/httpMethods/get";
 import { post } from "~/services/httpMethods/post";
 import { getErrorMessage } from "~/utils/errorHandler";
 
 type FormData = { messCode: string };
 
+type MessPreview = {
+  id: string;
+  name: string;
+  address: string;
+  messId: string;
+};
+
 export default function JoinMessPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [serverError, setServerError] = useState<string | null>(null);
+  const [preview, setPreview] = useState<MessPreview | null>(null);
   const [success, setSuccess] = useState(false);
+  const [joining, setJoining] = useState(false);
 
   const schema = z.object({
     messCode: z.string().min(4, t("validation.validMessCode")),
@@ -28,13 +38,35 @@ export default function JoinMessPage() {
     resolver: zodResolver(schema),
   });
 
-  async function onSubmit(data: FormData) {
+  async function onSearch(data: FormData) {
     setServerError(null);
+    setPreview(null);
     try {
-      await post("/messes/join", { messCode: data.messCode });
+      const result = await get<{ data: MessPreview[]; total: number }>(
+        "/messes/search",
+        { q: data.messCode },
+      );
+      if (!result.data.length) {
+        setServerError(t("joinMess.notFound"));
+        return;
+      }
+      setPreview(result.data[0]);
+    } catch (err) {
+      setServerError(getErrorMessage(err));
+    }
+  }
+
+  async function onJoin() {
+    if (!preview) return;
+    setServerError(null);
+    setJoining(true);
+    try {
+      await post(`/messes/${preview.id}/join-requests`, {});
       setSuccess(true);
     } catch (err) {
       setServerError(getErrorMessage(err));
+    } finally {
+      setJoining(false);
     }
   }
 
@@ -52,7 +84,7 @@ export default function JoinMessPage() {
             {t("joinMess.successDesc")}
           </p>
           <button
-            onClick={() => navigate("/role-selection")}
+            onClick={() => navigate("/onboarding/role-selection")}
             className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px]"
           >
             {t("joinMess.toDashboard")}
@@ -91,7 +123,7 @@ export default function JoinMessPage() {
               {serverError}
             </div>
           )}
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <form onSubmit={handleSubmit(onSearch)} noValidate>
             <div className="mb-5">
               <label className="flex items-center gap-1.5 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2">
                 <Hash size={12} /> {t("joinMess.codeLabel")}
@@ -114,9 +146,35 @@ export default function JoinMessPage() {
               className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] disabled:opacity-60"
             >
               <Search size={18} />
-              {isSubmitting ? t("joinMess.requesting") : t("joinMess.requestJoin")}
+              {isSubmitting ? t("joinMess.searching") : t("joinMess.searchMess")}
             </button>
           </form>
+
+          {preview && (
+            <div className="mt-5 pt-5 border-t border-[#D9CEB4]">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-10 h-10 bg-[rgba(98,111,71,0.12)] rounded-[10px] flex items-center justify-center shrink-0">
+                  <Building2 size={20} className="text-[#626F47]" />
+                </div>
+                <div className="flex-1">
+                  <div className="font-display font-bold text-[15px] text-[#2C2F1E]">
+                    {preview.name}
+                  </div>
+                  <div className="text-[12px] text-[#6B7550]">{preview.address}</div>
+                  <div className="text-[11px] text-[#A09070] mt-0.5">
+                    {preview.messId}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={onJoin}
+                disabled={joining}
+                className="w-full flex items-center justify-center gap-2 bg-[#F0BB78] text-[#2C2F1E] font-bold text-[15px] py-[13px] rounded-[12px] hover:bg-[#E8A85E] transition-colors disabled:opacity-60"
+              >
+                {joining ? t("joinMess.requesting") : t("joinMess.requestJoin")}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-4 flex items-start gap-2 p-3 bg-[rgba(98,111,71,0.07)] rounded-[10px]">

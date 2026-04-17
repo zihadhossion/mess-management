@@ -40,7 +40,7 @@ export default function MessCreationPage() {
     setServerError(null);
     try {
       await post("/messes", data);
-      navigate("/mess-creation-pending");
+      navigate("/onboarding/mess-creation-pending");
     } catch (err) {
       setServerError(getErrorMessage(err));
     }
