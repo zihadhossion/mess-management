@@ -42,7 +42,7 @@ export class SetTokenInterceptor implements NestInterceptor {
         const cookieOptions = {
           httpOnly: true,
           secure: this.isProduction,
-          sameSite: 'strict' as const,
+          sameSite: (this.isProduction ? 'none' : 'strict') as 'none' | 'strict',
           path: '/',
         };
 
