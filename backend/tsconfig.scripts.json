@@ -3,6 +3,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "ES2023",
+    "rootDir": "./src",
     "outDir": "./dist-scripts",
     "esModuleInterop": true,
     "experimentalDecorators": true,
