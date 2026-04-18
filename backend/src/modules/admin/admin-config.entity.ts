@@ -31,4 +31,7 @@ export class AdminConfig extends BaseEntity {
 
   @Column({ name: 'maintenance_mode', type: 'boolean', default: false })
   maintenanceMode: boolean;
+
+  @Column({ name: 'supported_currencies', type: 'json', default: () => "'[\"BDT\",\"USD\"]'" })
+  supportedCurrencies: string[];
 }

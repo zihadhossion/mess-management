@@ -9,6 +9,7 @@ import { Mess } from './mess.entity';
 import { MessRepository } from './mess.repository';
 import { MessStatus } from '../../common/enums/mess-status.enum';
 import { UserRole } from '../../common/enums/user-role.enum';
+import { Between } from 'typeorm';
 import { CreateMessDto } from './dtos/create-mess.dto';
 import { UpdateMessDto } from './dtos/update-mess.dto';
 
@@ -133,6 +134,33 @@ export class MessService extends BaseService<Mess> {
     const where = { status: MessStatus.PENDING_APPROVAL };
     const [data, total] = await Promise.all([
       this.repository.findAll({ where, skip: (page - 1) * limit, take: limit }),
+      this.repository.count({ where }),
+    ]);
+    return { data, total };
+  }
+
+  async reassignManager(id: string, newManagerId: string): Promise<Mess> {
+    await this.findByIdOrFail(id);
+    return this.repository.update(id, { managerId: newManagerId }) as Promise<Mess>;
+  }
+
+  async getMessRequests(
+    page = 1,
+    limit = 20,
+    status?: MessStatus,
+    from?: string,
+    to?: string,
+  ): Promise<{ data: Mess[]; total: number }> {
+    const where: Record<string, unknown> = {};
+    if (status) where.status = status;
+    if (from || to) {
+      where.createdAt = Between(
+        from ? new Date(from) : new Date(0),
+        to ? new Date(to) : new Date(),
+      );
+    }
+    const [data, total] = await Promise.all([
+      this.repository.findAll({ where, skip: (page - 1) * limit, take: limit, order: { createdAt: 'DESC' } }),
       this.repository.count({ where }),
     ]);
     return { data, total };
