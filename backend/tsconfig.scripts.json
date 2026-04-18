@@ -1,8 +1,16 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2023",
     "outDir": "./dist-scripts",
-    "module": "commonjs"
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false
   },
   "include": ["src/database/migrate.ts", "src/database/data-source.ts"]
 }
