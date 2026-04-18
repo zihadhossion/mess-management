@@ -112,7 +112,7 @@ function MessDetailDrawer({
     setDetail(null);
     setLoadError(null);
     getMessDetail(mess.id)
-      .then((res) => setDetail(res.data.data))
+      .then((res) => setDetail(res.data))
       .catch((err) => setLoadError(getErrorMessage(err)));
   }, [mess.id]);
 
@@ -236,14 +236,14 @@ function MessDetailDrawer({
               </section>
 
               {/* Financial Summary */}
-              {(detail.mealRevenuThisMonth !== null ||
-                detail.sharedBillsTotalThisMonth !== null) && (
+              {(detail.mealRevenuThisMonth != null ||
+                detail.sharedBillsTotalThisMonth != null) && (
                 <section>
                   <h3 className="text-[13px] font-semibold text-[#6B7550] uppercase tracking-wider mb-2">
                     Financial (This Month)
                   </h3>
                   <div className="bg-[#FAF7F0] rounded-[12px] px-4 py-1">
-                    {detail.mealRevenuThisMonth !== null && (
+                    {detail.mealRevenuThisMonth != null && (
                       <StatRow
                         label="Meal Revenue"
                         value={`৳${detail.mealRevenuThisMonth.toLocaleString()}`}
@@ -255,7 +255,7 @@ function MessDetailDrawer({
                         value={`${detail.mealCollectionRate}%`}
                       />
                     )}
-                    {detail.sharedBillsTotalThisMonth !== null && (
+                    {detail.sharedBillsTotalThisMonth != null && (
                       <StatRow
                         label="Shared Bills Total"
                         value={`৳${detail.sharedBillsTotalThisMonth.toLocaleString()}`}
