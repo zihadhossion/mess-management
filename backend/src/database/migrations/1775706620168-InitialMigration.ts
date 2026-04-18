@@ -4,6 +4,7 @@ export class InitialMigration1775706620168 implements MigrationInterface {
     name = 'InitialMigration1775706620168'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
         await queryRunner.query(`CREATE TYPE "public"."users_role_enum" AS ENUM('MEMBER', 'MANAGER', 'ADMIN')`);
         await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "email" character varying NOT NULL, "password_hash" character varying NOT NULL, "full_name" character varying NOT NULL, "role" "public"."users_role_enum" NOT NULL DEFAULT 'MEMBER', "is_email_verified" boolean NOT NULL DEFAULT false, "is_active" boolean NOT NULL DEFAULT true, "is_suspended" boolean NOT NULL DEFAULT false, "is_banned" boolean NOT NULL DEFAULT false, "email_verification_token" text, "password_reset_token" text, "password_reset_expires_at" TIMESTAMP, "refresh_token" text, CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_97672ac88f789774dd47f7c8be" ON "users" ("email") `);
