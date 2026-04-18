@@ -7,8 +7,9 @@ import { useAppDispatch } from "~/redux/store/hooks";
 import { loginSuccess } from "~/redux/features/authSlice";
 import { loginUser } from "~/services/httpServices/authService";
 import { getErrorMessage } from "~/utils/errorHandler";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { Role } from "~/enums/role.enum";
+import { useAuth } from "~/hooks/useAuth";
 
 const schema = z.object({
   email: z.string().email("Invalid email"),
@@ -17,8 +18,21 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function AdminLoginPage() {
+  const { isAuthenticated, isLoading, user } = useAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F0EBE0]">
+        <div className="w-8 h-8 border-4 border-[#626F47] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated && user?.role === Role.ADMIN) {
+    return <Navigate to="/dashboard" replace />;
+  }
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 

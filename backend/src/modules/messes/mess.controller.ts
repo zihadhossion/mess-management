@@ -98,6 +98,26 @@ export class MessController extends BaseController<
     return this.messService.searchMesses(q || '', +page, +limit);
   }
 
+  @Get('admin/requests')
+  @Roles(UserRole.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: '[Admin] List mess creation requests with filters' })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'status', required: false, enum: MessStatus })
+  @ApiQuery({ name: 'from', required: false, type: String })
+  @ApiQuery({ name: 'to', required: false, type: String })
+  @ApiResponse({ status: 200, description: 'Filtered mess requests.' })
+  async getMessRequests(
+    @Query('page') page = 1,
+    @Query('limit') limit = 20,
+    @Query('status') status?: MessStatus,
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+  ) {
+    return this.messService.getMessRequests(+page, +limit, status, from, to);
+  }
+
   @Get('admin/pending')
   @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)

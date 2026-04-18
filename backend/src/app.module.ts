@@ -21,6 +21,7 @@ import { JoinRequestsModule } from './modules/join-requests/join-requests.module
 import { MessDeletionRequestsModule } from './modules/mess-deletion-requests/mess-deletion-requests.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { ProcurementRequestsModule } from './modules/procurement-requests/procurement-requests.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { AdminModule } from './modules/admin/admin.module';
     MessDeletionRequestsModule,
     NotificationsModule,
     AdminModule,
+    ProcurementRequestsModule,
   ],
   controllers: [],
   providers: [

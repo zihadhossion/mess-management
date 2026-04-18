@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../users/user.service';
+import { LoginHistoryService } from '../users/login-history.service';
 import { TokenService } from '../../infrastructure/token/token.service';
 import { MailService } from '../../infrastructure/mail/mail.service';
 import { MessRepository } from '../messes/mess.repository';
@@ -23,6 +24,7 @@ import { JoinRequestStatus } from '../../common/enums/join-request-status.enum';
 export class AuthService {
   constructor(
     private readonly userService: UserService,
+    private readonly loginHistoryService: LoginHistoryService,
     private readonly tokenService: TokenService,
     private readonly mailService: MailService,
     private readonly messRepository: MessRepository,
@@ -135,6 +137,7 @@ export class AuthService {
     const refreshToken = this.tokenService.generateRefreshToken(payload);
 
     await this.userService.setRefreshToken(user.id, refreshToken);
+    this.loginHistoryService.record(user.id).catch(() => null);
 
     const safeUser = {
       id: user.id,
