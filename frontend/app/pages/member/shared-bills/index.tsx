@@ -67,7 +67,7 @@ export default function SharedBillsPage() {
                   {inv.month} {inv.year}
                 </div>
                 <div className="text-[12px] text-[#6B7550]">
-                  {t("member.sharedBills.yourShare")} ৳{inv.perMemberShare.toLocaleString()}
+                  {t("member.sharedBills.yourShare")} ৳{(inv.totalShare ?? 0).toLocaleString()}
                 </div>
               </div>
               <div className="flex flex-col items-end gap-1.5">

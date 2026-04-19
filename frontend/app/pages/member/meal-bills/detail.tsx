@@ -20,6 +20,12 @@ export default function MealBillDetailPage() {
     );
   }
 
+  const memberName = invoice.messMember?.user?.name ?? "—";
+  const mealCost = invoice.mealSubtotal ?? 0;
+  const fixedCost = invoice.fixedChargesSubtotal ?? 0;
+  const total = invoice.totalAmount ?? invoice.grandTotal ?? 0;
+  const portions = invoice.mealPortions ?? invoice.totalMeals ?? 0;
+
   return (
     <div className="min-h-full">
       <div className="bg-[#626F47] px-5 pt-3 pb-6">
@@ -38,7 +44,6 @@ export default function MealBillDetailPage() {
       </div>
 
       <div className="px-4 pt-4">
-        {/* Summary card */}
         <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[14px] p-4 mb-4 shadow-[0_1px_4px_rgba(74,60,30,0.06)]">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-[rgba(98,111,71,0.1)] rounded-[10px] flex items-center justify-center">
@@ -46,7 +51,7 @@ export default function MealBillDetailPage() {
             </div>
             <div>
               <div className="font-display font-bold text-[15px] text-[#2C2F1E]">
-                {invoice.memberName}
+                {memberName}
               </div>
               <div className="text-[12px] text-[#6B7550]">
                 {t("member.mealBills.invoice")} {invoice.month} {invoice.year}
@@ -55,9 +60,9 @@ export default function MealBillDetailPage() {
           </div>
 
           {[
-            { label: t("member.mealBills.totalMeals"), value: `${invoice.totalMeals} ${t("member.mealBills.portions")}` },
-            { label: t("member.mealBills.mealCost"), value: `৳${invoice.totalCost.toLocaleString()}` },
-            { label: t("member.mealBills.fixedCharges"), value: `৳${invoice.fixedCharges.toLocaleString()}` },
+            { label: t("member.mealBills.totalMeals"), value: `${portions} ${t("member.mealBills.portions")}` },
+            { label: t("member.mealBills.mealCost"), value: `৳${mealCost.toLocaleString()}` },
+            { label: t("member.mealBills.fixedCharges"), value: `৳${fixedCost.toLocaleString()}` },
           ].map(({ label, value }) => (
             <div key={label} className="flex justify-between py-2 border-b border-[#EAE0CC]">
               <span className="text-[13px] text-[#6B7550]">{label}</span>
@@ -70,37 +75,10 @@ export default function MealBillDetailPage() {
               {t("member.mealBills.grandTotal")}
             </span>
             <span className="font-display font-bold text-[18px] text-[#626F47]">
-              ৳{invoice.grandTotal.toLocaleString()}
+              ৳{total.toLocaleString()}
             </span>
           </div>
         </div>
-
-        {/* Breakdown */}
-        {invoice.breakdown?.length > 0 && (
-          <div>
-            <p className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.08em] mb-3">
-              {t("member.mealBills.mealBreakdown")}
-            </p>
-            {invoice.breakdown.map((item, i) => (
-              <div
-                key={i}
-                className="flex justify-between items-center bg-[#FBF5E8] border border-[#D9CEB4] rounded-[10px] px-4 py-2.5 mb-2"
-              >
-                <div>
-                  <div className="text-[13px] font-semibold text-[#2C2F1E]">
-                    {item.date}
-                  </div>
-                  <div className="text-[11px] text-[#6B7550] capitalize">
-                    {item.mealType} · {item.portions} {t("member.mealBills.portions")}
-                  </div>
-                </div>
-                <span className="text-[13px] font-semibold text-[#2C2F1E]">
-                  ৳{item.cost.toLocaleString()}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

@@ -3,19 +3,42 @@ import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, Split } from "lucide-react";
 import { get } from "~/services/httpMethods/get";
+import { useAppSelector } from "~/redux/store/hooks";
 import type { SharedBillInvoice } from "~/types/shared-bill.d";
+
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function SharedBillHistoryPage() {
   const { t } = useTranslation();
+  const messId = useAppSelector((s) => s.mess.mess?.id);
   const [invoices, setInvoices] = useState<SharedBillInvoice[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    get<{ data: SharedBillInvoice[] }>("/shared-bills/invoices")
-      .then((res) => setInvoices(res.data))
-      .catch(() => {})
+    if (!messId) return;
+    // Load last 6 months of invoices
+    const now = new Date();
+    const requests = Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      return get<{ data: SharedBillInvoice[] }>(
+        `/messes/${messId}/shared-bills/invoices?month=${d.getMonth() + 1}&year=${d.getFullYear()}`
+      ).then((r) => r.data).catch(() => []);
+    });
+    Promise.all(requests)
+      .then((results) => {
+        const flat = results.flat();
+        // Deduplicate by month+year and pick one invoice per month (they're per-member)
+        const seen = new Set<string>();
+        const deduped = flat.filter((inv) => {
+          const key = `${inv.month}-${inv.year}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        setInvoices(deduped.sort((a, b) => b.year - a.year || b.month - a.month));
+      })
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [messId]);
 
   return (
     <div className="min-h-full">
@@ -46,7 +69,7 @@ export default function SharedBillHistoryPage() {
         ) : (
           invoices.map((inv) => (
             <div
-              key={inv.id}
+              key={`${inv.month}-${inv.year}`}
               className="flex items-center gap-3 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[14px] p-4 mb-3"
             >
               <div className="w-10 h-10 bg-[rgba(98,111,71,0.1)] rounded-[10px] flex items-center justify-center shrink-0">
@@ -54,19 +77,25 @@ export default function SharedBillHistoryPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="font-display font-bold text-[14px] text-[#2C2F1E]">
-                  {inv.month} {inv.year}
+                  {MONTHS[(inv.month as number) - 1] ?? inv.month} {inv.year}
                 </div>
                 <div className="text-[12px] text-[#6B7550]">
                   {t("manager.sharedBills.historyTotal", {
-                    total: inv.totalAmount.toLocaleString(),
-                    share: inv.perMemberShare.toLocaleString(),
+                    share: Number(inv.totalShare).toLocaleString(),
+                    members: inv.activeMemberCount,
                   })}
                 </div>
               </div>
               <span
-                className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${inv.status === "paid" ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]" : "bg-amber-50 text-amber-700"}`}
+                className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                  inv.paymentStatus === "paid"
+                    ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
+                    : "bg-amber-50 text-amber-700"
+                }`}
               >
-                {inv.status === "paid" ? t("common.paid") : t("common.unpaid")}
+                {inv.paymentStatus === "paid"
+                  ? t("common.paid")
+                  : t("common.unpaid")}
               </span>
             </div>
           ))

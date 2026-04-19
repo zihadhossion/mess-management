@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, Coffee, Sun, Moon, Eye, EyeOff, Trash2 } from "lucide-react";
+import { Plus, Coffee, Sun, Moon, Eye, EyeOff, Trash2, CalendarDays, Calendar } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "~/redux/store/hooks";
 import { fetchMenuSlots } from "~/redux/features/menuSlice";
 import { post } from "~/services/httpMethods/post";
 import { patch } from "~/services/httpMethods/patch";
 import { del } from "~/services/httpMethods/delete";
 import { getErrorMessage } from "~/utils/errorHandler";
-import { format } from "date-fns";
+import { format, addDays, startOfWeek } from "date-fns";
+import type { MealSlot } from "~/types/menu.d";
+
+type View = "day" | "week";
 
 export default function ManagerMenuPage() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { slots, isLoading } = useAppSelector((s) => s.menu);
   const messId = useAppSelector((s) => s.mess.mess?.id);
+  const [view, setView] = useState<View>("day");
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [showForm, setShowForm] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [form, setForm] = useState({
@@ -25,9 +30,22 @@ export default function ManagerMenuPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  function loadSlots(v = view, d = currentDate) {
+    if (v === "day") {
+      const dateStr = format(d, "yyyy-MM-dd");
+      dispatch(fetchMenuSlots({ startDate: dateStr, endDate: dateStr }));
+    } else {
+      const weekStart = startOfWeek(d, { weekStartsOn: 0 });
+      dispatch(fetchMenuSlots({
+        startDate: format(weekStart, "yyyy-MM-dd"),
+        endDate: format(addDays(weekStart, 6), "yyyy-MM-dd"),
+      }));
+    }
+  }
+
   useEffect(() => {
-    dispatch(fetchMenuSlots({ startDate: format(new Date(), "yyyy-MM-dd") }));
-  }, [dispatch]);
+    loadSlots();
+  }, [dispatch, view, currentDate]);
 
   async function handleCreate() {
     if (!messId) return;
@@ -37,7 +55,7 @@ export default function ManagerMenuPage() {
       await post(`/messes/${messId}/meal-slots`, form);
       setShowForm(false);
       setForm({ date: format(new Date(), "yyyy-MM-dd"), type: "lunch", menuDescription: "", timeWindowStart: "", timeWindowEnd: "" });
-      dispatch(fetchMenuSlots({ startDate: format(new Date(), "yyyy-MM-dd") }));
+      loadSlots();
     } catch (err) {
       setActionError(getErrorMessage(err));
     } finally {
@@ -49,7 +67,7 @@ export default function ManagerMenuPage() {
     if (!messId) return;
     try {
       await patch(`/messes/${messId}/meal-slots/${slotId}`, { isPublished: !isPublished });
-      dispatch(fetchMenuSlots({ startDate: format(new Date(), "yyyy-MM-dd") }));
+      loadSlots();
     } catch (err) {
       setActionError(getErrorMessage(err));
     }
@@ -59,7 +77,7 @@ export default function ManagerMenuPage() {
     if (!messId) return;
     try {
       await del(`/messes/${messId}/meal-slots/${slotId}`);
-      dispatch(fetchMenuSlots({ startDate: format(new Date(), "yyyy-MM-dd") }));
+      loadSlots();
     } catch (err) {
       setActionError(getErrorMessage(err));
     }
@@ -72,16 +90,78 @@ export default function ManagerMenuPage() {
   };
 
   const mealIcon = (type: string) => {
-    if (type === "breakfast") return <Coffee size={18} />;
-    if (type === "lunch") return <Sun size={18} />;
-    return <Moon size={18} />;
+    if (type === "breakfast") return <Coffee size={16} />;
+    if (type === "lunch") return <Sun size={16} />;
+    return <Moon size={16} />;
   };
+
+  function SlotCard({ slot }: { slot: MealSlot }) {
+    return (
+      <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[14px] p-4 mb-3 shadow-[0_1px_4px_rgba(74,60,30,0.06)]">
+        <div className="flex items-start gap-3">
+          <div className={`w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 ${mealIconBg(slot.mealType)}`}>
+            {mealIcon(slot.mealType)}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-display font-bold text-[14px] text-[#2C2F1E] capitalize">
+                {slot.mealType}
+              </span>
+              <span
+                className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                  slot.isPublished
+                    ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
+                    : "bg-[rgba(160,144,112,0.12)] text-[#A09070]"
+                }`}
+              >
+                {slot.isPublished ? t("manager.menu.published") : t("manager.menu.draft")}
+              </span>
+            </div>
+            {slot.menuDescription && (
+              <div className="text-[12px] text-[#6B7550] mt-0.5">{slot.menuDescription}</div>
+            )}
+            {slot.timeWindowStart && (
+              <div className="text-[11px] text-[#A09070] mt-0.5">
+                {slot.timeWindowStart} – {slot.timeWindowEnd}
+              </div>
+            )}
+            <div className="text-[11px] text-[#A09070] mt-0.5">
+              {t("manager.menu.bookings", { count: slot.bookingCount })}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => togglePublish(slot.id, slot.isPublished)}
+              title={slot.isPublished ? t("manager.menu.unpublish") : t("manager.menu.publish")}
+              className={`w-8 h-8 rounded-[8px] flex items-center justify-center ${slot.isPublished ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]" : "bg-[#F0F0E8] text-[#A09070]"}`}
+            >
+              {slot.isPublished ? <Eye size={16} /> : <EyeOff size={16} />}
+            </button>
+            <button
+              onClick={() => handleDelete(slot.id)}
+              className="w-8 h-8 rounded-[8px] flex items-center justify-center bg-red-50 text-red-500"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+
+  function slotsByDate(date: Date): MealSlot[] {
+    const d = format(date, "yyyy-MM-dd");
+    return slots.filter((s) => s.date === d);
+  }
 
   return (
     <div className="min-h-full">
-      <div className="bg-[#626F47] px-5 pt-3 pb-6 relative overflow-hidden">
+      <div className="bg-[#626F47] px-5 pt-3 pb-4 relative overflow-hidden">
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
-        <div className="relative z-10 flex items-center justify-between">
+        <div className="relative z-10 flex items-center justify-between mb-3">
           <div>
             <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
               {t("manager.menu.title")}
@@ -90,13 +170,61 @@ export default function ManagerMenuPage() {
               {t("manager.menu.subtitle")}
             </p>
           </div>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="w-9 h-9 bg-[#F0BB78] rounded-full flex items-center justify-center text-[#2C2F1E]"
-          >
-            <Plus size={20} />
-          </button>
+          <div className="flex items-center gap-2">
+            {/* View toggle */}
+            <div className="flex bg-[rgba(0,0,0,0.2)] rounded-[8px] p-0.5">
+              <button
+                onClick={() => setView("day")}
+                className={`w-8 h-7 flex items-center justify-center rounded-[6px] transition-colors ${view === "day" ? "bg-[#F5ECD5] text-[#2C2F1E]" : "text-[rgba(245,236,213,0.7)]"}`}
+              >
+                <Calendar size={14} />
+              </button>
+              <button
+                onClick={() => setView("week")}
+                className={`w-8 h-7 flex items-center justify-center rounded-[6px] transition-colors ${view === "week" ? "bg-[#F5ECD5] text-[#2C2F1E]" : "text-[rgba(245,236,213,0.7)]"}`}
+              >
+                <CalendarDays size={14} />
+              </button>
+            </div>
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="w-9 h-9 bg-[#F0BB78] rounded-full flex items-center justify-center text-[#2C2F1E]"
+            >
+              <Plus size={20} />
+            </button>
+          </div>
         </div>
+
+        {/* Date/week label */}
+        {view === "day" ? (
+          <div className="flex items-center justify-between bg-[rgba(245,236,213,0.12)] rounded-[10px] px-3 py-2">
+            <button
+              onClick={() => setCurrentDate(d => addDays(d, -1))}
+              className="text-[#F5ECD5] px-1"
+            >‹</button>
+            <span className="text-[13px] font-semibold text-[#F5ECD5]">
+              {format(currentDate, "EEE, dd MMM yyyy")}
+            </span>
+            <button
+              onClick={() => setCurrentDate(d => addDays(d, 1))}
+              className="text-[#F5ECD5] px-1"
+            >›</button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between bg-[rgba(245,236,213,0.12)] rounded-[10px] px-3 py-2">
+            <button
+              onClick={() => setCurrentDate(d => addDays(d, -7))}
+              className="text-[#F5ECD5] px-1"
+            >‹</button>
+            <span className="text-[13px] font-semibold text-[#F5ECD5]">
+              {format(weekStart, "dd MMM")} – {format(addDays(weekStart, 6), "dd MMM yyyy")}
+            </span>
+            <button
+              onClick={() => setCurrentDate(d => addDays(d, 7))}
+              className="text-[#F5ECD5] px-1"
+            >›</button>
+          </div>
+        )}
       </div>
 
       <div className="px-4 pt-4">
@@ -170,53 +298,44 @@ export default function ManagerMenuPage() {
           <div className="flex justify-center py-10">
             <div className="w-8 h-8 border-2 border-[#626F47] border-t-transparent rounded-full animate-spin" />
           </div>
-        ) : slots.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-[14px] text-[#6B7550] font-semibold">
-              {t("manager.menu.noSlots")}
-            </p>
-            <p className="text-[12px] text-[#A09070] mt-1">
-              {t("manager.menu.noSlotsDesc")}
-            </p>
-          </div>
-        ) : (
-          slots.map((slot) => (
-            <div
-              key={slot.id}
-              className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[14px] p-4 mb-3 shadow-[0_1px_4px_rgba(74,60,30,0.06)]"
-            >
-              <div className="flex items-start gap-3">
-                <div className={`w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 ${mealIconBg(slot.mealType)}`}>
-                  {mealIcon(slot.mealType)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-display font-bold text-[14px] text-[#2C2F1E] capitalize">
-                    {slot.mealType} · {slot.date}
-                  </div>
-                  {slot.menuDescription && (
-                    <div className="text-[12px] text-[#6B7550]">{slot.menuDescription}</div>
-                  )}
-                  <div className="text-[11px] text-[#A09070]">
-                    {t("manager.menu.bookings", { count: slot.bookingCount })}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <button
-                    onClick={() => togglePublish(slot.id, slot.isPublished)}
-                    className={`w-8 h-8 rounded-[8px] flex items-center justify-center ${slot.isPublished ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]" : "bg-[#F0F0E8] text-[#A09070]"}`}
-                  >
-                    {slot.isPublished ? <Eye size={16} /> : <EyeOff size={16} />}
-                  </button>
-                  <button
-                    onClick={() => handleDelete(slot.id)}
-                    className="w-8 h-8 rounded-[8px] flex items-center justify-center bg-red-50 text-red-500"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
+        ) : view === "day" ? (
+          slots.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-[14px] text-[#6B7550] font-semibold">{t("manager.menu.noSlots")}</p>
+              <p className="text-[12px] text-[#A09070] mt-1">{t("manager.menu.noSlotsDesc")}</p>
             </div>
-          ))
+          ) : (
+            slots.map((slot) => <SlotCard key={slot.id} slot={slot} />)
+          )
+        ) : (
+          weekDays.map((day) => {
+            const daySlots = slotsByDate(day);
+            const isToday = format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
+            return (
+              <div key={day.toISOString()} className="mb-4">
+                <div className={`flex items-center gap-2 mb-2 ${isToday ? "text-[#626F47]" : "text-[#6B7550]"}`}>
+                  <span className={`font-display font-bold text-[13px] ${isToday ? "text-[#626F47]" : "text-[#2C2F1E]"}`}>
+                    {format(day, "EEE, dd MMM")}
+                  </span>
+                  {isToday && (
+                    <span className="text-[10px] font-semibold bg-[rgba(98,111,71,0.12)] text-[#626F47] px-1.5 py-0.5 rounded-full">
+                      {t("member.menu.today")}
+                    </span>
+                  )}
+                  <span className="text-[12px] text-[#A09070] ml-auto">
+                    {daySlots.length > 0 ? t("manager.menu.slotsCount", { count: daySlots.length }) : t("manager.menu.noSlotsDay")}
+                  </span>
+                </div>
+                {daySlots.length > 0 ? (
+                  daySlots.map((slot) => <SlotCard key={slot.id} slot={slot} />)
+                ) : (
+                  <div className="border border-dashed border-[#D9CEB4] rounded-[12px] py-3 text-center text-[12px] text-[#A09070]">
+                    {t("manager.menu.noSlotsDay")}
+                  </div>
+                )}
+              </div>
+            );
+          })
         )}
       </div>
     </div>

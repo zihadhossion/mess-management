@@ -1,24 +1,35 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle, Copy, ChevronRight, UtensilsCrossed } from "lucide-react";
+import { AlertTriangle, Copy, ChevronRight, UtensilsCrossed, UserCheck, MessageSquare } from "lucide-react";
 import { useAuth } from "~/hooks/useAuth";
 import { LanguageSwitcher } from "~/components/atoms/LanguageSwitcher";
 import { useAppDispatch, useAppSelector } from "~/redux/store/hooks";
 import { fetchMembers, toggleMealParticipation } from "~/redux/features/memberSlice";
+import { patch } from "~/services/httpMethods/patch";
+import toast from "react-hot-toast";
 
 export default function ManagerSettingsPage() {
   const { user } = useAuth();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const mess = useAppSelector((s) => s.mess.mess);
   const members = useAppSelector((s) => s.member.members);
   const [isToggling, setIsToggling] = useState(false);
+  const [isTogglingApproval, setIsTogglingApproval] = useState(false);
+  const [requiresApproval, setRequiresApproval] = useState(mess?.requiresJoinApproval ?? false);
 
   useEffect(() => {
     if (members.length === 0) {
       dispatch(fetchMembers());
     }
   }, [dispatch, members.length]);
+
+  useEffect(() => {
+    if (mess?.requiresJoinApproval !== undefined) {
+      setRequiresApproval(mess.requiresJoinApproval);
+    }
+  }, [mess?.requiresJoinApproval]);
 
   const myMember = members.find((m) => m.userId === user?.id);
   const participates = myMember?.participatesInMeals ?? true;
@@ -33,6 +44,20 @@ export default function ManagerSettingsPage() {
       }),
     );
     setIsToggling(false);
+  }
+
+  async function handleToggleApproval() {
+    if (!mess || isTogglingApproval) return;
+    setIsTogglingApproval(true);
+    const newVal = !requiresApproval;
+    try {
+      await patch(`/messes/${mess.id}`, { requiresJoinApproval: newVal });
+      setRequiresApproval(newVal);
+    } catch {
+      toast.error(t("common.error"));
+    } finally {
+      setIsTogglingApproval(false);
+    }
   }
 
   function copyCode() {
@@ -136,11 +161,65 @@ export default function ManagerSettingsPage() {
           </div>
         )}
 
+        {/* Join Approval Toggle */}
+        <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5 mb-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-[10px] bg-[rgba(98,111,71,0.12)] flex items-center justify-center shrink-0">
+                <UserCheck size={18} className="text-[#626F47]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                  {t("manager.settings.joinApproval")}
+                </div>
+                <div className="text-[12px] text-[#6B7550]">
+                  {t("manager.settings.joinApprovalDesc")}
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleToggleApproval}
+              disabled={isTogglingApproval}
+              aria-pressed={requiresApproval}
+              className={[
+                "relative shrink-0 w-[48px] h-[27px] rounded-full transition-colors duration-200",
+                requiresApproval ? "bg-[#626F47]" : "bg-[#C5BFAF]",
+                isTogglingApproval ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
+              ].join(" ")}
+            >
+              <span
+                className={[
+                  "absolute top-[3px] left-[3px] w-[21px] h-[21px] bg-white rounded-full shadow-sm transition-transform duration-200",
+                  requiresApproval ? "translate-x-[21px]" : "translate-x-0",
+                ].join(" ")}
+              />
+            </button>
+          </div>
+          <p className={["mt-3 text-[12px] font-medium text-center", requiresApproval ? "text-[#626F47]" : "text-[#A09070]"].join(" ")}>
+            {requiresApproval ? t("manager.settings.joinApprovalOn") : t("manager.settings.joinApprovalOff")}
+          </p>
+        </div>
+
         {/* Settings links */}
         <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] overflow-hidden mb-4">
           <Link
-            to="/manager/settings/lifecycle"
+            to="/manager/settings/feedback"
             className="flex items-center gap-3 px-4 py-4 border-b border-[#EAE0CC]"
+          >
+            <MessageSquare size={18} className="text-[#626F47] shrink-0" />
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                {t("manager.settings.feedbackManagement")}
+              </div>
+              <div className="text-[12px] text-[#6B7550]">
+                {t("manager.settings.feedbackManagementDesc")}
+              </div>
+            </div>
+            <ChevronRight size={16} className="text-[#A09070]" />
+          </Link>
+          <Link
+            to="/manager/settings/lifecycle"
+            className="flex items-center gap-3 px-4 py-4"
           >
             <AlertTriangle size={18} className="text-red-500 shrink-0" />
             <div className="flex-1 min-w-0">

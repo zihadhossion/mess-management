@@ -77,11 +77,11 @@ export default function MealBillsPage() {
                   {inv.month} {inv.year}
                 </div>
                 <div className="text-[12px] text-[#6B7550]">
-                  {inv.totalMeals} meals · ৳{inv.grandTotal.toLocaleString()}
+                  {inv.mealPortions ?? inv.totalMeals} meals · ৳{(inv.totalAmount ?? inv.grandTotal ?? 0).toLocaleString()}
                 </div>
               </div>
               <div className="flex flex-col items-end gap-1.5">
-                <StatusBadge status={inv.status} />
+                <StatusBadge status={inv.paymentStatus ?? inv.status!} />
                 <ChevronRight size={16} className="text-[#A09070]" />
               </div>
             </Link>

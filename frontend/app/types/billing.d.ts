@@ -2,25 +2,43 @@ import type { InvoiceStatus } from "~/enums/invoice-status.enum";
 
 export interface MealInvoice {
   id: string;
-  month: string;
-  year: number;
-  memberId: string;
-  memberName: string;
+  monthlySummaryId: string;
+  messMemberId: string;
+  mealPortions: number;
+  mealSubtotal: number;
+  itemsSubtotal: number;
+  fixedChargesSubtotal: number;
+  totalAmount: number;
+  paymentStatus: InvoiceStatus;
+  pdfUrl: string | null;
+  messMember?: { id: string; user: { id: string; name: string; email: string } };
+  createdAt: string;
+  // legacy fields kept for member-side views
+  month?: string | number;
+  year?: number;
+  totalMeals?: number;
+  grandTotal?: number;
+  status?: InvoiceStatus;
+}
+
+export interface MonthlyBillSummary {
+  id: string;
   messId: string;
-  totalMeals: number;
+  month: number;
+  year: number;
   totalCost: number;
-  fixedCharges: number;
-  grandTotal: number;
-  status: InvoiceStatus;
-  breakdown: MealInvoiceBreakdown[];
+  totalPortions: number;
+  costPerMeal: number;
+  status: string;
+  finalizedAt: string | null;
   createdAt: string;
 }
 
-export interface MealInvoiceBreakdown {
-  date: string;
-  mealType: string;
-  cost: number;
-  portions: number;
+export interface RecordMealPaymentDto {
+  amount: number;
+  method: string;
+  paymentDate: string;
+  referenceNote?: string;
 }
 
 export interface DailyCost {

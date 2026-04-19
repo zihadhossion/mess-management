@@ -20,6 +20,9 @@ export default function SharedBillDetailPage() {
     );
   }
 
+  const memberName = invoice.messMember?.user?.name ?? "—";
+  const yourShare = invoice.totalShare ?? 0;
+
   return (
     <div className="min-h-full">
       <div className="bg-[#626F47] px-5 pt-3 pb-6">
@@ -45,7 +48,7 @@ export default function SharedBillDetailPage() {
             </div>
             <div>
               <div className="font-display font-bold text-[15px] text-[#2C2F1E]">
-                {invoice.memberName}
+                {memberName}
               </div>
               <div className="text-[12px] text-[#6B7550]">
                 {t("member.sharedBills.sharedBill")} {invoice.month} {invoice.year}
@@ -53,47 +56,15 @@ export default function SharedBillDetailPage() {
             </div>
           </div>
 
-          <div className="flex justify-between py-2 border-b border-[#EAE0CC]">
-            <span className="text-[13px] text-[#6B7550]">{t("member.sharedBills.totalBills")}</span>
-            <span className="text-[13px] font-semibold text-[#2C2F1E]">
-              ৳{invoice.totalAmount.toLocaleString()}
-            </span>
-          </div>
           <div className="flex justify-between pt-3">
             <span className="font-display font-bold text-[15px] text-[#2C2F1E]">
               {t("member.sharedBills.yourShare").replace(":", "")}
             </span>
             <span className="font-display font-bold text-[18px] text-[#626F47]">
-              ৳{invoice.perMemberShare.toLocaleString()}
+              ৳{yourShare.toLocaleString()}
             </span>
           </div>
         </div>
-
-        {invoice.entries?.length > 0 && (
-          <div>
-            <p className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.08em] mb-3">
-              {t("member.sharedBills.billEntries")}
-            </p>
-            {invoice.entries.map((entry) => (
-              <div
-                key={entry.id}
-                className="flex justify-between items-center bg-[#FBF5E8] border border-[#D9CEB4] rounded-[10px] px-4 py-2.5 mb-2"
-              >
-                <div>
-                  <div className="text-[13px] font-semibold text-[#2C2F1E]">
-                    {entry.categoryName}
-                  </div>
-                  {entry.note && (
-                    <div className="text-[11px] text-[#6B7550]">{entry.note}</div>
-                  )}
-                </div>
-                <span className="text-[13px] font-semibold text-[#2C2F1E]">
-                  ৳{entry.amount.toLocaleString()}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

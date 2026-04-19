@@ -43,10 +43,13 @@ export interface Notification {
 export interface Feedback {
   id: string;
   subject: string;
-  message: string;
-  status: "pending" | "resolved";
+  complaint: string;
+  message?: string;
+  status: "open" | "pending" | "resolved";
+  resolutionNotes: string | null;
   userId: string;
   userName: string;
   messId: string;
+  date?: string;
   createdAt: string;
 }

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import {
@@ -11,19 +11,27 @@ import {
   Coffee,
   Sun,
   Moon,
+  Split,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "~/redux/store/hooks";
 import { fetchMenuSlots } from "~/redux/features/menuSlice";
 import { fetchMyInvoices } from "~/redux/features/billingSlice";
+import { get } from "~/services/httpMethods/get";
 import { useAuth } from "~/hooks/useAuth";
+import type { SharedBillInvoice } from "~/types/shared-bill.d";
 import { format } from "date-fns";
 
 export default function MemberDashboard() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { user } = useAuth();
+  const messId = useAppSelector((s) => s.mess.mess?.id);
   const { slots, isLoading: menuLoading } = useAppSelector((s) => s.menu);
   const { invoices } = useAppSelector((s) => s.billing);
+  const [mySharedInvoice, setMySharedInvoice] = useState<SharedBillInvoice | null>(null);
+
+  const monthInt = new Date().getMonth() + 1;
+  const year = new Date().getFullYear();
 
   useEffect(() => {
     const today = format(new Date(), "yyyy-MM-dd");
@@ -31,9 +39,21 @@ export default function MemberDashboard() {
     dispatch(fetchMyInvoices());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!messId) return;
+    get<{ data: SharedBillInvoice[] }>(
+      `/messes/${messId}/shared-bills/invoices?month=${monthInt}&year=${year}`
+    )
+      .then((res) => {
+        if (res.data.length > 0) setMySharedInvoice(res.data[0]);
+      })
+      .catch(() => {});
+  }, [messId]);
+
   const todaySlots = slots.slice(0, 3);
   const latestInvoice = invoices[0] ?? null;
   const bookedCount = slots.filter((s) => s.myBookingStatus === "booked").length;
+  const bookingRate = slots.length > 0 ? Math.round((bookedCount / slots.length) * 100) : 0;
 
   const mealIcon = (type: string) => {
     if (type === "breakfast") return <Coffee size={18} />;
@@ -119,14 +139,6 @@ export default function MemberDashboard() {
         <div className="grid grid-cols-3 gap-2.5 text-center">
           <div>
             <div className="font-display font-bold text-[22px] text-[#626F47]">
-              {slots.length}
-            </div>
-            <div className="text-[10px] text-[#6B7550] uppercase tracking-[0.06em] mt-0.5">
-              {t("member.dashboard.meals")}
-            </div>
-          </div>
-          <div>
-            <div className="font-display font-bold text-[22px] text-[#2C2F1E]">
               {bookedCount}
             </div>
             <div className="text-[10px] text-[#6B7550] uppercase tracking-[0.06em] mt-0.5">
@@ -135,7 +147,17 @@ export default function MemberDashboard() {
           </div>
           <div>
             <div className="font-display font-bold text-[22px] text-[#2C2F1E]">
-              {latestInvoice ? `৳${latestInvoice.grandTotal}` : "—"}
+              {bookingRate}%
+            </div>
+            <div className="text-[10px] text-[#6B7550] uppercase tracking-[0.06em] mt-0.5">
+              {t("member.dashboard.bookingRate")}
+            </div>
+          </div>
+          <div>
+            <div className="font-display font-bold text-[20px] text-[#2C2F1E]">
+              {latestInvoice
+                ? `৳${Number(latestInvoice.totalAmount ?? latestInvoice.grandTotal ?? 0).toLocaleString()}`
+                : "—"}
             </div>
             <div className="text-[10px] text-[#6B7550] uppercase tracking-[0.06em] mt-0.5">
               {t("member.dashboard.due")}
@@ -146,6 +168,40 @@ export default function MemberDashboard() {
 
       {/* Content */}
       <div className="px-4 pt-3.5">
+        {/* Shared Bills Widget */}
+        {mySharedInvoice && (
+          <Link
+            to="/member/shared-bills"
+            className="flex items-center gap-3 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] px-4 py-3 mb-3 shadow-[0_1px_4px_rgba(74,60,30,0.06)]"
+          >
+            <div className="w-9 h-9 bg-[rgba(98,111,71,0.1)] rounded-[10px] flex items-center justify-center shrink-0">
+              <Split size={18} className="text-[#626F47]" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold text-[13px] text-[#2C2F1E]">
+                {t("member.dashboard.sharedBillWidget")}
+              </div>
+              <div className="text-[11px] text-[#6B7550]">
+                {t("member.dashboard.sharedBillAmount", {
+                  amount: Number(mySharedInvoice.totalShare).toLocaleString(),
+                })}
+              </div>
+            </div>
+            <span
+              className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                mySharedInvoice.paymentStatus === "paid"
+                  ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
+                  : "bg-amber-50 text-amber-700"
+              }`}
+            >
+              {mySharedInvoice.paymentStatus === "paid"
+                ? t("member.dashboard.sharedBillPaid")
+                : t("member.dashboard.sharedBillUnpaid")}
+            </span>
+            <ChevronRight size={14} className="text-[#A09070] shrink-0" />
+          </Link>
+        )}
+
         {/* Today's Meals */}
         <div className="mb-3.5">
           <div className="flex items-center justify-between mb-2">
@@ -181,7 +237,7 @@ export default function MemberDashboard() {
                     {slot.mealType}
                   </div>
                   <div className="text-[11px] text-[#6B7550] truncate">
-                    {slot?.items || t("member.dashboard.menuNotSpecified")}
+                    {slot?.menuDescription || t("member.dashboard.menuNotSpecified")}
                   </div>
                 </div>
                 <span
