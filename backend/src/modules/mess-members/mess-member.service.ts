@@ -9,6 +9,7 @@ import { BaseService } from '../../core/base/base.service';
 import { MessMember } from './mess-member.entity';
 import { MessMemberRepository } from './mess-member.repository';
 import { UserService } from '../users/user.service';
+import { AdminService } from '../admin/admin.service';
 import { MemberRole } from '../../common/enums/member-role.enum';
 import { UserRole } from '../../common/enums/user-role.enum';
 import {
@@ -22,8 +23,21 @@ export class MessMemberService extends BaseService<MessMember> {
   constructor(
     protected readonly repository: MessMemberRepository,
     private readonly userService: UserService,
+    private readonly adminService: AdminService,
   ) {
     super(repository, 'MessMember');
+  }
+
+  private async assertBelowMemberLimit(messId: string): Promise<void> {
+    const [count, config] = await Promise.all([
+      this.repository.countActiveMembers(messId),
+      this.adminService.getConfig(),
+    ]);
+    if (count >= config.maxMembersPerMess) {
+      throw new BadRequestException(
+        `This mess has reached the maximum member limit of ${config.maxMembersPerMess}.`,
+      );
+    }
   }
 
   async getMembers(messId: string): Promise<MessMember[]> {
@@ -48,6 +62,8 @@ export class MessMemberService extends BaseService<MessMember> {
       throw new ConflictException('User is already a member of this mess!');
     }
 
+    await this.assertBelowMemberLimit(messId);
+
     return this.repository.create({
       messId,
       userId: user.id,
@@ -69,6 +85,7 @@ export class MessMemberService extends BaseService<MessMember> {
     requesterRole: UserRole,
   ): Promise<MessMember> {
     await this.assertManagerAccess(messId, requesterId, requesterRole);
+    await this.assertBelowMemberLimit(messId);
 
     const user = await this.userService.createUser({
       fullName: dto.fullName,
@@ -105,7 +122,12 @@ export class MessMemberService extends BaseService<MessMember> {
     }
     const updates: Partial<MessMember> = {};
     if (dto.memberRole !== undefined) updates.memberRole = dto.memberRole;
-    if (dto.isActive !== undefined) updates.isActive = dto.isActive;
+    if (dto.isActive !== undefined) {
+      if (dto.isActive && !member.isActive) {
+        await this.assertBelowMemberLimit(messId);
+      }
+      updates.isActive = dto.isActive;
+    }
     if (dto.participatesInMeals !== undefined)
       updates.participatesInMeals = dto.participatesInMeals;
     if (dto.isGuest !== undefined) updates.isGuest = dto.isGuest;

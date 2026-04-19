@@ -85,10 +85,6 @@ export interface MessDeletionRequest {
 
 export interface AdminConfig {
   maxMembersPerMess: number;
-  defaultMealRate: number;
-  allowSelfRegistration: boolean;
-  requireEmailVerification: boolean;
-  maintenanceMode: boolean;
 }
 
 export interface TrendPoint {

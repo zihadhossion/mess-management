@@ -10,6 +10,7 @@ import { JoinRequest } from './join-request.entity';
 import { JoinRequestRepository } from './join-request.repository';
 import { MessMemberRepository } from '../mess-members/mess-member.repository';
 import { MessRepository } from '../messes/mess.repository';
+import { AdminService } from '../admin/admin.service';
 import { JoinRequestStatus } from '../../common/enums/join-request-status.enum';
 import { MessStatus } from '../../common/enums/mess-status.enum';
 import { MemberRole } from '../../common/enums/member-role.enum';
@@ -24,6 +25,7 @@ export class JoinRequestService extends BaseService<JoinRequest> {
     protected readonly repository: JoinRequestRepository,
     private readonly messMemberRepository: MessMemberRepository,
     private readonly messRepository: MessRepository,
+    private readonly adminService: AdminService,
   ) {
     super(repository, 'JoinRequest');
   }
@@ -83,6 +85,17 @@ export class JoinRequestService extends BaseService<JoinRequest> {
       status: JoinRequestStatus.APPROVED,
       processedAt: new Date(),
     });
+
+    // Enforce max members limit
+    const [count, config] = await Promise.all([
+      this.messMemberRepository.countActiveMembers(messId),
+      this.adminService.getConfig(),
+    ]);
+    if (count >= config.maxMembersPerMess) {
+      throw new BadRequestException(
+        `This mess has reached the maximum member limit of ${config.maxMembersPerMess}.`,
+      );
+    }
 
     // Create membership
     const existingMember = await this.messMemberRepository.findByMessAndUser(
