@@ -20,15 +20,23 @@ import { SelectDropdown } from "~/components/ui/SelectDropdown";
 
 const STATUS_OPTIONS = [
   { value: "", label: "All Statuses" },
-  { value: "pending", label: "Pending" },
-  { value: "approved", label: "Approved" },
-  { value: "rejected", label: "Rejected" },
+  { value: "PENDING_APPROVAL", label: "Pending" },
+  { value: "ACTIVE", label: "Approved" },
+  { value: "REJECTED", label: "Rejected" },
 ];
 
+const STATUS_LABEL: Record<string, string> = {
+  PENDING_APPROVAL: "Pending",
+  ACTIVE: "Approved",
+  REJECTED: "Rejected",
+  INACTIVE: "Inactive",
+};
+
 const STATUS_STYLE: Record<string, string> = {
-  pending: "bg-amber-50 text-amber-700",
-  approved: "bg-green-50 text-green-700",
-  rejected: "bg-red-50 text-red-600",
+  PENDING_APPROVAL: "bg-amber-50 text-amber-700",
+  ACTIVE: "bg-green-50 text-green-700",
+  REJECTED: "bg-red-50 text-red-600",
+  INACTIVE: "bg-gray-50 text-gray-600",
 };
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
@@ -66,7 +74,7 @@ export default function AdminMessRequestsPage() {
   const [actionError, setActionError] = useState<string | null>(null);
 
   // Filters
-  const [statusFilter, setStatusFilter] = useState("pending");
+  const [statusFilter, setStatusFilter] = useState("PENDING_APPROVAL");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
@@ -180,7 +188,7 @@ export default function AdminMessRequestsPage() {
           {PAGE_SIZE_OPTIONS.map((n) => <option key={n} value={n}>{n} / page</option>)}
         </SelectDropdown>
         <button
-          onClick={() => { setStatusFilter("pending"); setFromDate(""); setToDate(""); }}
+          onClick={() => { setStatusFilter("PENDING_APPROVAL"); setFromDate(""); setToDate(""); }}
           className="px-4 py-2 rounded-[10px] border border-[#D9CEB4] text-[15px] text-[#6B7550] font-semibold hover:bg-[#FAF7F0] transition-colors"
         >
           Reset
@@ -240,8 +248,8 @@ export default function AdminMessRequestsPage() {
                     <td className="px-5 py-3 text-[15px] text-[#6B7550]">{req.currency}</td>
                     <td className="px-5 py-3 text-[15px] text-[#6B7550]">{formatDate(req.createdAt)}</td>
                     <td className="px-5 py-3">
-                      <span className={`text-[13px] font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLE[req.status] ?? "bg-gray-100 text-gray-600"}`}>
-                        {req.status}
+                      <span className={`text-[13px] font-semibold px-2.5 py-1 rounded-full ${STATUS_STYLE[req.status] ?? "bg-gray-100 text-gray-600"}`}>
+                        {STATUS_LABEL[req.status] ?? req.status}
                       </span>
                     </td>
                     <td className="px-5 py-3">
@@ -253,7 +261,7 @@ export default function AdminMessRequestsPage() {
                         >
                           <Eye size={15} />
                         </button>
-                        {req.status === "pending" && (
+                        {req.status === "PENDING_APPROVAL" && (
                           <>
                             <button
                               onClick={() => handleApprove(req.id)}
@@ -324,7 +332,7 @@ export default function AdminMessRequestsPage() {
                   { label: "Email", value: detailTarget.managerEmail },
                   { label: "Currency", value: detailTarget.currency },
                   { label: "Submitted", value: formatDate(detailTarget.createdAt) },
-                  { label: "Status", value: detailTarget.status },
+                  { label: "Status", value: STATUS_LABEL[detailTarget.status] ?? detailTarget.status },
                   { label: "Address", value: detailTarget.address ?? "—" },
                 ].map(({ label, value }) => (
                   <div key={label}>
@@ -356,7 +364,7 @@ export default function AdminMessRequestsPage() {
               >
                 Close
               </button>
-              {detailTarget.status === "pending" && (
+              {detailTarget.status === "PENDING_APPROVAL" && (
                 <>
                   <button
                     onClick={() => { handleApprove(detailTarget.id); setDetailTarget(null); }}

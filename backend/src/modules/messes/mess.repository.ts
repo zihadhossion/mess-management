@@ -37,6 +37,37 @@ export class MessRepository extends BaseRepository<Mess> {
     });
   }
 
+  async getAdminMessList(
+    page: number,
+    limit: number,
+    status?: MessStatus,
+  ): Promise<{ data: Record<string, unknown>[]; total: number }> {
+    const qb = this.repository
+      .createQueryBuilder('mess')
+      .leftJoinAndSelect('mess.manager', 'manager')
+      .loadRelationCountAndMap('mess.memberCount', 'mess.members')
+      .orderBy('mess.created_at', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    if (status) qb.andWhere('mess.status = :status', { status });
+
+    const [messes, total] = await qb.getManyAndCount();
+    return {
+      data: messes.map((m: any) => ({
+        id: m.id,
+        name: m.name,
+        code: m.messId ?? null,
+        status: m.status,
+        managerId: m.managerId,
+        managerName: m.manager?.fullName ?? '—',
+        memberCount: m.memberCount ?? 0,
+        createdAt: m.createdAt,
+      })),
+      total,
+    };
+  }
+
   async generateUniqueMessId(): Promise<string> {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let attempt = 0;

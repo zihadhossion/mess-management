@@ -26,8 +26,12 @@ export default function JoinRequestsPage() {
   }
 
   useEffect(() => {
+    if (!messId) {
+      setIsLoading(false);
+      return;
+    }
     load();
-  }, []);
+  }, [messId]);
 
   async function handleApprove(id: string) {
     if (!messId) return;

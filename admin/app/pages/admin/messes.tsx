@@ -224,8 +224,8 @@ function MessDetailDrawer({
                   Manager
                 </h3>
                 <div className="bg-[#FAF7F0] rounded-[12px] px-4 py-1">
-                  <StatRow label="Name" value={detail.managerName} />
-                  <StatRow label="Email" value={detail.managerEmail ?? "—"} />
+                  <StatRow label="Name" value={detail.manager?.fullName ?? detail.managerName ?? "—"} />
+                  <StatRow label="Email" value={detail.manager?.email ?? detail.managerEmail ?? "—"} />
                   {detail.coManagerName && (
                     <StatRow
                       label="Co-Manager"
@@ -278,7 +278,7 @@ function MessDetailDrawer({
               )}
 
               {/* Health Metrics */}
-              {detail.bookingRate !== null && (
+              {detail.bookingRate != null && (
                 <section>
                   <h3 className="text-[13px] font-semibold text-[#6B7550] uppercase tracking-wider mb-2">
                     Health Metrics

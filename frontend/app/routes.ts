@@ -13,7 +13,7 @@ export default [
   index("pages/splash.tsx"),
   layout("components/guards/GuestGuard.tsx", authRoutes),
   layout("components/guards/AuthGuard.tsx", [
-    layout("components/guards/OnboardingGuard.tsx", onboardingRoutes),
+    route("onboarding", "components/guards/OnboardingGuard.tsx", onboardingRoutes),
     layout("components/guards/MemberGuard.tsx", [
       layout("components/layouts/MemberLayout.tsx", memberRoutes),
     ]),
