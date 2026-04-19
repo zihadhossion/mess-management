@@ -45,11 +45,11 @@ export default function SharedBillHistoryPage() {
       <div className="bg-[#626F47] px-5 pt-3 pb-6">
         <Link
           to="/manager/shared-bills"
-          className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[13px] mb-1"
+          className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-md)] mb-1"
         >
           <ArrowLeft size={16} /> {t("manager.sharedBills.historyBack")}
         </Link>
-        <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+        <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
           {t("manager.sharedBills.historyTitle")}
         </h1>
       </div>
@@ -62,7 +62,7 @@ export default function SharedBillHistoryPage() {
         ) : invoices.length === 0 ? (
           <div className="text-center py-12">
             <Split size={28} className="text-[#A09070] mx-auto mb-3" />
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {t("manager.sharedBills.noHistory")}
             </p>
           </div>
@@ -76,10 +76,10 @@ export default function SharedBillHistoryPage() {
                 <Split size={20} className="text-[#626F47]" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-display font-bold text-[14px] text-[#2C2F1E]">
+                <div className="font-display font-bold text-[length:var(--fs-base)] text-[#2C2F1E]">
                   {MONTHS[(inv.month as number) - 1] ?? inv.month} {inv.year}
                 </div>
-                <div className="text-[12px] text-[#6B7550]">
+                <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                   {t("manager.sharedBills.historyTotal", {
                     share: Number(inv.totalShare).toLocaleString(),
                     members: inv.activeMemberCount,
@@ -87,7 +87,7 @@ export default function SharedBillHistoryPage() {
                 </div>
               </div>
               <span
-                className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                className={`text-[length:var(--fs-xs)] font-semibold px-2 py-0.5 rounded-full ${
                   inv.paymentStatus === "paid"
                     ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
                     : "bg-amber-50 text-amber-700"

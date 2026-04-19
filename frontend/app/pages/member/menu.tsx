@@ -142,7 +142,7 @@ export default function MemberMenuPage() {
       <div className="bg-[#626F47] px-5 pt-3 pb-4 relative overflow-hidden">
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10">
-          <h1 className="font-display font-bold text-[20px] text-[#F5ECD5] mb-4">
+          <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5] mb-4">
             {t("member.menu.title")}
           </h1>
           {/* Date navigator */}
@@ -155,10 +155,10 @@ export default function MemberMenuPage() {
               <ChevronLeft size={20} />
             </button>
             <div className="text-center">
-              <div className="font-display font-bold text-[15px] text-[#F5ECD5]">
+              <div className="font-display font-bold text-[length:var(--fs-lg)] text-[#F5ECD5]">
                 {isToday ? t("member.menu.today") : format(currentDate, "EEEE")}
               </div>
-              <div className="text-[12px] text-[rgba(245,236,213,0.72)]">
+              <div className="text-[length:var(--fs-sm)] text-[rgba(245,236,213,0.72)]">
                 {format(currentDate, "dd MMM yyyy")}
               </div>
             </div>
@@ -176,7 +176,7 @@ export default function MemberMenuPage() {
             <button
               onClick={handleBulkBook}
               disabled={!!bulkLoading}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[rgba(245,236,213,0.15)] text-[#F5ECD5] text-[12px] font-semibold rounded-[10px] disabled:opacity-50"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[rgba(245,236,213,0.15)] text-[#F5ECD5] text-[length:var(--fs-sm)] font-semibold rounded-[10px] disabled:opacity-50"
             >
               <CalendarCheck size={14} />
               {bulkLoading === "book" ? t("member.menu.booking") : t("member.menu.bookWeek")}
@@ -184,7 +184,7 @@ export default function MemberMenuPage() {
             <button
               onClick={handleBulkCancel}
               disabled={!!bulkLoading}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[rgba(245,236,213,0.15)] text-[#F5ECD5] text-[12px] font-semibold rounded-[10px] disabled:opacity-50"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-[rgba(245,236,213,0.15)] text-[#F5ECD5] text-[length:var(--fs-sm)] font-semibold rounded-[10px] disabled:opacity-50"
             >
               <CalendarX size={14} />
               {bulkLoading === "cancel" ? t("member.menu.cancelling") : t("member.menu.cancelWeek")}
@@ -196,7 +196,7 @@ export default function MemberMenuPage() {
       {/* Content */}
       <div className="px-4 pt-4">
         {actionError && (
-          <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+          <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
             {actionError}
           </div>
         )}
@@ -210,10 +210,10 @@ export default function MemberMenuPage() {
             <div className="w-14 h-14 bg-[rgba(98,111,71,0.1)] rounded-full flex items-center justify-center mx-auto mb-3">
               <Sun size={28} className="text-[#A09070]" />
             </div>
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {t("member.menu.noMeals")}
             </p>
-            <p className="text-[12px] text-[#A09070] mt-1">
+            <p className="text-[length:var(--fs-sm)] text-[#A09070] mt-1">
               {t("member.menu.noMealsDesc")}
             </p>
           </div>
@@ -237,21 +237,21 @@ export default function MemberMenuPage() {
                     {mealIcon(slot.mealType)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-display font-bold text-[14px] text-[#2C2F1E] capitalize">
+                    <div className="font-display font-bold text-[length:var(--fs-base)] text-[#2C2F1E] capitalize">
                       {slot.mealType}
                     </div>
-                    <div className="text-[12px] text-[#6B7550]">
+                    <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                       {slot.timeWindowStart && slot.timeWindowEnd
                         ? `${slot.timeWindowStart} – ${slot.timeWindowEnd}`
                         : "—"}
                     </div>
                     {slot.menuDescription && (
-                      <div className="text-[12px] text-[#2C2F1E] mt-1">
+                      <div className="text-[length:var(--fs-sm)] text-[#2C2F1E] mt-1">
                         {slot.menuDescription}
                       </div>
                     )}
                     {deadlineText && (
-                      <div className="text-[11px] text-amber-600 mt-1">
+                      <div className="text-[length:var(--fs-xs)] text-amber-600 mt-1">
                         {deadlineText}
                       </div>
                     )}
@@ -261,7 +261,7 @@ export default function MemberMenuPage() {
                       <button
                         onClick={() => handleCancel(slot.myBookingId!, slot.id)}
                         disabled={actionLoading === slot.id}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-700 rounded-[8px] text-[12px] font-semibold disabled:opacity-50"
+                        className="flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-700 rounded-[8px] text-[length:var(--fs-sm)] font-semibold disabled:opacity-50"
                       >
                         <X size={14} /> {t("member.menu.cancel")}
                       </button>
@@ -269,16 +269,16 @@ export default function MemberMenuPage() {
                       <button
                         onClick={() => handleBook(slot.id)}
                         disabled={actionLoading === slot.id}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-[#626F47] text-[#F5ECD5] rounded-[8px] text-[12px] font-semibold disabled:opacity-50"
+                        className="flex items-center gap-1 px-3 py-1.5 bg-[#626F47] text-[#F5ECD5] rounded-[8px] text-[length:var(--fs-sm)] font-semibold disabled:opacity-50"
                       >
                         <Plus size={14} /> {t("member.menu.book")}
                       </button>
                     ) : slot.myBookingId ? (
-                      <span className="text-[11px] text-[#626F47] font-semibold px-2 py-1 bg-[rgba(98,111,71,0.1)] rounded-[6px]">
+                      <span className="text-[length:var(--fs-xs)] text-[#626F47] font-semibold px-2 py-1 bg-[rgba(98,111,71,0.1)] rounded-[6px]">
                         {t("common.booked")}
                       </span>
                     ) : (
-                      <span className="text-[11px] text-[#A09070] font-semibold">
+                      <span className="text-[length:var(--fs-xs)] text-[#A09070] font-semibold">
                         {isPast ? t("member.menu.past") : t("member.menu.notPublished")}
                       </span>
                     )}

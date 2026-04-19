@@ -44,10 +44,10 @@ export default function SplashPage() {
         <div className="w-20 h-20 bg-[#F0BB78] rounded-[22px] flex items-center justify-center shadow-[0_8px_32px_rgba(240,187,120,0.5)] mb-5">
           <UtensilsCrossed size={44} className="text-[#2C2F1E]" />
         </div>
-        <h1 className="font-display font-bold text-[36px] text-[#F5ECD5] tracking-[-0.5px] mb-1.5">
+        <h1 className="font-display font-bold text-[length:var(--fs-6xl)] text-[#F5ECD5] tracking-[-0.5px] mb-1.5">
           {t("common.appName")}
         </h1>
-        <p className="text-[14px] text-[rgba(245,236,213,0.72)] text-center mb-[60px]">
+        <p className="text-[length:var(--fs-base)] text-[rgba(245,236,213,0.72)] text-center mb-[60px]">
           {t("splash.tagline")}
         </p>
 
@@ -55,13 +55,13 @@ export default function SplashPage() {
           <div className="h-1 bg-[rgba(245,236,213,0.2)] rounded-[2px] overflow-hidden">
             <div className="h-full bg-[#F0BB78] rounded-[2px] animate-progress" />
           </div>
-          <p className="text-[11px] text-[rgba(245,236,213,0.55)] text-center mt-2.5">
+          <p className="text-[length:var(--fs-xs)] text-[rgba(245,236,213,0.55)] text-center mt-2.5">
             {t("splash.loading")}
           </p>
         </div>
       </div>
 
-      <p className="absolute bottom-10 left-0 right-0 text-center text-[12px] text-[rgba(245,236,213,0.45)]">
+      <p className="absolute bottom-10 left-0 right-0 text-center text-[length:var(--fs-sm)] text-[rgba(245,236,213,0.45)]">
         {t("splash.platform")}
       </p>
     </div>

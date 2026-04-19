@@ -34,10 +34,10 @@ export default function NotificationsPage() {
       <div className="bg-[#626F47] px-5 pt-3 pb-6 relative overflow-hidden">
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10">
-          <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+          <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
             {t("manager.notifications.title")}
           </h1>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
             {t("manager.notifications.subtitle")}
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function NotificationsPage() {
             <div className="w-14 h-14 bg-[rgba(98,111,71,0.1)] rounded-full flex items-center justify-center mx-auto mb-3">
               <Bell size={28} className="text-[#A09070]" />
             </div>
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {t("manager.notifications.noData")}
             </p>
           </div>
@@ -65,10 +65,10 @@ export default function NotificationsPage() {
             >
               <div className="mt-0.5 shrink-0">{typeIcon(notif.type)}</div>
               <div className="flex-1 min-w-0">
-                <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                   {notif.title}
                 </div>
-                <p className="text-[12px] text-[#6B7550] mt-0.5">
+                <p className="text-[length:var(--fs-sm)] text-[#6B7550] mt-0.5">
                   {notif.message}
                 </p>
               </div>

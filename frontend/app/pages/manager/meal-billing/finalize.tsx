@@ -38,14 +38,14 @@ export default function FinalizeBillingPage() {
         <div className="relative z-10">
           <Link
             to="/manager/meal-billing"
-            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[13px] mb-1"
+            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-md)] mb-1"
           >
             <ArrowLeft size={16} /> {t("manager.mealBilling.back")}
           </Link>
-          <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+          <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
             {t("manager.mealBilling.finalizeTitle")}
           </h1>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
             {currentMonth}
           </p>
         </div>
@@ -57,15 +57,15 @@ export default function FinalizeBillingPage() {
             <div className="w-16 h-16 bg-[#626F47] rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckSquare size={32} className="text-[#F5ECD5]" />
             </div>
-            <h2 className="font-display font-bold text-[20px] text-[#2C2F1E] mb-2">
+            <h2 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#2C2F1E] mb-2">
               {t("manager.mealBilling.finalizeSuccess")}
             </h2>
-            <p className="text-[13px] text-[#6B7550] mb-6">
+            <p className="text-[length:var(--fs-md)] text-[#6B7550] mb-6">
               {t("manager.mealBilling.finalizeSuccessDesc")}
             </p>
             <Link
               to="/manager/meal-billing/history"
-              className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] text-center"
+              className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[13px] rounded-[12px] text-center"
             >
               {t("manager.mealBilling.viewBillHistory")}
             </Link>
@@ -78,10 +78,10 @@ export default function FinalizeBillingPage() {
                 className="text-amber-600 shrink-0 mt-0.5"
               />
               <div>
-                <div className="font-semibold text-[14px] text-[#2C2F1E] mb-1">
+                <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E] mb-1">
                   {t("manager.mealBilling.beforeFinalizing")}
                 </div>
-                <ul className="text-[12px] text-[#6B7550] space-y-1 list-disc list-inside">
+                <ul className="text-[length:var(--fs-sm)] text-[#6B7550] space-y-1 list-disc list-inside">
                   <li>{t("manager.mealBilling.beforeCheck1")}</li>
                   <li>{t("manager.mealBilling.beforeCheck2")}</li>
                   <li>{t("manager.mealBilling.beforeCheck3")}</li>
@@ -91,7 +91,7 @@ export default function FinalizeBillingPage() {
             </div>
 
             <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[14px] p-4 mb-5">
-              <h3 className="font-semibold text-[14px] text-[#2C2F1E] mb-3">
+              <h3 className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E] mb-3">
                 {t("manager.mealBilling.howItWorks")}
               </h3>
               <div className="space-y-2">
@@ -102,17 +102,17 @@ export default function FinalizeBillingPage() {
                   t("manager.mealBilling.step4"),
                 ].map((step, i) => (
                   <div key={i} className="flex items-start gap-2">
-                    <span className="w-5 h-5 bg-[#626F47] text-[#F5ECD5] rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+                    <span className="w-5 h-5 bg-[#626F47] text-[#F5ECD5] rounded-full flex items-center justify-center text-[length:var(--fs-2xs)] font-bold shrink-0 mt-0.5">
                       {i + 1}
                     </span>
-                    <p className="text-[12px] text-[#6B7550]">{step}</p>
+                    <p className="text-[length:var(--fs-sm)] text-[#6B7550]">{step}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
                 {error}
               </div>
             )}
@@ -120,7 +120,7 @@ export default function FinalizeBillingPage() {
             <button
               onClick={handleFinalize}
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[14px] rounded-[12px] disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[14px] rounded-[12px] disabled:opacity-60"
             >
               <CheckSquare size={20} />
               {isSubmitting

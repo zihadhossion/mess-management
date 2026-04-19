@@ -107,14 +107,14 @@ export default function BillHistoryPage() {
         <div className="relative z-10">
           <Link
             to="/manager/meal-billing"
-            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[13px] mb-1"
+            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-md)] mb-1"
           >
             <ArrowLeft size={16} /> {t("manager.mealBilling.back")}
           </Link>
-          <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+          <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
             {t("manager.mealBilling.historyTitle")}
           </h1>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
             {t("manager.mealBilling.historySubtitle")}
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function BillHistoryPage() {
         ) : summaries.length === 0 ? (
           <div className="text-center py-12">
             <Receipt size={28} className="text-[#A09070] mx-auto mb-3" />
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {t("manager.mealBilling.noMonthlyHistory")}
             </p>
           </div>
@@ -151,17 +151,17 @@ export default function BillHistoryPage() {
                     <Receipt size={20} className="text-[#626F47]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-display font-bold text-[14px] text-[#2C2F1E]">
+                    <div className="font-display font-bold text-[length:var(--fs-base)] text-[#2C2F1E]">
                       {MONTHS[(summary.month as number) - 1]} {summary.year}
                     </div>
-                    <div className="text-[12px] text-[#6B7550]">
+                    <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                       {t("manager.mealBilling.summaryCost", { cost: Number(summary.totalCost).toLocaleString() })} ·{" "}
                       {t("manager.mealBilling.summaryCPM", { cpm: Number(summary.costPerMeal).toFixed(2) })}
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span
-                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                      className={`text-[length:var(--fs-2xs)] font-semibold px-2 py-0.5 rounded-full ${
                         summary.status === "finalized" || summary.status === "FINALIZED"
                           ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
                           : "bg-amber-50 text-amber-700"
@@ -182,7 +182,7 @@ export default function BillHistoryPage() {
                         <div className="w-6 h-6 border-2 border-[#626F47] border-t-transparent rounded-full animate-spin" />
                       </div>
                     ) : invoices.length === 0 ? (
-                      <p className="text-center text-[13px] text-[#6B7550] py-3">
+                      <p className="text-center text-[length:var(--fs-md)] text-[#6B7550] py-3">
                         {t("manager.mealBilling.noInvoices")}
                       </p>
                     ) : (
@@ -190,10 +190,10 @@ export default function BillHistoryPage() {
                         {/* Progress bar */}
                         <div className="mb-3">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-[11px] font-semibold text-[#6B7550]">
+                            <span className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550]">
                               {t("manager.mealBilling.paymentTracking")}
                             </span>
-                            <span className="text-[11px] text-[#626F47] font-semibold">
+                            <span className="text-[length:var(--fs-xs)] text-[#626F47] font-semibold">
                               {t("manager.mealBilling.paidCount", { paid: paidCount, total: invoices.length })}
                             </span>
                           </div>
@@ -214,8 +214,8 @@ export default function BillHistoryPage() {
                               className="flex items-center gap-2 py-2 border-b border-[#E8DFC8] last:border-0"
                             >
                               <div className="flex-1 min-w-0">
-                                <div className="font-semibold text-[13px] text-[#2C2F1E]">{memberName}</div>
-                                <div className="text-[11px] text-[#6B7550]">
+                                <div className="font-semibold text-[length:var(--fs-md)] text-[#2C2F1E]">{memberName}</div>
+                                <div className="text-[length:var(--fs-xs)] text-[#6B7550]">
                                   ৳{Number(inv.totalAmount).toLocaleString()}
                                   {inv.mealPortions > 0 && ` · ${inv.mealPortions} meals`}
                                 </div>
@@ -223,7 +223,7 @@ export default function BillHistoryPage() {
                               {isPaid ? (
                                 <div className="flex items-center gap-1">
                                   <CheckCircle size={13} className="text-[#626F47]" />
-                                  <span className="text-[11px] font-semibold text-[#626F47]">{t("common.paid")}</span>
+                                  <span className="text-[length:var(--fs-xs)] font-semibold text-[#626F47]">{t("common.paid")}</span>
                                 </div>
                               ) : (
                                 <button
@@ -237,7 +237,7 @@ export default function BillHistoryPage() {
                                     });
                                     setPaymentError(null);
                                   }}
-                                  className="px-2.5 py-1 bg-[#F0BB78] text-[#2C2F1E] font-semibold text-[11px] rounded-[6px]"
+                                  className="px-2.5 py-1 bg-[#F0BB78] text-[#2C2F1E] font-semibold text-[length:var(--fs-xs)] rounded-[6px]"
                                 >
                                   {t("manager.mealBilling.recordPayment")}
                                 </button>
@@ -260,7 +260,7 @@ export default function BillHistoryPage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end">
           <div className="w-full bg-[#FDFAF3] rounded-t-[20px] p-5 pb-8">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-bold text-[17px] text-[#2C2F1E]">
+              <h3 className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
                 {t("manager.mealBilling.recordPayment")}
               </h3>
               <button
@@ -271,12 +271,12 @@ export default function BillHistoryPage() {
               </button>
             </div>
 
-            <p className="text-[13px] text-[#6B7550] mb-4">
+            <p className="text-[length:var(--fs-md)] text-[#6B7550] mb-4">
               {paymentTarget.messMember?.user?.name ?? "—"} — ৳{Number(paymentTarget.totalAmount).toLocaleString()}
             </p>
 
             {paymentError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
                 {paymentError}
               </div>
             )}
@@ -287,7 +287,7 @@ export default function BillHistoryPage() {
               { label: t("manager.mealBilling.paymentNote"), key: "referenceNote" as const, type: "text" },
             ].map(({ label, key, type }) => (
               <div key={key} className="mb-3">
-                <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+                <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                   {label}
                 </label>
                 <input
@@ -299,13 +299,13 @@ export default function BillHistoryPage() {
                       [key]: type === "number" ? Number(e.target.value) : e.target.value,
                     })
                   }
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
                 />
               </div>
             ))}
 
             <div className="mb-4">
-              <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+              <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                 {t("manager.mealBilling.paymentMethod")}
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -313,7 +313,7 @@ export default function BillHistoryPage() {
                   <button
                     key={value}
                     onClick={() => setPaymentForm({ ...paymentForm, method: value })}
-                    className={`py-2 text-[13px] font-semibold rounded-[8px] border transition-colors ${
+                    className={`py-2 text-[length:var(--fs-md)] font-semibold rounded-[8px] border transition-colors ${
                       paymentForm.method === value
                         ? "bg-[#626F47] text-[#F5ECD5] border-[#626F47]"
                         : "bg-[#FDFAF3] text-[#2C2F1E] border-[#D9CEB4]"
@@ -328,7 +328,7 @@ export default function BillHistoryPage() {
             <button
               onClick={handleRecordPayment}
               disabled={paymentSubmitting || !paymentForm.amount}
-              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[12px] rounded-[10px] disabled:opacity-60"
+              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[12px] rounded-[10px] disabled:opacity-60"
             >
               {paymentSubmitting ? t("manager.mealBilling.recording") : t("manager.mealBilling.record")}
             </button>

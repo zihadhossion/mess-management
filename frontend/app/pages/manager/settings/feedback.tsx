@@ -67,11 +67,11 @@ export default function FeedbackManagementPage() {
         <div className="relative z-10">
           <Link
             to="/manager/settings"
-            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[13px] mb-1"
+            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-md)] mb-1"
           >
             <ArrowLeft size={16} /> {t("manager.settings.feedbackBack")}
           </Link>
-          <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+          <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
             {t("manager.settings.feedbackTitle")}
           </h1>
         </div>
@@ -82,7 +82,7 @@ export default function FeedbackManagementPage() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`flex-1 py-1.5 text-[12px] font-semibold rounded-[8px] transition-colors ${
+              className={`flex-1 py-1.5 text-[length:var(--fs-sm)] font-semibold rounded-[8px] transition-colors ${
                 filter === f ? "bg-[#F5ECD5] text-[#2C2F1E]" : "text-[rgba(245,236,213,0.7)]"
               }`}
             >
@@ -100,7 +100,7 @@ export default function FeedbackManagementPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-12">
             <MessageSquare size={28} className="text-[#A09070] mx-auto mb-3" />
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {t("manager.settings.noFeedback")}
             </p>
           </div>
@@ -114,17 +114,17 @@ export default function FeedbackManagementPage() {
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                    <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                       {fb.userName}
                     </div>
-                    <div className="text-[11px] text-[#6B7550]">
+                    <div className="text-[length:var(--fs-xs)] text-[#6B7550]">
                       {fb.date
                         ? format(new Date(fb.date), "MMM d, yyyy")
                         : format(new Date(fb.createdAt), "MMM d, yyyy")}
                     </div>
                   </div>
                   <span
-                    className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
+                    className={`text-[length:var(--fs-2xs)] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
                       isResolved
                         ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
                         : "bg-amber-50 text-amber-700"
@@ -134,20 +134,20 @@ export default function FeedbackManagementPage() {
                   </span>
                 </div>
 
-                <p className="text-[13px] text-[#2C2F1E] mb-2">
+                <p className="text-[length:var(--fs-md)] text-[#2C2F1E] mb-2">
                   {fb.complaint ?? fb.message}
                 </p>
 
                 {fb.resolutionNotes && (
                   <div className="bg-[rgba(98,111,71,0.06)] rounded-[8px] px-3 py-2 mb-2">
-                    <p className="text-[11px] text-[#6B7550] italic">{fb.resolutionNotes}</p>
+                    <p className="text-[length:var(--fs-xs)] text-[#6B7550] italic">{fb.resolutionNotes}</p>
                   </div>
                 )}
 
                 {!isResolved && (
                   <button
                     onClick={() => { setResolveTarget(fb); setResolveNotes(""); setResolveError(null); }}
-                    className="mt-1 px-3 py-1.5 bg-[#626F47] text-[#F5ECD5] font-semibold text-[12px] rounded-[8px]"
+                    className="mt-1 px-3 py-1.5 bg-[#626F47] text-[#F5ECD5] font-semibold text-[length:var(--fs-sm)] rounded-[8px]"
                   >
                     {t("manager.settings.markResolved")}
                   </button>
@@ -163,7 +163,7 @@ export default function FeedbackManagementPage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end">
           <div className="w-full bg-[#FDFAF3] rounded-t-[20px] p-5 pb-8">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-bold text-[17px] text-[#2C2F1E]">
+              <h3 className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
                 {t("manager.settings.markResolved")}
               </h3>
               <button
@@ -174,32 +174,32 @@ export default function FeedbackManagementPage() {
               </button>
             </div>
 
-            <p className="text-[13px] text-[#6B7550] mb-3 italic">
+            <p className="text-[length:var(--fs-md)] text-[#6B7550] mb-3 italic">
               "{resolveTarget.complaint ?? resolveTarget.message}"
             </p>
 
             {resolveError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
                 {resolveError}
               </div>
             )}
 
             <div className="mb-4">
-              <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+              <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                 {t("manager.settings.resolveNotes")}
               </label>
               <textarea
                 value={resolveNotes}
                 onChange={(e) => setResolveNotes(e.target.value)}
                 rows={3}
-                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] resize-none"
+                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] resize-none"
               />
             </div>
 
             <button
               onClick={handleResolve}
               disabled={resolving}
-              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[12px] rounded-[10px] disabled:opacity-60"
+              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[12px] rounded-[10px] disabled:opacity-60"
             >
               {resolving ? t("manager.settings.resolving") : t("manager.settings.resolve")}
             </button>

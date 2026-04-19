@@ -13,7 +13,7 @@ export default function SharedBillDetailPage() {
   if (!invoice) {
     return (
       <div className="min-h-full flex items-center justify-center">
-        <p className="text-[14px] text-[#6B7550]">
+        <p className="text-[length:var(--fs-base)] text-[#6B7550]">
           {t("member.sharedBills.notFound", { month })}
         </p>
       </div>
@@ -28,14 +28,14 @@ export default function SharedBillDetailPage() {
       <div className="bg-[#626F47] px-5 pt-3 pb-6">
         <Link
           to="/member/shared-bills"
-          className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[14px] mb-4"
+          className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-base)] mb-4"
         >
           <ArrowLeft size={18} /> {t("member.sharedBills.back")}
         </Link>
-        <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+        <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
           {invoice.month} {invoice.year}
         </h1>
-        <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+        <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
           {t("member.sharedBills.invoice")}
         </p>
       </div>
@@ -47,20 +47,20 @@ export default function SharedBillDetailPage() {
               <Split size={20} className="text-[#626F47]" />
             </div>
             <div>
-              <div className="font-display font-bold text-[15px] text-[#2C2F1E]">
+              <div className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
                 {memberName}
               </div>
-              <div className="text-[12px] text-[#6B7550]">
+              <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                 {t("member.sharedBills.sharedBill")} {invoice.month} {invoice.year}
               </div>
             </div>
           </div>
 
           <div className="flex justify-between pt-3">
-            <span className="font-display font-bold text-[15px] text-[#2C2F1E]">
+            <span className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
               {t("member.sharedBills.yourShare").replace(":", "")}
             </span>
-            <span className="font-display font-bold text-[18px] text-[#626F47]">
+            <span className="font-display font-bold text-[length:var(--fs-xl)] text-[#626F47]">
               ৳{yourShare.toLocaleString()}
             </span>
           </div>

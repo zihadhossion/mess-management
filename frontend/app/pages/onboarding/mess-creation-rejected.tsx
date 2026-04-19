@@ -11,19 +11,19 @@ export default function MessCreationRejectedPage() {
         <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <XCircle size={40} className="text-red-500" />
         </div>
-        <h1 className="font-display font-bold text-[26px] text-[#2C2F1E] mb-3">
+        <h1 className="font-display font-bold text-[length:var(--fs-4xl)] text-[#2C2F1E] mb-3">
           Request Rejected
         </h1>
-        <p className="text-[14px] text-[#6B7550] mb-6">
+        <p className="text-[length:var(--fs-base)] text-[#6B7550] mb-6">
           Your mess creation request was not approved.
         </p>
 
         {creationRequest?.reviewNote && (
           <div className="bg-red-50 border border-red-200 rounded-[16px] p-4 mb-6 text-left">
-            <p className="text-[11px] font-semibold text-red-700 uppercase tracking-wider mb-1">
+            <p className="text-[length:var(--fs-xs)] font-semibold text-red-700 uppercase tracking-wider mb-1">
               Rejection Reason
             </p>
-            <p className="text-[13px] text-red-700">
+            <p className="text-[length:var(--fs-md)] text-red-700">
               {creationRequest.reviewNote}
             </p>
           </div>
@@ -31,7 +31,7 @@ export default function MessCreationRejectedPage() {
 
         <Link
           to="/onboarding/mess-creation"
-          className="flex items-center justify-center gap-2 w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px]"
+          className="flex items-center justify-center gap-2 w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[13px] rounded-[12px]"
         >
           <RefreshCcw size={18} /> Resubmit Request
         </Link>

@@ -72,10 +72,10 @@ export default function ManagerSettingsPage() {
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10 flex items-start justify-between">
           <div>
-            <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+            <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
               {t("manager.settings.title")}
             </h1>
-            <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+            <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
               {t("manager.settings.subtitle")}
             </p>
           </div>
@@ -86,20 +86,20 @@ export default function ManagerSettingsPage() {
       <div className="px-4 pt-4">
         {/* Mess info */}
         <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5 mb-4">
-          <h3 className="font-display font-bold text-[15px] text-[#2C2F1E] mb-3">
+          <h3 className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E] mb-3">
             {t("manager.settings.messInfo")}
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-[13px] text-[#6B7550]">{t("manager.settings.messName")}</span>
-              <span className="text-[13px] font-semibold text-[#2C2F1E]">
+              <span className="text-[length:var(--fs-md)] text-[#6B7550]">{t("manager.settings.messName")}</span>
+              <span className="text-[length:var(--fs-md)] font-semibold text-[#2C2F1E]">
                 {user?.messName ?? "—"}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-[13px] text-[#6B7550]">{t("manager.settings.messCode")}</span>
+              <span className="text-[length:var(--fs-md)] text-[#6B7550]">{t("manager.settings.messCode")}</span>
               <div className="flex items-center gap-2">
-                <span className="font-display font-bold text-[14px] text-[#626F47] tracking-wider">
+                <span className="font-display font-bold text-[length:var(--fs-base)] text-[#626F47] tracking-wider">
                   {user?.messCode ?? "—"}
                 </span>
                 {user?.messCode && (
@@ -124,10 +124,10 @@ export default function ManagerSettingsPage() {
                   <UtensilsCrossed size={18} className="text-[#626F47]" />
                 </div>
                 <div className="min-w-0">
-                  <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                  <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                     {t("manager.settings.mealParticipation")}
                   </div>
-                  <div className="text-[12px] text-[#6B7550]">
+                  <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                     {t("manager.settings.mealParticipationDesc")}
                   </div>
                 </div>
@@ -151,7 +151,7 @@ export default function ManagerSettingsPage() {
               </button>
             </div>
             <p className={[
-              "mt-3 text-[12px] font-medium text-center",
+              "mt-3 text-[length:var(--fs-sm)] font-medium text-center",
               participates ? "text-[#626F47]" : "text-[#A09070]",
             ].join(" ")}>
               {participates
@@ -169,10 +169,10 @@ export default function ManagerSettingsPage() {
                 <UserCheck size={18} className="text-[#626F47]" />
               </div>
               <div className="min-w-0">
-                <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                   {t("manager.settings.joinApproval")}
                 </div>
-                <div className="text-[12px] text-[#6B7550]">
+                <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                   {t("manager.settings.joinApprovalDesc")}
                 </div>
               </div>
@@ -195,7 +195,7 @@ export default function ManagerSettingsPage() {
               />
             </button>
           </div>
-          <p className={["mt-3 text-[12px] font-medium text-center", requiresApproval ? "text-[#626F47]" : "text-[#A09070]"].join(" ")}>
+          <p className={["mt-3 text-[length:var(--fs-sm)] font-medium text-center", requiresApproval ? "text-[#626F47]" : "text-[#A09070]"].join(" ")}>
             {requiresApproval ? t("manager.settings.joinApprovalOn") : t("manager.settings.joinApprovalOff")}
           </p>
         </div>
@@ -208,10 +208,10 @@ export default function ManagerSettingsPage() {
           >
             <MessageSquare size={18} className="text-[#626F47] shrink-0" />
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-[14px] text-[#2C2F1E]">
+              <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                 {t("manager.settings.feedbackManagement")}
               </div>
-              <div className="text-[12px] text-[#6B7550]">
+              <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                 {t("manager.settings.feedbackManagementDesc")}
               </div>
             </div>
@@ -223,10 +223,10 @@ export default function ManagerSettingsPage() {
           >
             <AlertTriangle size={18} className="text-red-500 shrink-0" />
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-[14px] text-[#2C2F1E]">
+              <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                 {t("manager.settings.lifecycle")}
               </div>
-              <div className="text-[12px] text-[#6B7550]">
+              <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                 {t("manager.settings.lifecycleDesc")}
               </div>
             </div>

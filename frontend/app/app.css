@@ -15,6 +15,31 @@
   --color-muted: #6b7550;
 }
 
+:root {
+  --fs-2xs: 10px; --fs-xs: 11px; --fs-sm: 12px;
+  --fs-md: 13px; --fs-base: 14px; --fs-lg: 16px;
+  --fs-xl: 18px; --fs-2xl: 20px; --fs-3xl: 22px;
+  --fs-4xl: 26px; --fs-5xl: 32px; --fs-6xl: 36px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --fs-2xs: 13px; --fs-xs: 13px; --fs-sm: 14px;
+    --fs-md: 15px; --fs-base: 16px; --fs-lg: 18px;
+    --fs-xl: 21px; --fs-2xl: 24px; --fs-3xl: 26px;
+    --fs-4xl: 30px; --fs-5xl: 38px; --fs-6xl: 42px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --fs-2xs: 14px; --fs-xs: 14px; --fs-sm: 15px;
+    --fs-md: 16px; --fs-base: 18px; --fs-lg: 20px;
+    --fs-xl: 24px; --fs-2xl: 28px; --fs-3xl: 30px;
+    --fs-4xl: 36px; --fs-5xl: 44px; --fs-6xl: 48px;
+  }
+}
+
 html,
 body {
   background: #f5ecd5;

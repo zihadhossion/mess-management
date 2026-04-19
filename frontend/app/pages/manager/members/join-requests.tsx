@@ -77,14 +77,14 @@ export default function JoinRequestsPage() {
         <div className="relative z-10">
           <Link
             to="/manager/members"
-            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[14px] mb-3"
+            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-base)] mb-3"
           >
             <ArrowLeft size={18} /> {t("manager.members.joinRequests.back")}
           </Link>
-          <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+          <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
             {t("manager.members.joinRequests.title")}
           </h1>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)] mb-3">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)] mb-3">
             {t("manager.members.joinRequests.subtitle")}
           </p>
 
@@ -94,7 +94,7 @@ export default function JoinRequestsPage() {
               <button
                 key={t_}
                 onClick={() => setTab(t_)}
-                className={`flex-1 py-1.5 text-[12px] font-semibold rounded-[8px] transition-colors ${
+                className={`flex-1 py-1.5 text-[length:var(--fs-sm)] font-semibold rounded-[8px] transition-colors ${
                   tab === t_ ? "bg-[#F5ECD5] text-[#2C2F1E]" : "text-[rgba(245,236,213,0.7)]"
                 }`}
               >
@@ -109,7 +109,7 @@ export default function JoinRequestsPage() {
 
       <div className="px-4 pt-4">
         {actionError && (
-          <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+          <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
             {actionError}
           </div>
         )}
@@ -123,7 +123,7 @@ export default function JoinRequestsPage() {
             <div className="w-14 h-14 bg-[rgba(98,111,71,0.1)] rounded-full flex items-center justify-center mx-auto mb-3">
               <Clock size={28} className="text-[#A09070]" />
             </div>
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {tab === "pending"
                 ? t("manager.members.joinRequests.noPending")
                 : t("manager.members.joinRequests.noProcessed")}
@@ -136,22 +136,22 @@ export default function JoinRequestsPage() {
               className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[14px] p-4 mb-3 shadow-[0_1px_4px_rgba(74,60,30,0.06)]"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-[#F0BB78] flex items-center justify-center font-display font-bold text-[16px] text-[#2C2F1E] shrink-0">
+                <div className="w-10 h-10 rounded-full bg-[#F0BB78] flex items-center justify-center font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E] shrink-0">
                   {req.userName[0]?.toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                  <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                     {req.userName}
                   </div>
-                  <div className="text-[12px] text-[#6B7550]">
+                  <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                     {req.userEmail}
                   </div>
-                  <div className="text-[11px] text-[#A09070]">
+                  <div className="text-[length:var(--fs-xs)] text-[#A09070]">
                     {new Date(req.createdAt).toLocaleDateString()}
                   </div>
                 </div>
                 <span
-                  className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                  className={`text-[length:var(--fs-2xs)] font-semibold px-2 py-0.5 rounded-full ${
                     req.status === "approved"
                       ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
                       : req.status === "rejected"
@@ -171,14 +171,14 @@ export default function JoinRequestsPage() {
                   <button
                     onClick={() => handleApprove(req.id)}
                     disabled={actionLoading === req.id}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#626F47] text-[#F5ECD5] font-semibold text-[13px] py-2.5 rounded-[10px] disabled:opacity-50"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#626F47] text-[#F5ECD5] font-semibold text-[length:var(--fs-md)] py-2.5 rounded-[10px] disabled:opacity-50"
                   >
                     <UserCheck size={16} /> {t("manager.members.joinRequests.approve")}
                   </button>
                   <button
                     onClick={() => handleReject(req.id)}
                     disabled={actionLoading === req.id}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-red-50 text-red-600 border border-red-200 font-semibold text-[13px] py-2.5 rounded-[10px] disabled:opacity-50"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-red-50 text-red-600 border border-red-200 font-semibold text-[length:var(--fs-md)] py-2.5 rounded-[10px] disabled:opacity-50"
                   >
                     <UserX size={16} /> {t("manager.members.joinRequests.reject")}
                   </button>

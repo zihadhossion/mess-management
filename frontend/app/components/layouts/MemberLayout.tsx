@@ -22,10 +22,10 @@ export default function MemberLayout() {
       {/* Desktop sidebar */}
       <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-[220px] bg-[#FBF5E8] border-r-2 border-[#D9CEB4] z-50">
         <div className="px-5 py-5 border-b border-[#D9CEB4]">
-          <p className="font-display font-bold text-[18px] text-[#2C2F1E]">
+          <p className="font-display font-bold text-[length:var(--fs-xl)] text-[#2C2F1E]">
             {t("common.appName")}
           </p>
-          <p className="text-[11px] text-[#6B7550] truncate">{user?.messName}</p>
+          <p className="text-[length:var(--fs-xs)] text-[#6B7550] truncate">{user?.messName}</p>
         </div>
         <nav className="flex-1 py-3">
           {navItems.map(({ to, icon: Icon, label }) => {
@@ -35,7 +35,7 @@ export default function MemberLayout() {
                 key={to}
                 to={to}
                 className={cn(
-                  "flex items-center gap-3 px-5 py-3 text-[13px] font-semibold border-l-4 transition-colors",
+                  "flex items-center gap-3 px-5 py-3 text-[length:var(--fs-md)] font-semibold border-l-4 transition-colors",
                   active
                     ? "border-[#F0BB78] text-[#626F47] bg-[rgba(98,111,71,0.07)]"
                     : "border-transparent text-[#A09070] hover:text-[#626F47] hover:bg-[rgba(98,111,71,0.04)]",
@@ -48,12 +48,12 @@ export default function MemberLayout() {
           })}
         </nav>
         <div className="px-5 py-4 border-t border-[#D9CEB4] flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#F0BB78] flex items-center justify-center font-bold text-[13px] text-[#2C2F1E] shrink-0">
+          <div className="w-8 h-8 rounded-full bg-[#F0BB78] flex items-center justify-center font-bold text-[length:var(--fs-md)] text-[#2C2F1E] shrink-0">
             {user?.name?.[0]?.toUpperCase() ?? "M"}
           </div>
           <div className="min-w-0">
-            <p className="text-[12px] font-semibold text-[#2C2F1E] truncate">{user?.name}</p>
-            <p className="text-[10px] text-[#6B7550]">{user?.messCode}</p>
+            <p className="text-[length:var(--fs-sm)] font-semibold text-[#2C2F1E] truncate">{user?.name}</p>
+            <p className="text-[length:var(--fs-2xs)] text-[#6B7550]">{user?.messCode}</p>
           </div>
         </div>
       </aside>
@@ -80,7 +80,7 @@ export default function MemberLayout() {
                 <span className="absolute top-0 left-1/2 -translate-x-1/2 w-7 h-[3px] bg-[#F0BB78] rounded-b-[3px]" />
               )}
               <Icon size={22} />
-              <span className="text-[10px] font-semibold font-sans">{label}</span>
+              <span className="text-[length:var(--fs-2xs)] font-semibold font-sans">{label}</span>
             </Link>
           );
         })}

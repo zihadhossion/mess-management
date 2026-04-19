@@ -232,10 +232,10 @@ export default function ManagerSharedBillsPage() {
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10 flex items-center justify-between">
           <div>
-            <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+            <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
               {t("manager.sharedBills.title")}
             </h1>
-            <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+            <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
               {monthName} {year}
             </p>
           </div>
@@ -253,7 +253,7 @@ export default function ManagerSharedBillsPage() {
             <button
               key={t_}
               onClick={() => setTab(t_)}
-              className={`flex-1 py-1.5 text-[12px] font-semibold rounded-[8px] transition-colors ${
+              className={`flex-1 py-1.5 text-[length:var(--fs-sm)] font-semibold rounded-[8px] transition-colors ${
                 tab === t_
                   ? "bg-[#F5ECD5] text-[#2C2F1E]"
                   : "text-[rgba(245,236,213,0.7)]"
@@ -270,8 +270,8 @@ export default function ManagerSharedBillsPage() {
         <div className="px-4 pt-4">
           {/* Month total */}
           <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] p-4 mb-4 flex items-center justify-between">
-            <span className="text-[13px] text-[#6B7550]">{t("manager.sharedBills.monthTotal")}</span>
-            <span className="font-display font-bold text-[20px] text-[#626F47]">
+            <span className="text-[length:var(--fs-md)] text-[#6B7550]">{t("manager.sharedBills.monthTotal")}</span>
+            <span className="font-display font-bold text-[length:var(--fs-2xl)] text-[#626F47]">
               ৳{total.toLocaleString()}
             </span>
           </div>
@@ -279,30 +279,30 @@ export default function ManagerSharedBillsPage() {
           {/* Add entry button */}
           <button
             onClick={() => setShowEntryForm(!showEntryForm)}
-            className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-semibold text-[13px] py-[10px] rounded-[10px] mb-4"
+            className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-semibold text-[length:var(--fs-md)] py-[10px] rounded-[10px] mb-4"
           >
             <Plus size={16} /> {t("manager.sharedBills.addEntry")}
           </button>
 
           {entryError && (
-            <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+            <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
               {entryError}
             </div>
           )}
 
           {showEntryForm && (
             <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-4 mb-4">
-              <h3 className="font-semibold text-[14px] text-[#2C2F1E] mb-3">
+              <h3 className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E] mb-3">
                 {t("manager.sharedBills.addEntry")}
               </h3>
               <div className="mb-3">
-                <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+                <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                   {t("manager.sharedBills.category")}
                 </label>
                 <select
                   value={entryForm.categoryId}
                   onChange={(e) => setEntryForm({ ...entryForm, categoryId: e.target.value })}
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
                 >
                   <option value="">{t("manager.sharedBills.selectCategory")}</option>
                   {activeCategories.map((c) => (
@@ -315,21 +315,21 @@ export default function ManagerSharedBillsPage() {
                 { label: t("manager.sharedBills.note"), key: "referenceNote" as const, type: "text" },
               ].map(({ label, key, type }) => (
                 <div key={key} className="mb-3">
-                  <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+                  <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                     {label}
                   </label>
                   <input
                     type={type}
                     value={entryForm[key]}
                     onChange={(e) => setEntryForm({ ...entryForm, [key]: e.target.value })}
-                    className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
+                    className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
                   />
                 </div>
               ))}
               <button
                 onClick={handleAddEntry}
                 disabled={entrySubmitting || !entryForm.categoryId || !entryForm.totalAmount}
-                className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[11px] rounded-[10px] disabled:opacity-60"
+                className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[11px] rounded-[10px] disabled:opacity-60"
               >
                 {entrySubmitting ? t("manager.sharedBills.adding") : t("manager.sharedBills.add")}
               </button>
@@ -343,7 +343,7 @@ export default function ManagerSharedBillsPage() {
           ) : entries.length === 0 ? (
             <div className="text-center py-10">
               <Split size={28} className="text-[#A09070] mx-auto mb-2" />
-              <p className="text-[14px] text-[#6B7550] font-semibold">
+              <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
                 {t("manager.sharedBills.noEntries")}
               </p>
             </div>
@@ -354,14 +354,14 @@ export default function ManagerSharedBillsPage() {
                 className="flex items-center gap-3 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] px-4 py-3 mb-2"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                  <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                     {entry.category?.name ?? entry.categoryName}
                   </div>
                   {(entry.referenceNote ?? entry.note) && (
-                    <div className="text-[12px] text-[#6B7550]">{entry.referenceNote ?? entry.note}</div>
+                    <div className="text-[length:var(--fs-sm)] text-[#6B7550]">{entry.referenceNote ?? entry.note}</div>
                   )}
                 </div>
-                <span className="font-display font-bold text-[15px] text-[#2C2F1E]">
+                <span className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
                   ৳{(entry.totalAmount ?? entry.amount ?? 0).toLocaleString()}
                 </span>
                 <button
@@ -377,35 +377,35 @@ export default function ManagerSharedBillsPage() {
           {/* Finalize section */}
           {entries.length > 0 && (
             <div className="mt-4 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-4">
-              <h3 className="font-semibold text-[14px] text-[#2C2F1E] mb-1">
+              <h3 className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E] mb-1">
                 {t("manager.sharedBills.finalizeTitle")}
               </h3>
-              <p className="text-[12px] text-[#6B7550] mb-3">
+              <p className="text-[length:var(--fs-sm)] text-[#6B7550] mb-3">
                 {t("manager.sharedBills.finalizeDesc")}
               </p>
               {!showFinalizeConfirm ? (
                 <button
                   onClick={() => setShowFinalizeConfirm(true)}
-                  className="w-full bg-[#F0BB78] text-[#2C2F1E] font-bold text-[14px] py-[11px] rounded-[10px]"
+                  className="w-full bg-[#F0BB78] text-[#2C2F1E] font-bold text-[length:var(--fs-base)] py-[11px] rounded-[10px]"
                 >
                   {t("manager.sharedBills.finalize")}
                 </button>
               ) : (
                 <div>
-                  <p className="text-[13px] font-semibold text-[#2C2F1E] mb-2">
+                  <p className="text-[length:var(--fs-md)] font-semibold text-[#2C2F1E] mb-2">
                     {t("manager.sharedBills.finalizeConfirm", { month: monthName, year })}
                   </p>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setShowFinalizeConfirm(false)}
-                      className="flex-1 border border-[#D9CEB4] text-[#6B7550] font-semibold text-[13px] py-[10px] rounded-[10px]"
+                      className="flex-1 border border-[#D9CEB4] text-[#6B7550] font-semibold text-[length:var(--fs-md)] py-[10px] rounded-[10px]"
                     >
                       {t("common.cancel")}
                     </button>
                     <button
                       onClick={handleFinalize}
                       disabled={finalizing}
-                      className="flex-1 bg-[#626F47] text-[#F5ECD5] font-bold text-[13px] py-[10px] rounded-[10px] disabled:opacity-60"
+                      className="flex-1 bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-md)] py-[10px] rounded-[10px] disabled:opacity-60"
                     >
                       {finalizing ? t("manager.sharedBills.finalizing") : t("common.confirm")}
                     </button>
@@ -422,20 +422,20 @@ export default function ManagerSharedBillsPage() {
         <div className="px-4 pt-4">
           <button
             onClick={() => setShowCatForm(!showCatForm)}
-            className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-semibold text-[13px] py-[10px] rounded-[10px] mb-4"
+            className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-semibold text-[length:var(--fs-md)] py-[10px] rounded-[10px] mb-4"
           >
             <Plus size={16} /> {t("manager.sharedBills.addCategory")}
           </button>
 
           {catError && (
-            <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+            <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
               {catError}
             </div>
           )}
 
           {showCatForm && (
             <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-4 mb-4">
-              <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+              <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                 {t("manager.sharedBills.categoryName")}
               </label>
               <input
@@ -443,12 +443,12 @@ export default function ManagerSharedBillsPage() {
                 value={catName}
                 onChange={(e) => setCatName(e.target.value)}
                 placeholder={t("manager.sharedBills.categoryNamePlaceholder")}
-                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] mb-3"
+                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] mb-3"
               />
               <button
                 onClick={handleAddCategory}
                 disabled={catSubmitting || !catName.trim()}
-                className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[11px] rounded-[10px] disabled:opacity-60"
+                className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[11px] rounded-[10px] disabled:opacity-60"
               >
                 {catSubmitting ? t("manager.sharedBills.addingCategory") : t("manager.sharedBills.addCategoryBtn")}
               </button>
@@ -462,7 +462,7 @@ export default function ManagerSharedBillsPage() {
           ) : categories.length === 0 ? (
             <div className="text-center py-10">
               <Split size={28} className="text-[#A09070] mx-auto mb-2" />
-              <p className="text-[14px] text-[#6B7550] font-semibold">
+              <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
                 {t("manager.sharedBills.noCategories")}
               </p>
             </div>
@@ -473,8 +473,8 @@ export default function ManagerSharedBillsPage() {
                 className="flex items-center gap-3 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] px-4 py-3 mb-2"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-[14px] text-[#2C2F1E]">{cat.name}</div>
-                  <div className="text-[11px] mt-0.5">
+                  <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">{cat.name}</div>
+                  <div className="text-[length:var(--fs-xs)] mt-0.5">
                     <span
                       className={`px-2 py-0.5 rounded-full font-semibold ${
                         cat.isActive
@@ -512,10 +512,10 @@ export default function ManagerSharedBillsPage() {
           {invoices.length > 0 && (
             <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] p-4 mb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[13px] text-[#6B7550] font-semibold">
+                <span className="text-[length:var(--fs-md)] text-[#6B7550] font-semibold">
                   {t("manager.sharedBills.paymentStatus")}
                 </span>
-                <span className="text-[12px] text-[#626F47] font-semibold">
+                <span className="text-[length:var(--fs-sm)] text-[#626F47] font-semibold">
                   {t("manager.sharedBills.paidCount", { paid: paidCount, total: invoices.length })}
                 </span>
               </div>
@@ -535,7 +535,7 @@ export default function ManagerSharedBillsPage() {
           ) : invoices.length === 0 ? (
             <div className="text-center py-10">
               <CreditCard size={28} className="text-[#A09070] mx-auto mb-2" />
-              <p className="text-[14px] text-[#6B7550] font-semibold">
+              <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
                 {t("manager.sharedBills.noInvoices")}
               </p>
             </div>
@@ -549,15 +549,15 @@ export default function ManagerSharedBillsPage() {
                   className="flex items-center gap-3 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] px-4 py-3 mb-2"
                 >
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-[14px] text-[#2C2F1E]">{memberName}</div>
-                    <div className="font-display font-bold text-[15px] text-[#626F47]">
+                    <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">{memberName}</div>
+                    <div className="font-display font-bold text-[length:var(--fs-lg)] text-[#626F47]">
                       ৳{Number(inv.totalShare).toLocaleString()}
                     </div>
                   </div>
                   {isPaid ? (
                     <div className="flex items-center gap-1 px-2 py-1 bg-[rgba(98,111,71,0.12)] rounded-full">
                       <CheckCircle size={13} className="text-[#626F47]" />
-                      <span className="text-[11px] font-semibold text-[#626F47]">{t("common.paid")}</span>
+                      <span className="text-[length:var(--fs-xs)] font-semibold text-[#626F47]">{t("common.paid")}</span>
                     </div>
                   ) : (
                     <button
@@ -571,7 +571,7 @@ export default function ManagerSharedBillsPage() {
                         });
                         setPaymentError(null);
                       }}
-                      className="px-3 py-1.5 bg-[#F0BB78] text-[#2C2F1E] font-semibold text-[12px] rounded-[8px]"
+                      className="px-3 py-1.5 bg-[#F0BB78] text-[#2C2F1E] font-semibold text-[length:var(--fs-sm)] rounded-[8px]"
                     >
                       {t("manager.sharedBills.recordPayment")}
                     </button>
@@ -588,7 +588,7 @@ export default function ManagerSharedBillsPage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end">
           <div className="w-full bg-[#FDFAF3] rounded-t-[20px] p-5 pb-8">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-bold text-[17px] text-[#2C2F1E]">
+              <h3 className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
                 {t("manager.sharedBills.recordPayment")}
               </h3>
               <button
@@ -599,12 +599,12 @@ export default function ManagerSharedBillsPage() {
               </button>
             </div>
 
-            <p className="text-[13px] text-[#6B7550] mb-4">
+            <p className="text-[length:var(--fs-md)] text-[#6B7550] mb-4">
               {paymentTarget.messMember?.user?.name} — ৳{Number(paymentTarget.totalShare).toLocaleString()}
             </p>
 
             {paymentError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
                 {paymentError}
               </div>
             )}
@@ -615,7 +615,7 @@ export default function ManagerSharedBillsPage() {
               { label: t("manager.sharedBills.paymentNote"), key: "referenceNote" as const, type: "text" },
             ].map(({ label, key, type }) => (
               <div key={key} className="mb-3">
-                <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+                <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                   {label}
                 </label>
                 <input
@@ -624,13 +624,13 @@ export default function ManagerSharedBillsPage() {
                   onChange={(e) =>
                     setPaymentForm({ ...paymentForm, [key]: type === "number" ? Number(e.target.value) : e.target.value })
                   }
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
                 />
               </div>
             ))}
 
             <div className="mb-4">
-              <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+              <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                 {t("manager.sharedBills.paymentMethod")}
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -638,7 +638,7 @@ export default function ManagerSharedBillsPage() {
                   <button
                     key={value}
                     onClick={() => setPaymentForm({ ...paymentForm, method: value })}
-                    className={`py-2 text-[13px] font-semibold rounded-[8px] border transition-colors ${
+                    className={`py-2 text-[length:var(--fs-md)] font-semibold rounded-[8px] border transition-colors ${
                       paymentForm.method === value
                         ? "bg-[#626F47] text-[#F5ECD5] border-[#626F47]"
                         : "bg-[#FDFAF3] text-[#2C2F1E] border-[#D9CEB4]"
@@ -653,7 +653,7 @@ export default function ManagerSharedBillsPage() {
             <button
               onClick={handleRecordPayment}
               disabled={paymentSubmitting || !paymentForm.amount}
-              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[12px] rounded-[10px] disabled:opacity-60"
+              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[12px] rounded-[10px] disabled:opacity-60"
             >
               {paymentSubmitting ? t("manager.sharedBills.recording") : t("manager.sharedBills.record")}
             </button>
