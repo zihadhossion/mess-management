@@ -527,6 +527,11 @@ const en = {
         deleteEntryConfirm: "Delete this entry?",
         delete: "Delete",
       },
+      notifications: {
+        title: "Notifications",
+        subtitle: "Stay updated on your mess activities",
+        noData: "No notifications yet",
+      },
       settings: {
         title: "Mess Settings",
         subtitle: "Manage your mess configuration",
@@ -1100,6 +1105,11 @@ const bn = {
         deleteCategory: "মুছুন",
         deleteEntryConfirm: "এই এন্ট্রিটি মুছবেন?",
         delete: "মুছুন",
+      },
+      notifications: {
+        title: "বিজ্ঞপ্তি",
+        subtitle: "আপনার মেসের কার্যক্রম সম্পর্কে আপডেট থাকুন",
+        noData: "এখনো কোনো বিজ্ঞপ্তি নেই",
       },
       settings: {
         title: "মেস সেটিংস",

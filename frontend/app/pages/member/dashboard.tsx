@@ -5,8 +5,6 @@ import {
   Bell,
   UtensilsCrossed,
   MapPin,
-  Calendar,
-  Receipt,
   ChevronRight,
   Coffee,
   Sun,
@@ -47,7 +45,9 @@ export default function MemberDashboard() {
       .then((res) => {
         if (res.data.length > 0) setMySharedInvoice(res.data[0]);
       })
-      .catch(() => {});
+      .catch((_err) => {
+        setMySharedInvoice(null);
+      });
   }, [messId]);
 
   const todaySlots = slots.slice(0, 3);
@@ -126,6 +126,7 @@ export default function MemberDashboard() {
         </span>
       </div>
 
+      <div className="md:max-w-4xl md:mx-auto">
       {/* Overview card */}
       <div className="mx-4 -mt-5 relative z-10 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] p-4 shadow-[0_4px_16px_rgba(74,60,30,0.1)]">
         <div className="flex items-center justify-between mb-3">
@@ -222,10 +223,11 @@ export default function MemberDashboard() {
               {t("member.dashboard.noMeals")}
             </div>
           ) : (
-            todaySlots.map((slot) => (
+            <div className="md:grid md:grid-cols-2 md:gap-2">
+            {todaySlots.map((slot) => (
               <div
                 key={slot.id}
-                className={`rounded-[12px] p-3 mb-2 flex items-center gap-3 border-[1.5px] shadow-[0_1px_4px_rgba(74,60,30,0.06)] ${mealBg(slot.mealType)}`}
+                className={`rounded-[12px] p-3 mb-2 md:mb-0 flex items-center gap-3 border-[1.5px] shadow-[0_1px_4px_rgba(74,60,30,0.06)] ${mealBg(slot.mealType)}`}
               >
                 <div
                   className={`w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 ${mealIconBg(slot.mealType)}`}
@@ -246,7 +248,8 @@ export default function MemberDashboard() {
                   {slot.myBookingStatus === "booked" ? t("common.booked") : t("common.notBooked")}
                 </span>
               </div>
-            ))
+            ))}
+            </div>
           )}
         </div>
 
@@ -259,18 +262,6 @@ export default function MemberDashboard() {
           </div>
           <div className="grid grid-cols-2 gap-2.5">
             {[
-              {
-                to: "/member/meal-bills",
-                icon: Receipt,
-                label: t("member.dashboard.mealBills"),
-                sub: t("member.dashboard.mealBillsDesc"),
-              },
-              {
-                to: "/member/shared-bills",
-                icon: Calendar,
-                label: t("member.dashboard.sharedBills"),
-                sub: t("member.dashboard.sharedBillsDesc"),
-              },
               {
                 to: "/member/item-allocations",
                 icon: UtensilsCrossed,
@@ -303,6 +294,7 @@ export default function MemberDashboard() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

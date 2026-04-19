@@ -23,7 +23,7 @@ export default function ItemAllocationsPage() {
       .then((res) => setAllocations(res.data))
       .catch((err) => setFetchError(getErrorMessage(err)))
       .finally(() => setIsLoading(false));
-  }, [month]);
+  }, [month, messId]);
 
   return (
     <div className="min-h-full">
@@ -39,7 +39,7 @@ export default function ItemAllocationsPage() {
         </div>
       </div>
 
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4 md:max-w-3xl md:mx-auto">
         {/* Month picker */}
         <div className="relative mb-4">
           <input

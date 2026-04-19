@@ -18,7 +18,7 @@ export default function SharedBillsPage() {
       .then((res) => setInvoices(res.data))
       .catch(() => {})
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [messId]);
 
   return (
     <div className="min-h-full">
@@ -34,7 +34,7 @@ export default function SharedBillsPage() {
         </div>
       </div>
 
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4 md:max-w-3xl md:mx-auto">
         {isLoading ? (
           <div className="flex justify-center py-10">
             <div className="w-8 h-8 border-2 border-[#626F47] border-t-transparent rounded-full animate-spin" />

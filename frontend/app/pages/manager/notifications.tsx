@@ -35,15 +35,15 @@ export default function NotificationsPage() {
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10">
           <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
-            {t("member.notifications.title")}
+            {t("manager.notifications.title")}
           </h1>
           <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
-            {t("member.notifications.subtitle")}
+            {t("manager.notifications.subtitle")}
           </p>
         </div>
       </div>
 
-      <div className="px-4 pt-4">
+      <div className="px-4 pt-4 md:max-w-3xl md:mx-auto">
         {isLoading ? (
           <div className="flex justify-center py-10">
             <div className="w-8 h-8 border-2 border-[#626F47] border-t-transparent rounded-full animate-spin" />
@@ -54,7 +54,7 @@ export default function NotificationsPage() {
               <Bell size={28} className="text-[#A09070]" />
             </div>
             <p className="text-[14px] text-[#6B7550] font-semibold">
-              {t("member.notifications.noData")}
+              {t("manager.notifications.noData")}
             </p>
           </div>
         ) : (
