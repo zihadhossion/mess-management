@@ -166,6 +166,14 @@ export class MessService extends BaseService<Mess> {
     return { data, total };
   }
 
+  async getAdminMessList(
+    page = 1,
+    limit = 20,
+    status?: MessStatus,
+  ) {
+    return this.repository.getAdminMessList(page, limit, status);
+  }
+
   async getAllMesses(
     page = 1,
     limit = 20,

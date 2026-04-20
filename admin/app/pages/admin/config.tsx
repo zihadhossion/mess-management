@@ -160,54 +160,7 @@ export default function AdminConfigPage() {
                       className="w-full bg-[#FAF7F0] border border-[#D9CEB4] rounded-[10px] px-4 py-2.5 text-base text-[#2C2F1E] outline-none focus:border-[#626F47]"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-[#6B7550] uppercase tracking-wider mb-1.5">
-                      Default Meal Rate (৳)
-                    </label>
-                    <input
-                      type="number"
-                      value={config.defaultMealRate}
-                      onChange={(e) => updateConfig("defaultMealRate", Number(e.target.value))}
-                      className="w-full bg-[#FAF7F0] border border-[#D9CEB4] rounded-[10px] px-4 py-2.5 text-base text-[#2C2F1E] outline-none focus:border-[#626F47]"
-                    />
-                  </div>
                 </div>
-              </div>
-
-              <div className={CARD}>
-                <h2 className="font-display font-bold text-lg text-[#2C2F1E] mb-4">Auth Settings</h2>
-                <div className="space-y-3">
-                  {(
-                    [
-                      ["allowSelfRegistration", "Allow Self Registration"],
-                      ["requireEmailVerification", "Require Email Verification"],
-                    ] as [keyof AdminConfig, string][]
-                  ).map(([key, label]) => (
-                    <label key={key} className="flex items-center justify-between cursor-pointer">
-                      <span className="text-base text-[#2C2F1E] font-medium">{label}</span>
-                      <Toggle
-                        checked={config[key] as boolean}
-                        onChange={() => updateConfig(key, !config[key] as AdminConfig[typeof key])}
-                      />
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className={CARD}>
-                <h2 className="font-display font-bold text-lg text-[#2C2F1E] mb-4">Maintenance</h2>
-                <label className="flex items-center justify-between cursor-pointer">
-                  <div>
-                    <span className="text-base text-[#2C2F1E] font-medium block">Maintenance Mode</span>
-                    <span className="text-sm text-[#A09070]">Disables access for non-admin users</span>
-                  </div>
-                  <div
-                    onClick={() => updateConfig("maintenanceMode", !config.maintenanceMode)}
-                    className={`w-11 h-6 rounded-full transition-colors cursor-pointer ${config.maintenanceMode ? "bg-red-500" : "bg-[#D9CEB4]"}`}
-                  >
-                    <div className={`w-5 h-5 bg-white rounded-full m-0.5 transition-transform ${config.maintenanceMode ? "translate-x-5" : "translate-x-0"}`} />
-                  </div>
-                </label>
               </div>
 
               <button

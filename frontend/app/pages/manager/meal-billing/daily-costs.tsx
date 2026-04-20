@@ -25,8 +25,9 @@ export default function DailyCostsPage() {
   const [month] = useState(format(new Date(), "yyyy-MM"));
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchDailyCosts(month));
-  }, [dispatch, month]);
+  }, [dispatch, month, messId]);
 
   async function handleAdd() {
     if (!messId) return;
@@ -66,11 +67,11 @@ export default function DailyCostsPage() {
           <div>
             <Link
               to="/manager/meal-billing"
-              className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[13px] mb-1"
+              className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-md)] mb-1"
             >
               <ArrowLeft size={16} /> {t("manager.mealBilling.back")}
             </Link>
-            <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+            <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
               {t("manager.mealBilling.dailyCosts")}
             </h1>
           </div>
@@ -85,21 +86,21 @@ export default function DailyCostsPage() {
 
       <div className="px-4 pt-4">
         <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] p-4 mb-4 flex items-center justify-between">
-          <span className="text-[13px] text-[#6B7550]">{t("manager.mealBilling.monthTotal")}</span>
-          <span className="font-display font-bold text-[20px] text-[#626F47]">
+          <span className="text-[length:var(--fs-md)] text-[#6B7550]">{t("manager.mealBilling.monthTotal")}</span>
+          <span className="font-display font-bold text-[length:var(--fs-2xl)] text-[#626F47]">
             ৳{total.toLocaleString()}
           </span>
         </div>
 
         {actionError && (
-          <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+          <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
             {actionError}
           </div>
         )}
 
         {showForm && (
           <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-4 mb-4">
-            <h3 className="font-semibold text-[14px] text-[#2C2F1E] mb-3">
+            <h3 className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E] mb-3">
               {t("manager.mealBilling.addCostEntry")}
             </h3>
             {[
@@ -108,21 +109,21 @@ export default function DailyCostsPage() {
               { label: t("manager.mealBilling.description"), type: "text", key: "description" as const },
             ].map(({ label, type, key }) => (
               <div key={key} className="mb-3">
-                <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
+                <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block">
                   {label}
                 </label>
                 <input
                   type={type}
                   value={form[key]}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
                 />
               </div>
             ))}
             <button
               onClick={handleAdd}
               disabled={isSubmitting || !form.amount}
-              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[11px] rounded-[10px] disabled:opacity-60"
+              className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[11px] rounded-[10px] disabled:opacity-60"
             >
               {isSubmitting ? t("manager.mealBilling.adding") : t("manager.mealBilling.addEntry")}
             </button>
@@ -136,7 +137,7 @@ export default function DailyCostsPage() {
         ) : dailyCosts.length === 0 ? (
           <div className="text-center py-10">
             <DollarSign size={28} className="text-[#A09070] mx-auto mb-2" />
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {t("manager.mealBilling.noCostEntries")}
             </p>
           </div>
@@ -147,10 +148,10 @@ export default function DailyCostsPage() {
               className="flex items-center gap-3 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] px-4 py-3 mb-2"
             >
               <div className="flex-1 min-w-0">
-                <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                   ৳{cost.amount.toLocaleString()}
                 </div>
-                <div className="text-[12px] text-[#6B7550]">
+                <div className="text-[length:var(--fs-sm)] text-[#6B7550]">
                   {cost.date}
                   {cost.description ? ` · ${cost.description}` : ""}
                 </div>

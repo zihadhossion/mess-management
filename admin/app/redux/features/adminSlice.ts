@@ -71,7 +71,7 @@ export const fetchAdminMesses = createAsyncThunk<
       const params = new URLSearchParams({ page: String(page), limit: String(limit) });
       if (status) params.append("status", status);
       const res = await get<{ data: { data: AdminMess[]; total: number } }>(
-        `/messes?${params.toString()}`,
+        `/admin/messes?${params.toString()}`,
       );
       return {
         messes: res.data.data,
@@ -105,6 +105,15 @@ export const fetchPlatformStats = createAsyncThunk<PlatformStats>(
         activeMesses: d.messes?.active ?? 0,
         pendingMesses: d.messes?.pending ?? 0,
         pendingDeletionRequests: d.pendingDeletionRequests ?? 0,
+        memberCount: d.users?.byRole?.member ?? 0,
+        managerCount: d.users?.byRole?.manager ?? 0,
+        adminCount: d.users?.byRole?.admin ?? 0,
+        newRegistrationsToday: 0,
+        newRegistrationsThisWeek: 0,
+        newRegistrationsThisMonth: 0,
+        newMessesThisWeek: 0,
+        newMessesThisMonth: 0,
+        totalSharedBillInvoices: 0,
       };
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };

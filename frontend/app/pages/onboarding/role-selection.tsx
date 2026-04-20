@@ -17,14 +17,14 @@ export default function RoleSelectionPage() {
             <div className="w-10 h-10 bg-[#F0BB78] rounded-[12px] flex items-center justify-center">
               <UtensilsCrossed size={20} className="text-[#2C2F1E]" />
             </div>
-            <div className="font-display font-bold text-[18px] text-[#F5ECD5]">
+            <div className="font-display font-bold text-[length:var(--fs-xl)] text-[#F5ECD5]">
               {t("common.appName")}
             </div>
           </div>
-          <h2 className="font-display font-bold text-[20px] text-[#F5ECD5] mb-1">
+          <h2 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5] mb-1">
             {t("roleSelection.welcome", { name: user?.name ?? "there" })}
           </h2>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
             {t("roleSelection.instruction")}
           </p>
         </div>
@@ -40,10 +40,10 @@ export default function RoleSelectionPage() {
               <Users size={24} className="text-[#626F47]" />
             </div>
             <div className="flex-1">
-              <div className="font-display font-bold text-[16px] text-[#2C2F1E]">
+              <div className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
                 {t("roleSelection.memberRole")}
               </div>
-              <div className="text-[13px] text-[#6B7550]">
+              <div className="text-[length:var(--fs-md)] text-[#6B7550]">
                 {t("roleSelection.memberDesc")}
               </div>
             </div>
@@ -60,10 +60,10 @@ export default function RoleSelectionPage() {
               <UtensilsCrossed size={24} className="text-[#626F47]" />
             </div>
             <div className="flex-1">
-              <div className="font-display font-bold text-[16px] text-[#2C2F1E]">
+              <div className="font-display font-bold text-[length:var(--fs-lg)] text-[#2C2F1E]">
                 {t("roleSelection.managerRole")}
               </div>
-              <div className="text-[13px] text-[#6B7550]">
+              <div className="text-[length:var(--fs-md)] text-[#6B7550]">
                 {t("roleSelection.managerDesc")}
               </div>
             </div>

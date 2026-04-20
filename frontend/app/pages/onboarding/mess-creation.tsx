@@ -52,17 +52,17 @@ export default function MessCreationPage() {
         <div className="relative z-10">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[14px] mb-5"
+            className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-base)] mb-5"
           >
             <ArrowLeft size={18} /> {t("common.back")}
           </button>
           <div className="w-12 h-12 bg-[#F0BB78] rounded-[14px] flex items-center justify-center mb-4">
             <Building2 size={24} className="text-[#2C2F1E]" />
           </div>
-          <h2 className="font-display font-bold text-[22px] text-[#F5ECD5] mb-1">
+          <h2 className="font-display font-bold text-[length:var(--fs-3xl)] text-[#F5ECD5] mb-1">
             {t("messCreation.title")}
           </h2>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
             {t("messCreation.subtitle")}
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function MessCreationPage() {
       <div className="px-4 pt-6 max-w-[520px] mx-auto">
         <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5">
           {serverError && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
               {serverError}
             </div>
           )}
@@ -97,29 +97,29 @@ export default function MessCreationPage() {
               },
             ].map(({ name, label, placeholder, type }) => (
               <div key={name} className="mb-4">
-                <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2 block">
+                <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2 block">
                   {label}
                 </label>
                 <input
                   {...register(name)}
                   type={type}
                   placeholder={placeholder}
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] placeholder:text-[#C0B090]"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] placeholder:text-[#C0B090]"
                 />
                 {errors[name] && (
-                  <p className="mt-1 text-[12px] text-red-600">
+                  <p className="mt-1 text-[length:var(--fs-sm)] text-red-600">
                     {errors[name]?.message}
                   </p>
                 )}
               </div>
             ))}
             <div className="mb-5">
-              <label className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2 block">
+              <label className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2 block">
                 {t("messCreation.currencyLabel")}
               </label>
               <select
                 {...register("currency")}
-                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
+                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
               >
                 <option value="BDT">{t("messCreation.bdtOption")}</option>
                 <option value="INR">{t("messCreation.inrOption")}</option>
@@ -129,7 +129,7 @@ export default function MessCreationPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[13px] rounded-[12px] disabled:opacity-60"
             >
               {isSubmitting ? t("messCreation.submitting") : t("messCreation.submit")}
             </button>

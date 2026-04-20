@@ -36,15 +36,15 @@ export default function MessLifecyclePage() {
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Trash2 size={32} className="text-red-500" />
           </div>
-          <h2 className="font-display font-bold text-[20px] text-[#2C2F1E] mb-2">
+          <h2 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#2C2F1E] mb-2">
             {t("manager.settings.deletionRequested")}
           </h2>
-          <p className="text-[13px] text-[#6B7550] mb-6">
+          <p className="text-[length:var(--fs-md)] text-[#6B7550] mb-6">
             {t("manager.settings.deletionRequestedDesc")}
           </p>
           <Link
             to="/manager/dashboard"
-            className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] text-center"
+            className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[13px] rounded-[12px] text-center"
           >
             {t("manager.settings.backToDashboard")}
           </Link>
@@ -58,11 +58,11 @@ export default function MessLifecyclePage() {
       <div className="bg-[#626F47] px-5 pt-3 pb-6">
         <Link
           to="/manager/settings"
-          className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[13px] mb-1"
+          className="flex items-center gap-2 text-[rgba(245,236,213,0.8)] text-[length:var(--fs-md)] mb-1"
         >
           <ArrowLeft size={16} /> {t("manager.settings.lifecycleBack")}
         </Link>
-        <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+        <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
           {t("manager.settings.lifecycleTitle")}
         </h1>
       </div>
@@ -72,17 +72,17 @@ export default function MessLifecyclePage() {
           <div className="flex items-start gap-3 mb-4">
             <AlertTriangle size={20} className="text-red-500 shrink-0 mt-0.5" />
             <div>
-              <div className="font-semibold text-[15px] text-red-700 mb-1">
+              <div className="font-semibold text-[length:var(--fs-lg)] text-red-700 mb-1">
                 {t("manager.settings.requestDeletionTitle")}
               </div>
-              <p className="text-[13px] text-red-600">
+              <p className="text-[length:var(--fs-md)] text-red-600">
                 {t("manager.settings.requestDeletionDesc")}
               </p>
             </div>
           </div>
 
           <div className="mb-4">
-            <label className="text-[11px] font-semibold text-red-700 uppercase tracking-[0.06em] mb-2 block">
+            <label className="text-[length:var(--fs-xs)] font-semibold text-red-700 uppercase tracking-[0.06em] mb-2 block">
               {t("manager.settings.reasonLabel")}
             </label>
             <textarea
@@ -90,12 +90,12 @@ export default function MessLifecyclePage() {
               onChange={(e) => setReason(e.target.value)}
               rows={3}
               placeholder={t("manager.settings.reasonPlaceholder")}
-              className="w-full border border-red-200 rounded-[10px] px-4 py-3 text-[14px] text-[#2C2F1E] bg-white outline-none focus:border-red-400 resize-none placeholder:text-red-300"
+              className="w-full border border-red-200 rounded-[10px] px-4 py-3 text-[length:var(--fs-base)] text-[#2C2F1E] bg-white outline-none focus:border-red-400 resize-none placeholder:text-red-300"
             />
           </div>
 
           {error && (
-            <div className="mb-3 p-3 bg-white border border-red-200 rounded-[10px] text-[13px] text-red-700">
+            <div className="mb-3 p-3 bg-white border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
               {error}
             </div>
           )}
@@ -103,7 +103,7 @@ export default function MessLifecyclePage() {
           <button
             onClick={handleRequestDeletion}
             disabled={isSubmitting || !reason.trim()}
-            className="w-full flex items-center justify-center gap-2 bg-red-600 text-white font-bold text-[14px] py-[12px] rounded-[10px] disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 bg-red-600 text-white font-bold text-[length:var(--fs-base)] py-[12px] rounded-[10px] disabled:opacity-50"
           >
             <Trash2 size={18} />
             {isSubmitting ? t("manager.settings.submitting") : t("manager.settings.requestDeletion")}

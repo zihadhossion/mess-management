@@ -16,6 +16,7 @@ const managerRoutes = prefix("manager", [
   route("notifications", "pages/manager/notifications.tsx"),
   route("settings", "pages/manager/settings.tsx"),
   route("settings/lifecycle", "pages/manager/settings/lifecycle.tsx"),
+  route("settings/feedback", "pages/manager/settings/feedback.tsx"),
 ]);
 
 export default managerRoutes;

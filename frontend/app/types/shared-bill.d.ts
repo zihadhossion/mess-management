@@ -13,24 +13,45 @@ export interface SharedBillEntry {
   categoryId: string;
   categoryName: string;
   amount: number;
-  month: string;
+  totalAmount: number;
+  month: number;
   year: number;
   messId: string;
+  referenceNote: string | null;
   note: string | null;
   createdAt: string;
+  category?: { id: string; name: string };
+}
+
+export interface SharedBillInvoiceMember {
+  id: string;
+  user: { id: string; name: string; email: string };
 }
 
 export interface SharedBillInvoice {
   id: string;
-  month: string;
+  month: number;
   year: number;
-  memberId: string;
-  memberName: string;
+  messMemberId: string;
   messId: string;
-  totalAmount: number;
-  perMemberShare: number;
-  status: InvoiceStatus;
-  entries: SharedBillEntry[];
+  totalShare: number;
+  activeMemberCount: number;
+  paymentStatus: InvoiceStatus;
+  status: string;
+  pdfUrl: string | null;
+  messMember?: SharedBillInvoiceMember;
+  payments?: SharedBillPayment[];
+  createdAt: string;
+}
+
+export interface SharedBillPayment {
+  id: string;
+  sharedBillInvoiceId: string;
+  amount: number;
+  method: string;
+  paymentDate: string;
+  referenceNote: string | null;
+  recordedById: string;
   createdAt: string;
 }
 
@@ -45,5 +66,12 @@ export interface CreateSharedBillEntryDto {
 
 export interface CreateSharedBillCategoryDto {
   name: string;
-  icon?: string;
+  description?: string;
+}
+
+export interface RecordSharedBillPaymentDto {
+  amount: number;
+  method: string;
+  paymentDate: string;
+  referenceNote?: string;
 }

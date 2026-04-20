@@ -10,6 +10,7 @@ import {
 } from './join-request.controller';
 import { MessMembersModule } from '../mess-members/mess-members.module';
 import { MessesModule } from '../messes/messes.module';
+import { AdminModule } from '../admin/admin.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MessesModule } from '../messes/messes.module';
     ScheduleModule.forRoot(),
     MessMembersModule,
     MessesModule,
+    AdminModule,
   ],
   controllers: [JoinRequestController, AdminJoinRequestController],
   providers: [JoinRequestService, JoinRequestRepository],

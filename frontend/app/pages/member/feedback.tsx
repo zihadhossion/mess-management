@@ -59,10 +59,10 @@ export default function FeedbackPage() {
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10 flex items-center justify-between">
           <div>
-            <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+            <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
               {t("member.feedback.title")}
             </h1>
-            <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+            <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
               {t("member.feedback.subtitle")}
             </p>
           </div>
@@ -80,7 +80,7 @@ export default function FeedbackPage() {
         {showForm && (
           <div className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[16px] p-5 mb-4">
             {serverError && (
-              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700">
+              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700">
                 {serverError}
               </div>
             )}
@@ -88,7 +88,7 @@ export default function FeedbackPage() {
               <div className="mb-4">
                 <label
                   htmlFor="feedback-complaint"
-                  className="text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block"
+                  className="text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-1.5 block"
                 >
                   {t("member.feedback.message")}
                 </label>
@@ -97,10 +97,10 @@ export default function FeedbackPage() {
                   id="feedback-complaint"
                   rows={4}
                   placeholder={t("member.feedback.messagePlaceholder")}
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] placeholder:text-[#C0B090] resize-none"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] placeholder:text-[#C0B090] resize-none"
                 />
                 {errors.complaint && (
-                  <p className="mt-1 text-[12px] text-red-600">
+                  <p className="mt-1 text-[length:var(--fs-sm)] text-red-600">
                     {errors.complaint.message}
                   </p>
                 )}
@@ -108,7 +108,7 @@ export default function FeedbackPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[14px] py-[11px] rounded-[10px] disabled:opacity-60"
+                className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[11px] rounded-[10px] disabled:opacity-60"
               >
                 {isSubmitting ? t("member.feedback.submitting") : t("member.feedback.submit")}
               </button>
@@ -125,10 +125,10 @@ export default function FeedbackPage() {
             <div className="w-14 h-14 bg-[rgba(98,111,71,0.1)] rounded-full flex items-center justify-center mx-auto mb-3">
               <MessageSquare size={28} className="text-[#A09070]" />
             </div>
-            <p className="text-[14px] text-[#6B7550] font-semibold">
+            <p className="text-[length:var(--fs-base)] text-[#6B7550] font-semibold">
               {t("member.feedback.noData")}
             </p>
-            <p className="text-[12px] text-[#A09070] mt-1">
+            <p className="text-[length:var(--fs-sm)] text-[#A09070] mt-1">
               {t("member.feedback.noDataDesc")}
             </p>
           </div>
@@ -139,16 +139,16 @@ export default function FeedbackPage() {
               className="bg-[#FBF5E8] border border-[#D9CEB4] rounded-[14px] p-4 mb-3"
             >
               <div className="flex items-start justify-between mb-2">
-                <div className="font-semibold text-[14px] text-[#2C2F1E]">
+                <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">
                   {fb.date}
                 </div>
                 <span
-                  className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${fb.status === "resolved" ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]" : "bg-[rgba(240,187,120,0.18)] text-amber-700"}`}
+                  className={`text-[length:var(--fs-2xs)] font-semibold px-2 py-0.5 rounded-full ${fb.status === "resolved" ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]" : "bg-[rgba(240,187,120,0.18)] text-amber-700"}`}
                 >
                   {fb.status}
                 </span>
               </div>
-              <p className="text-[13px] text-[#6B7550]">{fb.complaint}</p>
+              <p className="text-[length:var(--fs-md)] text-[#6B7550]">{fb.complaint}</p>
             </div>
           ))
         )}

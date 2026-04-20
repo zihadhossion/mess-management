@@ -17,11 +17,13 @@ export default function MealBillingOverviewPage() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { dailyCosts, fixedCharges } = useAppSelector((s) => s.billing);
+  const messId = useAppSelector((s) => s.mess.mess?.id);
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchDailyCosts(format(new Date(), "yyyy-MM")));
     dispatch(fetchFixedCharges());
-  }, [dispatch]);
+  }, [dispatch, messId]);
 
   const totalCosts = dailyCosts.reduce((sum, c) => sum + c.amount, 0);
   const totalFixed = fixedCharges
@@ -66,10 +68,10 @@ export default function MealBillingOverviewPage() {
       <div className="bg-[#626F47] px-5 pt-3 pb-7 relative overflow-hidden">
         <div className="absolute -top-8 -right-8 w-[120px] h-[120px] bg-[rgba(240,187,120,0.18)] rounded-full" />
         <div className="relative z-10">
-          <h1 className="font-display font-bold text-[20px] text-[#F5ECD5]">
+          <h1 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5]">
             {t("manager.mealBilling.title")}
           </h1>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
             {format(new Date(), "MMMM yyyy")}
           </p>
         </div>
@@ -79,18 +81,18 @@ export default function MealBillingOverviewPage() {
       <div className="mx-4 -mt-3.5 relative z-10 bg-[#FBF5E8] border border-[#D9CEB4] rounded-[12px] p-4 shadow-[0_4px_16px_rgba(74,60,30,0.1)] mb-4">
         <div className="grid grid-cols-2 gap-3">
           <div className="text-center">
-            <div className="font-display font-bold text-[22px] text-[#626F47]">
+            <div className="font-display font-bold text-[length:var(--fs-3xl)] text-[#626F47]">
               ৳{totalCosts.toLocaleString()}
             </div>
-            <div className="text-[10px] text-[#6B7550] uppercase tracking-[0.06em]">
+            <div className="text-[length:var(--fs-2xs)] text-[#6B7550] uppercase tracking-[0.06em]">
               {t("manager.mealBilling.marketCosts")}
             </div>
           </div>
           <div className="text-center">
-            <div className="font-display font-bold text-[22px] text-[#2C2F1E]">
+            <div className="font-display font-bold text-[length:var(--fs-3xl)] text-[#2C2F1E]">
               ৳{totalFixed.toLocaleString()}
             </div>
-            <div className="text-[10px] text-[#6B7550] uppercase tracking-[0.06em]">
+            <div className="text-[length:var(--fs-2xs)] text-[#6B7550] uppercase tracking-[0.06em]">
               {t("manager.mealBilling.fixedMonth")}
             </div>
           </div>
@@ -108,8 +110,8 @@ export default function MealBillingOverviewPage() {
               <Icon size={20} className="text-[#626F47]" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-[14px] text-[#2C2F1E]">{label}</div>
-              <div className="text-[12px] text-[#6B7550]">{sub}</div>
+              <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">{label}</div>
+              <div className="text-[length:var(--fs-sm)] text-[#6B7550]">{sub}</div>
             </div>
             <CreditCard size={16} className="text-[#A09070] shrink-0" />
           </Link>

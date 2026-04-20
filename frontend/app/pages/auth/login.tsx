@@ -79,20 +79,20 @@ export default function LoginPage() {
                 <UtensilsCrossed size={20} className="text-[#2C2F1E]" />
               </div>
               <div>
-                <div className="font-display font-bold text-[18px] text-[#F5ECD5]">
+                <div className="font-display font-bold text-[length:var(--fs-xl)] text-[#F5ECD5]">
                   {t("common.appName")}
                 </div>
-                <div className="text-[11px] text-[rgba(245,236,213,0.7)]">
+                <div className="text-[length:var(--fs-xs)] text-[rgba(245,236,213,0.7)]">
                   {t("auth.login.subtitle")}
                 </div>
               </div>
             </div>
             <LanguageSwitcher variant="light" />
           </div>
-          <h2 className="font-display font-bold text-[20px] text-[#F5ECD5] mb-1">
+          <h2 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#F5ECD5] mb-1">
             {t("auth.login.title")}
           </h2>
-          <p className="text-[13px] text-[rgba(245,236,213,0.72)]">
+          <p className="text-[length:var(--fs-md)] text-[rgba(245,236,213,0.72)]">
             {t("auth.login.description")}
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function LoginPage() {
       {/* Amber band */}
       <div className="bg-[#F0BB78] px-5 py-2 flex items-center gap-2">
         <ShieldCheck size={14} className="text-[#2C2F1E]" />
-        <span className="text-[12px] font-semibold text-[#2C2F1E]">
+        <span className="text-[length:var(--fs-sm)] font-semibold text-[#2C2F1E]">
           {t("auth.login.securityBadge")}
         </span>
       </div>
@@ -112,7 +112,7 @@ export default function LoginPage() {
           {serverError && (
             <div
               role="alert"
-              className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[13px] text-red-700"
+              className="mb-4 p-3 bg-red-50 border border-red-200 rounded-[10px] text-[length:var(--fs-md)] text-red-700"
             >
               {serverError}
             </div>
@@ -121,7 +121,7 @@ export default function LoginPage() {
             <div className="mb-4">
               <label
                 htmlFor="login-email"
-                className="flex items-center gap-1.5 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
+                className="flex items-center gap-1.5 text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
               >
                 <Mail size={12} /> {t("auth.login.emailLabel")}
               </label>
@@ -131,10 +131,10 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 placeholder={t("auth.login.emailPlaceholder")}
-                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
+                className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
               />
               {errors.email && (
-                <p className="mt-1 text-[12px] text-red-600">
+                <p className="mt-1 text-[length:var(--fs-sm)] text-red-600">
                   {errors.email.message}
                 </p>
               )}
@@ -143,7 +143,7 @@ export default function LoginPage() {
             <div className="mb-5">
               <label
                 htmlFor="login-password"
-                className="flex items-center gap-1.5 text-[11px] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
+                className="flex items-center gap-1.5 text-[length:var(--fs-xs)] font-semibold text-[#6B7550] uppercase tracking-[0.06em] mb-2"
               >
                 <Lock size={12} /> {t("auth.login.passwordLabel")}
               </label>
@@ -154,7 +154,7 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   placeholder={t("auth.login.passwordPlaceholder")}
-                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] pr-11 text-[14px] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
+                  className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[11px] pr-11 text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47] focus:ring-2 focus:ring-[rgba(98,111,71,0.15)] placeholder:text-[#C0B090]"
                 />
                 <button
                   type="button"
@@ -166,13 +166,13 @@ export default function LoginPage() {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-[12px] text-red-600">
+                <p className="mt-1 text-[length:var(--fs-sm)] text-red-600">
                   {errors.password.message}
                 </p>
               )}
               <Link
                 to="/forgot-password"
-                className="block mt-2 text-[12px] text-[#626F47] font-semibold text-right"
+                className="block mt-2 text-[length:var(--fs-sm)] text-[#626F47] font-semibold text-right"
               >
                 {t("auth.login.forgotPassword")}
               </Link>
@@ -181,7 +181,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] hover:bg-[#4d5638] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[13px] rounded-[12px] hover:bg-[#4d5638] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <LogIn size={18} />
               {isSubmitting ? t("auth.login.signingIn") : t("auth.login.signIn")}
@@ -189,11 +189,11 @@ export default function LoginPage() {
 
             <div className="my-4 flex items-center gap-3">
               <div className="flex-1 h-px bg-[#E0D5BC]" />
-              <span className="text-[12px] text-[#A09070]">{t("common.or")}</span>
+              <span className="text-[length:var(--fs-sm)] text-[#A09070]">{t("common.or")}</span>
               <div className="flex-1 h-px bg-[#E0D5BC]" />
             </div>
 
-            <p className="text-center text-[13px] text-[#6B7550]">
+            <p className="text-center text-[length:var(--fs-md)] text-[#6B7550]">
               {t("auth.login.newToApp")}{" "}
               <Link to="/signup" className="text-[#626F47] font-bold">
                 {t("auth.login.createAccount")}
@@ -202,7 +202,7 @@ export default function LoginPage() {
 
             <div className="mt-4 flex items-start gap-2 p-3 bg-[rgba(98,111,71,0.07)] rounded-[10px]">
               <Info size={14} className="text-[#626F47] mt-0.5 shrink-0" />
-              <p className="text-[11px] text-[#6B7550]">
+              <p className="text-[length:var(--fs-xs)] text-[#6B7550]">
                 {t("auth.login.joinInfo")}{" "}
                 <strong>{t("auth.login.messId")}</strong>{" "}
                 {t("auth.login.joinInfoSuffix")}

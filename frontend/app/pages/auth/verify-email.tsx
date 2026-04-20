@@ -32,21 +32,21 @@ export default function VerifyEmailPage() {
         {status === "loading" && (
           <>
             <Loader2 size={48} className="text-[#626F47] animate-spin mx-auto mb-4" />
-            <p className="text-[14px] text-[#6B7550]">{t("auth.verify.verifying")}</p>
+            <p className="text-[length:var(--fs-base)] text-[#6B7550]">{t("auth.verify.verifying")}</p>
           </>
         )}
         {status === "success" && (
           <>
             <CheckCircle size={48} className="text-[#626F47] mx-auto mb-4" />
-            <h2 className="font-display font-bold text-[20px] text-[#2C2F1E] mb-2">
+            <h2 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#2C2F1E] mb-2">
               {t("auth.verify.verified")}
             </h2>
-            <p className="text-[13px] text-[#6B7550] mb-6">
+            <p className="text-[length:var(--fs-md)] text-[#6B7550] mb-6">
               {t("auth.verify.verifiedDesc")}
             </p>
             <Link
               to="/login"
-              className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] text-center"
+              className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[13px] rounded-[12px] text-center"
             >
               {t("auth.verify.signIn")}
             </Link>
@@ -55,13 +55,13 @@ export default function VerifyEmailPage() {
         {status === "error" && (
           <>
             <XCircle size={48} className="text-red-500 mx-auto mb-4" />
-            <h2 className="font-display font-bold text-[20px] text-[#2C2F1E] mb-2">
+            <h2 className="font-display font-bold text-[length:var(--fs-2xl)] text-[#2C2F1E] mb-2">
               {t("auth.verify.failed")}
             </h2>
-            <p className="text-[13px] text-red-600 mb-6">{errorMsg}</p>
+            <p className="text-[length:var(--fs-md)] text-red-600 mb-6">{errorMsg}</p>
             <Link
               to="/login"
-              className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[15px] py-[13px] rounded-[12px] text-center"
+              className="block w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-lg)] py-[13px] rounded-[12px] text-center"
             >
               {t("auth.verify.backToLogin")}
             </Link>

@@ -11,6 +11,7 @@ export interface Mess {
   managerId: string;
   managerName: string;
   memberCount: number;
+  requiresJoinApproval: boolean;
   createdAt: string;
   updatedAt: string;
 }
