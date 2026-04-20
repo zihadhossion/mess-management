@@ -20,10 +20,9 @@ export default function ManagerSettingsPage() {
   const [requiresApproval, setRequiresApproval] = useState(mess?.requiresJoinApproval ?? false);
 
   useEffect(() => {
-    if (members.length === 0) {
-      dispatch(fetchMembers());
-    }
-  }, [dispatch, members.length]);
+    if (!mess?.id || members.length > 0) return;
+    dispatch(fetchMembers());
+  }, [dispatch, mess?.id, members.length]);
 
   useEffect(() => {
     if (mess?.requiresJoinApproval !== undefined) {

@@ -21,8 +21,9 @@ export default function ManagerMembersPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchMembers());
-  }, [dispatch]);
+  }, [dispatch, messId]);
 
   async function handleRemove(memberId: string) {
     if (!confirm(t("manager.members.removeConfirm"))) return;

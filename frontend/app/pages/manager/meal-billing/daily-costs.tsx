@@ -25,8 +25,9 @@ export default function DailyCostsPage() {
   const [month] = useState(format(new Date(), "yyyy-MM"));
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchDailyCosts(month));
-  }, [dispatch, month]);
+  }, [dispatch, month, messId]);
 
   async function handleAdd() {
     if (!messId) return;

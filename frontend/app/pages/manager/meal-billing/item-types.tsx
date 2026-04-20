@@ -19,8 +19,9 @@ export default function ItemTypesPage() {
   const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchItemTypes());
-  }, [dispatch]);
+  }, [dispatch, messId]);
 
   async function handleAdd() {
     if (!messId) return;

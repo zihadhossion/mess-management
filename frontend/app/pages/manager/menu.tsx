@@ -4,7 +4,6 @@ import { Plus, Coffee, Sun, Moon, Eye, EyeOff, Trash2, CalendarDays, Calendar } 
 import { useAppDispatch, useAppSelector } from "~/redux/store/hooks";
 import { fetchMenuSlots } from "~/redux/features/menuSlice";
 import { post } from "~/services/httpMethods/post";
-import { patch } from "~/services/httpMethods/patch";
 import { del } from "~/services/httpMethods/delete";
 import { getErrorMessage } from "~/utils/errorHandler";
 import { format, addDays, startOfWeek } from "date-fns";
@@ -23,12 +22,15 @@ export default function ManagerMenuPage() {
   const [actionError, setActionError] = useState<string | null>(null);
   const [form, setForm] = useState({
     date: format(new Date(), "yyyy-MM-dd"),
-    type: "lunch",
+    type: "LUNCH",
     menuDescription: "",
     timeWindowStart: "",
     timeWindowEnd: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  console.log(messId);
+
 
   function loadSlots(v = view, d = currentDate) {
     if (v === "day") {
@@ -44,8 +46,11 @@ export default function ManagerMenuPage() {
   }
 
   useEffect(() => {
+    if (!messId) return;
     loadSlots();
-  }, [dispatch, view, currentDate]);
+  }, [dispatch, view, currentDate, messId]);
+
+
 
   async function handleCreate() {
     if (!messId) return;
@@ -54,7 +59,7 @@ export default function ManagerMenuPage() {
     try {
       await post(`/messes/${messId}/meal-slots`, form);
       setShowForm(false);
-      setForm({ date: format(new Date(), "yyyy-MM-dd"), type: "lunch", menuDescription: "", timeWindowStart: "", timeWindowEnd: "" });
+      setForm({ date: format(new Date(), "yyyy-MM-dd"), type: "LUNCH", menuDescription: "", timeWindowStart: "", timeWindowEnd: "" });
       loadSlots();
     } catch (err) {
       setActionError(getErrorMessage(err));
@@ -65,8 +70,9 @@ export default function ManagerMenuPage() {
 
   async function togglePublish(slotId: string, isPublished: boolean) {
     if (!messId) return;
+    if (isPublished) return; // no unpublish endpoint on backend
     try {
-      await patch(`/messes/${messId}/meal-slots/${slotId}`, { isPublished: !isPublished });
+      await post(`/messes/${messId}/meal-slots/${slotId}/publish`);
       loadSlots();
     } catch (err) {
       setActionError(getErrorMessage(err));
@@ -108,11 +114,10 @@ export default function ManagerMenuPage() {
                 {slot.mealType}
               </span>
               <span
-                className={`text-[length:var(--fs-2xs)] font-semibold px-2 py-0.5 rounded-full ${
-                  slot.isPublished
-                    ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
-                    : "bg-[rgba(160,144,112,0.12)] text-[#A09070]"
-                }`}
+                className={`text-[length:var(--fs-2xs)] font-semibold px-2 py-0.5 rounded-full ${slot.isPublished
+                  ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
+                  : "bg-[rgba(160,144,112,0.12)] text-[#A09070]"
+                  }`}
               >
                 {slot.isPublished ? t("manager.menu.published") : t("manager.menu.draft")}
               </span>
@@ -279,12 +284,13 @@ export default function ManagerMenuPage() {
                 onChange={(e) => setForm({ ...form, type: e.target.value })}
                 className="w-full border border-[#D9CEB4] rounded-[10px] px-4 py-[10px] text-[length:var(--fs-base)] text-[#2C2F1E] bg-[#FDFAF3] outline-none focus:border-[#626F47]"
               >
-                <option value="breakfast">{t("manager.menu.breakfast")}</option>
-                <option value="lunch">{t("manager.menu.lunch")}</option>
-                <option value="dinner">{t("manager.menu.dinner")}</option>
+                <option value="BREAKFAST">{t("manager.menu.breakfast")}</option>
+                <option value="LUNCH">{t("manager.menu.lunch")}</option>
+                <option value="DINNER">{t("manager.menu.dinner")}</option>
               </select>
             </div>
             <button
+              type="button"
               onClick={handleCreate}
               disabled={isSubmitting}
               className="w-full bg-[#626F47] text-[#F5ECD5] font-bold text-[length:var(--fs-base)] py-[11px] rounded-[10px] disabled:opacity-60"

@@ -5,9 +5,12 @@ import type { RootState } from "~/redux/store";
 
 export const fetchMyMess = createAsyncThunk<Mess>(
   "mess/fetchMyMess",
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
-      const res = await get<{ data: Mess }>("/messes/my");
+      const state = getState() as RootState;
+      const messId = state.auth.user?.messId;
+      if (!messId) return rejectWithValue("No mess found");
+      const res = await get<{ data: Mess }>(`/messes/${messId}`);
       return res.data;
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string } } };

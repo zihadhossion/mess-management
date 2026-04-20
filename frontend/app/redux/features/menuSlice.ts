@@ -11,9 +11,11 @@ export const fetchMenuSlots = createAsyncThunk<
     const state = getState() as RootState;
     const messId = state.mess.mess?.id;
     if (!messId) return rejectWithValue("No mess found");
+    // Backend only accepts a single `date` param; for day view startDate === endDate
+    const query = params?.startDate ? { date: params.startDate } : undefined;
     const res = await get<{ data: MealSlot[] }>(
       `/messes/${messId}/meal-slots`,
-      params as Record<string, unknown>,
+      query as Record<string, unknown>,
     );
     return res.data;
   } catch (err: unknown) {

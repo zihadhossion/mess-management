@@ -36,8 +36,9 @@ export default function ManagerDashboard() {
   const year = new Date().getFullYear();
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchMembers());
-  }, [dispatch]);
+  }, [dispatch, messId]);
 
   useEffect(() => {
     if (!messId) return;

@@ -78,7 +78,7 @@ export default function ManagerSharedBillsPage() {
         setEntries(entriesRes.data);
         setCategories(catsRes.data);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setEntriesLoading(false));
   }
 
@@ -87,7 +87,7 @@ export default function ManagerSharedBillsPage() {
     setCatsLoading(true);
     get<{ data: SharedBillCategory[] }>(`/messes/${messId}/shared-bills/categories`)
       .then((res) => setCategories(res.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setCatsLoading(false));
   }
 
@@ -98,7 +98,7 @@ export default function ManagerSharedBillsPage() {
       `/messes/${messId}/shared-bills/invoices?month=${monthInt}&year=${year}`
     )
       .then((res) => setInvoices(res.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setInvoicesLoading(false));
   }
 
@@ -253,11 +253,10 @@ export default function ManagerSharedBillsPage() {
             <button
               key={t_}
               onClick={() => setTab(t_)}
-              className={`flex-1 py-1.5 text-[length:var(--fs-sm)] font-semibold rounded-[8px] transition-colors ${
-                tab === t_
+              className={`flex-1 py-1.5 text-[length:var(--fs-sm)] font-semibold rounded-[8px] transition-colors ${tab === t_
                   ? "bg-[#F5ECD5] text-[#2C2F1E]"
                   : "text-[rgba(245,236,213,0.7)]"
-              }`}
+                }`}
             >
               {t(`manager.sharedBills.tab${t_.charAt(0).toUpperCase() + t_.slice(1)}`)}
             </button>
@@ -476,11 +475,10 @@ export default function ManagerSharedBillsPage() {
                   <div className="font-semibold text-[length:var(--fs-base)] text-[#2C2F1E]">{cat.name}</div>
                   <div className="text-[length:var(--fs-xs)] mt-0.5">
                     <span
-                      className={`px-2 py-0.5 rounded-full font-semibold ${
-                        cat.isActive
+                      className={`px-2 py-0.5 rounded-full font-semibold ${cat.isActive
                           ? "bg-[rgba(98,111,71,0.12)] text-[#626F47]"
                           : "bg-gray-100 text-gray-500"
-                      }`}
+                        }`}
                     >
                       {cat.isActive ? t("common.active") : t("common.inactive")}
                     </span>
@@ -638,11 +636,10 @@ export default function ManagerSharedBillsPage() {
                   <button
                     key={value}
                     onClick={() => setPaymentForm({ ...paymentForm, method: value })}
-                    className={`py-2 text-[length:var(--fs-md)] font-semibold rounded-[8px] border transition-colors ${
-                      paymentForm.method === value
+                    className={`py-2 text-[length:var(--fs-md)] font-semibold rounded-[8px] border transition-colors ${paymentForm.method === value
                         ? "bg-[#626F47] text-[#F5ECD5] border-[#626F47]"
                         : "bg-[#FDFAF3] text-[#2C2F1E] border-[#D9CEB4]"
-                    }`}
+                      }`}
                   >
                     {t(labelKey)}
                   </button>

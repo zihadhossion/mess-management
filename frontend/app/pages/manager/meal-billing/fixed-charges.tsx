@@ -27,8 +27,9 @@ export default function FixedChargesPage() {
   const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchFixedCharges());
-  }, [dispatch]);
+  }, [dispatch, messId]);
 
   async function handleAdd() {
     if (!messId) return;

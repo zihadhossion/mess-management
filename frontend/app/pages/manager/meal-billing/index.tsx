@@ -17,11 +17,13 @@ export default function MealBillingOverviewPage() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { dailyCosts, fixedCharges } = useAppSelector((s) => s.billing);
+  const messId = useAppSelector((s) => s.mess.mess?.id);
 
   useEffect(() => {
+    if (!messId) return;
     dispatch(fetchDailyCosts(format(new Date(), "yyyy-MM")));
     dispatch(fetchFixedCharges());
-  }, [dispatch]);
+  }, [dispatch, messId]);
 
   const totalCosts = dailyCosts.reduce((sum, c) => sum + c.amount, 0);
   const totalFixed = fixedCharges

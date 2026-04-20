@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, type ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "~/redux/store/hooks";
 import { fetchCurrentUser } from "~/services/httpServices/authService";
 import { logout } from "~/redux/features/authSlice";
+import { fetchMyMess } from "~/redux/features/messSlice";
 import { setupInterceptors } from "~/services/httpMethods/interceptors";
 import httpService from "~/services/httpService";
 import type { AuthUser } from "~/types/auth.d";
@@ -26,7 +27,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setupInterceptors(httpService, () => dispatch(logout()));
-    dispatch(fetchCurrentUser());
+    dispatch(fetchCurrentUser()).then((result) => {
+      if (fetchCurrentUser.fulfilled.match(result)) {
+        dispatch(fetchMyMess());
+      }
+    });
   }, [dispatch]);
 
   function signOut() {
